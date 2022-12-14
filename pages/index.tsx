@@ -1,4 +1,5 @@
 import { NextPage } from 'next';
+import Head from 'next/head';
 import { useCallback, useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
 
@@ -36,66 +37,82 @@ const eyeOpen = (
   </svg>
 );
 
-const HomePage: NextPage = () => {
+const useIsInitialized = () => {
   const [isInitialized, setIsInitialized] = useState(false);
-  const [isEnabled, setIsEnabled] = useState(false);
-
-  const showWakeLockEnabled = useCallback(() => {
-    document.documentElement.classList.remove(styles.homeWakeLockDisabled);
-    document.documentElement.classList.add(styles.homeWakeLockEnabled);
-  }, []);
-
-  const showWakeLockDisabled = useCallback(() => {
-    document.documentElement.classList.remove(styles.homeWakeLockEnabled);
-    document.documentElement.classList.add(styles.homeWakeLockDisabled);
-  }, []);
-
-  const handleClickToggle = useCallback(() => {
-    if (isEnabled) {
-      setIsEnabled(false);
-      showWakeLockDisabled();
-    } else {
-      setIsEnabled(true);
-      showWakeLockEnabled();
-    }
-  }, [isEnabled, showWakeLockDisabled, showWakeLockEnabled]);
-
-  const handleVisibilityChange = useCallback(() => {
-    if (document.hidden) {
-      showWakeLockDisabled();
-    } else if (isEnabled) {
-      showWakeLockEnabled();
-    }
-  }, [isEnabled, showWakeLockDisabled, showWakeLockEnabled]);
 
   useEffect(() => {
+    setIsInitialized(true);
+  }, []);
+
+  return isInitialized;
+};
+
+const useIsHidden = (defaultValue = false) => {
+  const [isHidden, setIsHidden] = useState(defaultValue);
+
+  const handleVisibilityChange = useCallback(() => {
+    setIsHidden(document.hidden);
+  }, []);
+
+  useEffect(() => {
+    handleVisibilityChange();
     document.addEventListener('visibilitychange', handleVisibilityChange);
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [handleVisibilityChange]);
 
-  useEffect(() => {
-    setIsInitialized(true);
+  return isHidden;
+};
+
+const HomePage: NextPage = () => {
+  const [isEnabled, setIsEnabled] = useState(false);
+  const isInitialized = useIsInitialized();
+  const isHidden = useIsHidden();
+  const isActive = isEnabled && !isHidden;
+
+  const showWakeLockEnabled = useCallback(() => {
+    document.documentElement.classList.remove(styles.isInactive);
+    document.documentElement.classList.add(styles.isActive);
   }, []);
+
+  const showWakeLockDisabled = useCallback(() => {
+    document.documentElement.classList.remove(styles.isActive);
+    document.documentElement.classList.add(styles.isInactive);
+  }, []);
+
+  const handleClickToggle = useCallback(() => {
+    setIsEnabled((isEnabled) => !isEnabled);
+  }, []);
+
+  useEffect(() => {
+    if (isActive) {
+      showWakeLockEnabled();
+    } else {
+      showWakeLockDisabled();
+    }
+  }, [isActive, showWakeLockDisabled, showWakeLockEnabled]);
 
   return (
     <>
+      <Head>
+        <title>{isActive ? '[ENABLED] wake.lol is enabled, sleep is disabled' : 'wake.lol'}</title>
+      </Head>
       <button
         type="button"
         className={styles.toggleButton}
         onClick={handleClickToggle}
-        title={isEnabled ? 'Wake lock is enabled, click to disable' : 'Wake lock is disabled, click to enable'}
+        title={isActive ? 'Wake lock is enabled, click to disable' : 'Wake lock is disabled, click to enable'}
         disabled={!isInitialized}
       >
-        {isEnabled ? eyeOpen : eyeClosed}
+        {isActive ? eyeOpen : eyeClosed}
       </button>
     </>
   );
 };
 
 HomePage.getInitialProps = () => ({
-  documentClassName: styles.homeWakeLockDisabled,
+  documentClassName: styles.isInactive,
 });
 
 export default HomePage;

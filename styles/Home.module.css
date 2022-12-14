@@ -1,8 +1,8 @@
-.homeWakeLockEnabled {
+.isActive {
   background-color: hsl(100deg 80% 80%);
 }
 
-.homeWakeLockDisabled {
+.isInactive {
   background-color: hsl(0deg 80% 80%);
 }
 
@@ -12,6 +12,8 @@
   appearance: none;
   border: none;
   background: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .toggleButton:not(:disabled) {
