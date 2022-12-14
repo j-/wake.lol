@@ -2,6 +2,8 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import { useCallback, useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
+import svgActive from '../icons/active.svg';
+import svgInactive from '../icons/inactive.svg';
 
 const eyeClosed = (
   <svg
@@ -97,6 +99,7 @@ const HomePage: NextPage = () => {
     <>
       <Head>
         <title>{isActive ? '[ENABLED] wake.lol is enabled, sleep is disabled' : 'wake.lol'}</title>
+        <link rel="icon" type="image/svg+xml" href={isActive ? svgActive.src : svgInactive.src} />
       </Head>
       <button
         type="button"
