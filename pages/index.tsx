@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
 import svgActive from '../icons/active.svg';
 import svgInactive from '../icons/inactive.svg';
+import { getWakeLockSentinel } from '../wake-lock-sentinel';
 
 const eyeClosed = (
   <svg
@@ -49,29 +50,11 @@ const useIsInitialized = () => {
   return isInitialized;
 };
 
-const useIsHidden = (defaultValue = false) => {
-  const [isHidden, setIsHidden] = useState(defaultValue);
-
-  const handleVisibilityChange = useCallback(() => {
-    setIsHidden(document.hidden);
-  }, []);
-
-  useEffect(() => {
-    handleVisibilityChange();
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, [handleVisibilityChange]);
-
-  return isHidden;
-};
-
 const HomePage: NextPage = () => {
   const [isEnabled, setIsEnabled] = useState(false);
+  const [sentinel, setSentinel] = useState<WakeLockSentinel>();
   const isInitialized = useIsInitialized();
-  const isHidden = useIsHidden();
-  const isActive = isEnabled && !isHidden;
+  const isActive = isEnabled && sentinel != null;
 
   const showWakeLockEnabled = useCallback(() => {
     document.documentElement.classList.remove(styles.isInactive);
@@ -83,9 +66,17 @@ const HomePage: NextPage = () => {
     document.documentElement.classList.add(styles.isInactive);
   }, []);
 
-  const handleClickToggle = useCallback(() => {
-    setIsEnabled((isEnabled) => !isEnabled);
-  }, []);
+  const handleClickToggle = useCallback(async () => {
+    if (isEnabled && sentinel) {
+      setIsEnabled(false);
+      await sentinel.release();
+      setSentinel(undefined);
+    } else {
+      setIsEnabled(true);
+      const sentinel = await getWakeLockSentinel();
+      setSentinel(sentinel);
+    }
+  }, [isEnabled, sentinel]);
 
   useEffect(() => {
     if (isActive) {
@@ -94,6 +85,32 @@ const HomePage: NextPage = () => {
       showWakeLockDisabled();
     }
   }, [isActive, showWakeLockDisabled, showWakeLockEnabled]);
+
+  useEffect(() => {
+    if (!sentinel) return;
+    const handleRelease = () => {
+      setSentinel(undefined);
+    };
+    sentinel.addEventListener('release', handleRelease);
+    return () => {
+      sentinel.removeEventListener('release', handleRelease);
+    };
+  }, [sentinel]);
+
+  useEffect(() => {
+    const handleVisibilityChange = async () => {
+      if (isEnabled && sentinel == null && document.visibilityState === 'visible') {
+        const sentinel = await getWakeLockSentinel();
+        setSentinel(sentinel);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener('fullscreenchange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener('fullscreenchange', handleVisibilityChange);
+    };
+  }, [isEnabled, sentinel]);
 
   return (
     <>
