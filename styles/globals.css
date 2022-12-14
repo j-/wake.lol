@@ -1,5 +1,14 @@
-html,
-body {
-  padding: 0;
+html, body {
+  height: 100%;
   margin: 0;
+  padding: 0;
+}
+
+html {
+  transition: background-color 0.5s ease-out;
+}
+
+body {
+  display: grid;
+  place-items: center;
 }
