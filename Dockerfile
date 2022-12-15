@@ -1,7 +1,5 @@
 FROM node:16 as builder
 
-ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
-
 WORKDIR /tmp
 COPY package*.json ./
 
