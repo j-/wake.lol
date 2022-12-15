@@ -5,6 +5,9 @@ import styles from '../styles/Home.module.css';
 import svgActive from '../icons/active.svg';
 import svgInactive from '../icons/inactive.svg';
 import { getWakeLockSentinel } from '../wake-lock-sentinel';
+import pkg from '../package.json';
+
+const { version } = pkg;
 
 const eyeClosed = (
   <svg
@@ -130,6 +133,7 @@ const HomePage: NextPage = () => {
       >
         {isActive ? eyeOpen : eyeClosed}
       </button>
+      <p hidden>{version}</p>
     </>
   );
 };
