@@ -69,8 +69,11 @@ const HomePage: NextPage = () => {
   const handleClickToggle = useCallback(async () => {
     if (isEnabled && sentinel) {
       setIsEnabled(false);
-      await sentinel.release();
-      setSentinel(undefined);
+      try {
+        await sentinel.release();
+      } finally {
+        setSentinel(undefined);
+      }
     } else {
       setIsEnabled(true);
       const sentinel = await getWakeLockSentinel();

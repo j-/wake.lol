@@ -171,31 +171,34 @@ export const getWakeLockVideoSentinel = async (): Promise<WakeLockSentinel> => {
   video.appendChild(sourceWebm);
 
   const sourceMp4 = document.createElement('source');
-  sourceMp4.src = VIDEO_WEBM;
+  sourceMp4.src = VIDEO_MP4;
   sourceMp4.type = 'video/mp4';
   video.appendChild(sourceMp4);
 
-  await new Promise<void>((resolve) => {
-    video.addEventListener('loadedmetadata', () => resolve());
-  });
+  let released = false;
+  let unsubscribe = () => {};
 
-  const handleTimeupdate = () => {
-    if (video.currentTime > 0.5) {
-      video.currentTime = Math.random();
+  const handleLoadedmetadata = () => {
+    video.removeEventListener('loadedmetadata', handleLoadedmetadata);
+
+    const handleTimeupdate = () => {
+      if (video.currentTime > 0.5) {
+        video.currentTime = Math.random();
+      }
+    };
+
+    if (video.duration <= 1) {
+      // webm source
+      video.setAttribute('loop', '');
+    } else {
+      // mp4 source
+      video.addEventListener('timeupdate', handleTimeupdate);
+
+      unsubscribe = () => {
+        video.removeEventListener('timeupdate', handleTimeupdate);
+      };
     }
   };
-
-  if (video.duration <= 1) {
-    // webm source
-    video.setAttribute('loop', '');
-  } else {
-    // mp4 source
-    video.addEventListener('timeupdate', handleTimeupdate);
-  }
-
-  video.play();
-
-  let released = false;
 
   const handleVisibilityChange = () => {
     if (document.visibilityState !== 'visible') {
@@ -206,13 +209,16 @@ export const getWakeLockVideoSentinel = async (): Promise<WakeLockSentinel> => {
   document.addEventListener('visibilitychange', handleVisibilityChange);
   document.addEventListener('fullscreenchange', handleVisibilityChange);
 
+  video.addEventListener('loadedmetadata', handleLoadedmetadata);
+  video.play();
+
   const sentinel = new class extends EventTarget {
     public readonly type = 'screen';
 
     public async release() {
       if (released) return;
       video.pause();
-      video.removeEventListener('timeupdate', handleTimeupdate);
+      unsubscribe();
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       document.removeEventListener('fullscreenchange', handleVisibilityChange);
       released = true;
