@@ -118,6 +118,20 @@ const HomePage: NextPage = () => {
     };
   }, [isEnabled, sentinel]);
 
+  useEffect(() => {
+    const icons = document.querySelectorAll<HTMLLinkElement>('link[rel~=icon]');
+    for (const icon of Array.from(icons)) {
+      icon.parentElement?.removeChild(icon);
+    }
+
+    return () => {
+      const icons = document.querySelectorAll<HTMLLinkElement>('link[rel~=icon]');
+      for (const icon of Array.from(icons)) {
+        document.head.appendChild(icon);
+      }
+    };
+  }, []);
+
   return (
     <>
       <Head>
