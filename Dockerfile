@@ -1,11 +1,16 @@
 FROM node:16 as builder
 
 WORKDIR /tmp
+
+ARG NODE_ENV=production
+ENV NODE_ENV $NODE_ENV
+
 COPY package*.json ./
 
-RUN npm ci
+RUN npm ci && npm cache clean --force
 
-COPY . .
+COPY next.config.js *.d.ts ./
+COPY src/ ./
 
 RUN npm run build
 RUN npm prune --production
