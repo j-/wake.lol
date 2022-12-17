@@ -19,8 +19,15 @@ Build + export
 
     $ npm run build
 
+Docker build
+------------
+
+    $ docker build -t wake.lol .
+
 Deploy
 ------
+
+Will build and deploy remotely. A local Docker build is not required.
 
     $ fly deploy
 
