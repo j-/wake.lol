@@ -2,10 +2,13 @@ FROM node:16 as builder
 
 WORKDIR /tmp
 
+RUN chown node:node ./
+USER node
+
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
-COPY package*.json ./
+COPY --chown=node:node package*.json ./
 
 RUN npm ci && npm cache clean --force
 
