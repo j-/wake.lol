@@ -1,5 +1,6 @@
 import type { AppType } from 'next/app';
 import Head from 'next/head';
+import Script from 'next/script';
 import svgInactive from '../icons/inactive.inline.svg';
 import '../styles/globals.css';
 
@@ -21,8 +22,21 @@ const App: AppType = ({ Component, pageProps }) => {
         <meta name="msapplication-TileColor" content="#000000" />
         <meta name="msapplication-tap-highlight" content="no" />
         <meta name="theme-color" content="#000000" />
-        <meta name='viewport' content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover' />
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover" />
       </Head>
+      <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-PLZRPEP9E7" />
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-PLZRPEP9E7');
+          `,
+        }}
+      />
       <Component {...pageProps} />
     </>
   );
