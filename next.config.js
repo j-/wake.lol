@@ -3,6 +3,10 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
 
+  images: {
+    unoptimized: true,
+  },
+
   webpack: (config) => {
     // #region https://www.dmitry-ishkov.com/2022/03/inlined-images-in-nextjs.html
     const imageLoaderRule = config.module.rules.find(
