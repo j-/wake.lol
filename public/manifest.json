@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/web-manifest",
   "name": "wake.lol",
   "short_name": "wake.lol",
   "icons": [
@@ -10,5 +11,5 @@
   "theme_color": "#000000",
   "background_color": "#000000",
   "start_url": "/",
-  "display": "minimal-ui"
+  "display": "standalone"
 }
