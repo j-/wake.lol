@@ -13,7 +13,7 @@ COPY --chown=node:node package*.json ./
 RUN npm ci && npm cache clean --force
 
 COPY next.config.js *.d.ts ./
-COPY src/ ./
+COPY src/ public/ ./
 
 RUN npm run build
 RUN npm prune --production
