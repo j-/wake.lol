@@ -1,4 +1,4 @@
-FROM node:16 as builder
+FROM node:lts-alpine3.17 as builder
 
 WORKDIR /tmp
 
