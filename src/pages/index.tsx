@@ -101,7 +101,7 @@ const HomePage: NextPage = () => {
       <Head>
         <title>{isActive ? '[ENABLED] wake.lol is enabled, sleep is disabled' : 'wake.lol'}</title>
         <link rel="icon" type="image/svg+xml" href={isActive ? svgActive : svgInactive} />
-        <meta name="description" content="Keep your screen awake without installing anything. A handy little website with a silly little name." />
+        <meta name="theme-color" content={isActive ? '#bef5a3' : '#f5a3a3'} />
       </Head>
       <button
         type="button"

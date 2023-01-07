@@ -1,0 +1,14 @@
+{
+  "name": "wake.lol",
+  "short_name": "wake.lol",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any"
+    }
+  ],
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "start_url": "/",
+  "display": "minimal-ui"
+}
