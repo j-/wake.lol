@@ -1,3 +1,29 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  grid-template-rows: 3fr 1fr;
+}
+
+.containerNewWindow {
+  grid-template-rows: 1fr;
+}
+
+.main button {
+  width: 50vmin;
+  height: 50vmin;
+}
+
+.main .icon {
+  width: 100%;
+  height: 100%;
+}
+
+.actions {
+  display: flex;
+}
+
 .isActive {
   background-color: hsl(100deg 80% 80%);
 }
@@ -6,23 +32,24 @@
   background-color: hsl(0deg 80% 80%);
 }
 
-.toggleButton {
-  width: 40vmin;
-  height: 40vmin;
-  padding: 0;
+.iconButton {
   appearance: none;
   border: none;
   background: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  border-radius: 10%;
+}
+
+.iconButton:hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .toggleButton:not(:disabled) {
   cursor: pointer;
 }
 
-.indicatorIcon {
-  width: 100%;
-  height: 100%;
+.icon {
   filter: brightness(0%);
 }

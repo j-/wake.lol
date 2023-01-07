@@ -7,8 +7,3 @@ html, body, #__next {
 html {
   transition: background-color 0.5s ease-out;
 }
-
-#__next {
-  display: grid;
-  place-items: center;
-}
