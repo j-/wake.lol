@@ -8,8 +8,8 @@ const App: AppType = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <link rel='icon' href='/favicon.ico' sizes='any' />
-        <link rel='icon' href={svgInactive} type='image/svg+xml' />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href={svgInactive} type="image/svg+xml" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="application-name" content="wake.lol" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
