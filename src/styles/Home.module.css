@@ -25,11 +25,11 @@
 }
 
 .isActive {
-  background-color: hsl(100deg 80% 80%);
+  background-color: var(--color-enabled);
 }
 
 .isInactive {
-  background-color: hsl(0deg 80% 80%);
+  background-color: var(--color-disabled);
 }
 
 .iconButton {

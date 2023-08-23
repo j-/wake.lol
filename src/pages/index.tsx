@@ -8,6 +8,7 @@ import svgActive from '../icons/active.inline.svg';
 import svgInactive from '../icons/inactive.inline.svg';
 import svgNewWindow from '../icons/window.inline.svg';
 import { getWakeLockSentinel } from '../wake-lock-sentinel';
+import { useColors } from '../use-colors';
 
 const BASE_URL = 'https://wake.lol/';
 const PARAM_STANDALONE = 'standalone';
@@ -34,6 +35,7 @@ const HomePage: NextPage = () => {
   const [sentinel, setSentinel] = useState<WakeLockSentinel>();
   const isInitialized = useIsInitialized();
   const isActive = isEnabled && sentinel != null;
+  const { colorActive, colorInactive } = useColors();
 
   const pageUrl = usePageUrl();
 
@@ -129,7 +131,7 @@ const HomePage: NextPage = () => {
       <Head>
         <title>{isActive ? '[ENABLED] wake.lol is enabled, sleep is disabled' : 'wake.lol'}</title>
         <link rel="icon" type="image/svg+xml" href={isActive ? svgActive : svgInactive} />
-        <meta name="theme-color" content={isActive ? '#bef5a3' : '#f5a3a3'} />
+        <meta name="theme-color" content={isActive ? colorActive : colorInactive} />
       </Head>
       <div className={classNames(styles.container, isNewWindow && styles.containerNewWindow)}>
         <div className={styles.main}>

@@ -7,3 +7,8 @@ html, body, #__next {
 html {
   transition: background-color 0.5s ease-out;
 }
+
+:root {
+  --color-enabled: hsl(100deg 80% 80%);
+  --color-disabled: hsl(0deg 80% 80%);
+}
