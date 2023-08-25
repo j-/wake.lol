@@ -1,15 +1,13 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { CSS_VAR_BG } from './constants';
 
-export const useColors = () => {
-  const [colorActive, setColorActive] = useState('');
-  const [colorInactive, setColorInactive] = useState('');
+export const useBackgroundColor = () => {
+  const [color, setColor] = useState('');
 
   const setColorsByElement = useCallback((element: HTMLElement) => {
     const style = getComputedStyle(element);
-    const colorActive = style.getPropertyValue('--color-active');
-    const colorInactive = style.getPropertyValue('--color-inactive');
-    setColorActive(colorActive);
-    setColorInactive(colorInactive);
+    const color = style.getPropertyValue(CSS_VAR_BG);
+    setColor(color);
   }, []);
 
   const mutationCallback = useCallback<MutationCallback>((mutations) => {
@@ -31,5 +29,5 @@ export const useColors = () => {
     return () => mutationObserver.disconnect();
   }, [mutationCallback]);
 
-  return { colorActive, colorInactive };
+  return color;
 };

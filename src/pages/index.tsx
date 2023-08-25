@@ -1,17 +1,20 @@
 import classNames from 'classnames';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
+import { IconDisabled } from '../components/IconDisabled';
+import { IconEnabled } from '../components/IconEnabled';
+import { IconSwatch } from '../components/IconSwatch';
+import { IconWindow } from '../components/IconWindow';
 import { FEATURES, PARAM_NEW_WINDOW } from '../constants';
 import svgActive from '../icons/active.inline.svg';
 import svgInactive from '../icons/inactive.inline.svg';
-import svgNewWindow from '../icons/window.inline.svg';
 import styles from '../styles/Home.module.css';
-import { useColors } from '../use-colors';
+import { useBackgroundColor } from '../use-background-color';
 import { useIsInitialized } from '../use-is-initialized';
 import { useIsNewWindow } from '../use-is-new-window';
 import { usePageUrl } from '../use-page-url';
+import { useTheme } from '../use-theme';
 import { getWakeLockSentinel } from '../wake-lock-sentinel';
 
 const HomePage: NextPage = () => {
@@ -19,9 +22,10 @@ const HomePage: NextPage = () => {
   const [sentinel, setSentinel] = useState<WakeLockSentinel>();
   const isInitialized = useIsInitialized();
   const isActive = isEnabled && sentinel != null;
-  const { colorActive, colorInactive } = useColors();
+  const color = useBackgroundColor();
   const pageUrl = usePageUrl();
   const isNewWindow = useIsNewWindow();
+  const { next: nextTheme } = useTheme();
 
   const showWakeLockEnabled = useCallback(() => {
     document.documentElement.classList.remove(styles.isInactive);
@@ -109,54 +113,62 @@ const HomePage: NextPage = () => {
       <Head>
         <title>{isActive ? '[ENABLED] wake.lol is enabled, sleep is disabled' : 'wake.lol'}</title>
         <link rel="icon" type="image/svg+xml" href={isActive ? svgActive : svgInactive} />
-        <meta name="theme-color" content={isActive ? colorActive : colorInactive} />
+        <meta name="theme-color" content={color} />
       </Head>
       <div className={classNames(styles.container, isNewWindow && styles.containerNewWindow)}>
         <div className={styles.main}>
           <button
             type="button"
-            className={styles.iconButton}
+            className={classNames(styles.button, styles.mainButton)}
             onClick={handleClickToggle}
             title={isActive ? 'Wake lock is enabled, click to disable' : 'Wake lock is disabled, click to enable'}
             disabled={!isInitialized}
           >
             {
               isActive ?
-                <Image
+                <IconEnabled
                   className={styles.icon}
-                  src={svgActive}
-                  alt="Open eye icon"
                   width={64}
                   height={64}
                 /> :
-                <Image
+                <IconDisabled
                   className={styles.icon}
-                  src={svgInactive}
-                  alt="Closed eye icon"
                   width={64}
                   height={64}
                 />
             }
           </button>
         </div>
-        {isNewWindow ? null : (
-          <div className={styles.actions}>
-            <button
-              type="button"
-              className={styles.iconButton}
-              onClick={handleClickOpenNewWindow}
-              title="Open in new window"
-            >
-              <Image
-                className={styles.icon}
-                src={svgNewWindow}
-                alt="New window icon"
-                width={64}
-                height={64}
-              />
-            </button>
-          </div>
-        )}
+        <div className={styles.actions}>
+          {isNewWindow ? null : (
+            <>
+              <button
+                type="button"
+                className={classNames(styles.button)}
+                onClick={handleClickOpenNewWindow}
+                title="Open in new window"
+              >
+                <IconWindow
+                  className={styles.icon}
+                  width={64}
+                  height={64}
+                />
+              </button>
+              <button
+                type="button"
+                className={classNames(styles.button)}
+                onClick={nextTheme}
+                title="Change theme"
+              >
+                <IconSwatch
+                  className={styles.icon}
+                  width={64}
+                  height={64}
+                />
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </>
   );

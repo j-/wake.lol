@@ -6,9 +6,27 @@ html, body, #__next {
 
 html {
   transition: background-color 0.5s ease-out;
+  color: var(--color-fg);
+  background-color: var(--color-bg);
 }
 
 :root {
-  --color-enabled: hsl(100deg 80% 80%);
-  --color-disabled: hsl(0deg 80% 80%);
+  --color-enabled-bg: hsl(100deg 80% 80%);
+  --color-enabled-fg: #000;
+  --color-disabled-bg: hsl(0deg 80% 80%);
+  --color-disabled-fg: #000;
+}
+
+html[data-theme-index="1"] {
+  --color-enabled-fg: #000;
+  --color-enabled-bg: hsl(200deg 80% 80%);
+  --color-disabled-fg: #000;
+  --color-disabled-bg: hsl(0deg 80% 80%);
+}
+
+html[data-theme-index="2"] {
+  --color-enabled-bg: #222;
+  --color-enabled-fg: #999;
+  --color-disabled-bg: #000;
+  --color-disabled-fg: #222;
 }
