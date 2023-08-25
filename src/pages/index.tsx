@@ -89,14 +89,16 @@ const HomePage: NextPage = () => {
   }, [isEnabled, sentinel]);
 
   useEffect(() => {
-    const icons = document.querySelectorAll<HTMLLinkElement>('link[rel~=icon]');
-    for (const icon of Array.from(icons)) {
+    const icons = Array.from(
+      document.querySelectorAll<HTMLLinkElement>('link[rel~=icon]')
+    );
+
+    for (const icon of icons) {
       icon.parentElement?.removeChild(icon);
     }
 
     return () => {
-      const icons = document.querySelectorAll<HTMLLinkElement>('link[rel~=icon]');
-      for (const icon of Array.from(icons)) {
+      for (const icon of icons) {
         document.head.appendChild(icon);
       }
     };
