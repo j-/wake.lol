@@ -16,22 +16,20 @@ export const useColors = () => {
     setColorsByElement(mutations[0].target as HTMLElement);
   }, [setColorsByElement]);
 
-  const mutationObserver = useMemo(() => {
-    return new MutationObserver(mutationCallback);
-  }, [mutationCallback]);
-
   useEffect(() => {
     setColorsByElement(document.documentElement);
   }, [setColorsByElement]);
 
   useEffect(() => {
+    const mutationObserver = new MutationObserver(mutationCallback);
+
     mutationObserver.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['style'],
     });
 
     return () => mutationObserver.disconnect();
-  }, [mutationObserver]);
+  }, [mutationCallback]);
 
   return { colorActive, colorInactive };
 };
