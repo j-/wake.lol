@@ -1,34 +1,18 @@
+import classNames from 'classnames';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import classNames from 'classnames';
-import styles from '../styles/Home.module.css';
+import { useCallback, useEffect, useState } from 'react';
+import { FEATURES, PARAM_NEW_WINDOW } from '../constants';
 import svgActive from '../icons/active.inline.svg';
 import svgInactive from '../icons/inactive.inline.svg';
 import svgNewWindow from '../icons/window.inline.svg';
-import { getWakeLockSentinel } from '../wake-lock-sentinel';
+import styles from '../styles/Home.module.css';
 import { useColors } from '../use-colors';
-
-const BASE_URL = 'https://wake.lol/';
-const PARAM_STANDALONE = 'standalone';
-const PARAM_NEW_WINDOW = 'newwindow';
-const FEATURES = 'width=300,height=200';
-
-const useIsInitialized = () => {
-  const [isInitialized, setIsInitialized] = useState(false);
-
-  useEffect(() => {
-    setIsInitialized(true);
-  }, []);
-
-  return isInitialized;
-};
-
-const usePageUrl = () => {
-  const isInitialized = useIsInitialized();
-  return isInitialized ? new URL(window.location.href) : new URL(BASE_URL);
-};
+import { useIsInitialized } from '../use-is-initialized';
+import { useIsNewWindow } from '../use-is-new-window';
+import { usePageUrl } from '../use-page-url';
+import { getWakeLockSentinel } from '../wake-lock-sentinel';
 
 const HomePage: NextPage = () => {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -36,16 +20,8 @@ const HomePage: NextPage = () => {
   const isInitialized = useIsInitialized();
   const isActive = isEnabled && sentinel != null;
   const { colorActive, colorInactive } = useColors();
-
   const pageUrl = usePageUrl();
-
-  const isStandalone = useMemo(() => {
-    return pageUrl.searchParams.has(PARAM_STANDALONE);
-  }, [pageUrl]);
-
-  const isNewWindow = useMemo(() => {
-    return pageUrl.searchParams.has(PARAM_NEW_WINDOW);
-  }, [pageUrl]);
+  const isNewWindow = useIsNewWindow();
 
   const showWakeLockEnabled = useCallback(() => {
     document.documentElement.classList.remove(styles.isInactive);
