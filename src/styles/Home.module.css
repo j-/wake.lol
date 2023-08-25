@@ -43,13 +43,13 @@
 }
 
 .isActive {
-  --color-fg: var(--color-enabled-fg);
-  --color-bg: var(--color-enabled-bg);
+  --color-fg: var(--color-active-fg);
+  --color-bg: var(--color-active-bg);
 }
 
 .isInactive {
-  --color-fg: var(--color-disabled-fg);
-  --color-bg: var(--color-disabled-bg);
+  --color-fg: var(--color-inactive-fg);
+  --color-bg: var(--color-inactive-bg);
 }
 
 .toggleButton:not(:disabled) {

@@ -2,8 +2,8 @@ import classNames from 'classnames';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useCallback, useEffect, useState } from 'react';
-import { IconDisabled } from '../components/IconDisabled';
-import { IconEnabled } from '../components/IconEnabled';
+import { IconInactive } from '../components/IconActive';
+import { IconActive } from '../components/IconInactive';
 import { IconSwatch } from '../components/IconSwatch';
 import { IconWindow } from '../components/IconWindow';
 import { FEATURES, PARAM_NEW_WINDOW } from '../constants';
@@ -126,12 +126,12 @@ const HomePage: NextPage = () => {
           >
             {
               isActive ?
-                <IconEnabled
+                <IconActive
                   className={styles.icon}
                   width={64}
                   height={64}
                 /> :
-                <IconDisabled
+                <IconInactive
                   className={styles.icon}
                   width={64}
                   height={64}

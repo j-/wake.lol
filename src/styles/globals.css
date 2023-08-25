@@ -11,22 +11,22 @@ html {
 }
 
 :root {
-  --color-enabled-bg: hsl(100deg 80% 80%);
-  --color-enabled-fg: #000;
-  --color-disabled-bg: hsl(0deg 80% 80%);
-  --color-disabled-fg: #000;
+  --color-active-bg: hsl(100deg 80% 80%);
+  --color-active-fg: #000;
+  --color-inactive-bg: hsl(0deg 80% 80%);
+  --color-inactive-fg: #000;
 }
 
 html[data-theme-index="1"] {
-  --color-enabled-fg: #000;
-  --color-enabled-bg: hsl(200deg 80% 80%);
-  --color-disabled-fg: #000;
-  --color-disabled-bg: hsl(0deg 80% 80%);
+  --color-active-fg: #000;
+  --color-active-bg: hsl(200deg 80% 80%);
+  --color-inactive-fg: #000;
+  --color-inactive-bg: hsl(0deg 80% 80%);
 }
 
 html[data-theme-index="2"] {
-  --color-enabled-bg: #222;
-  --color-enabled-fg: #999;
-  --color-disabled-bg: #000;
-  --color-disabled-fg: #222;
+  --color-active-bg: #222;
+  --color-active-fg: #999;
+  --color-inactive-bg: #000;
+  --color-inactive-fg: #222;
 }
