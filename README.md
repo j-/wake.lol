@@ -1,36 +1,27 @@
-[wake.lol][site]
-================
+# React + TypeScript + Vite
 
-This repo contains the [wake.lol][site] Next.js project source files as well as
-a [Docker][docker] file [fly.io][fly] deployment configuration.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Installing
-----------
+Currently, two official plugins are available:
 
-    $ npm i
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-Development server
-------------------
+## Expanding the ESLint configuration
 
-    $ npm run dev
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-Build + export
---------------
+- Configure the top-level `parserOptions` property like this:
 
-    $ npm run build
+```js
+   parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: ['./tsconfig.json', './tsconfig.node.json'],
+    tsconfigRootDir: __dirname,
+   },
+```
 
-Docker build
-------------
-
-    $ docker build -t wake.lol .
-
-Deploy
-------
-
-Will build and deploy remotely. A local Docker build is not required.
-
-    $ fly deploy
-
-[site]: https://wake.lol/
-[docker]: https://www.docker.com/
-[fly]: https://fly.io/
+- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
+- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
