@@ -5,8 +5,7 @@ import { IconInactive } from './components/IconActive';
 import { IconActive } from './components/IconInactive';
 import { IconSwatch } from './components/IconSwatch';
 import { IconWindow } from './components/IconWindow';
-import { FEATURES, PARAM_NEW_WINDOW } from './constants';
-import { useBackgroundColor } from './use-background-color';
+import { CSS_VAR_BG, FEATURES, PARAM_NEW_WINDOW } from './constants';
 import { useIsInitialized } from './use-is-initialized';
 import { useIsNewWindow } from './use-is-new-window';
 import { usePageUrl } from './use-page-url';
@@ -24,8 +23,6 @@ const App: FC = () => {
   const [sentinel, setSentinel] = useState<WakeLockSentinel>();
   const isInitialized = useIsInitialized();
   const isActive = isEnabled && sentinel != null;
-  // TODO: Figure out why background color isn't updating with active state.
-  const backgroundColor = useBackgroundColor();
   const pageUrl = usePageUrl();
   const isNewWindow = useIsNewWindow();
   const { next: nextTheme } = useTheme();
@@ -35,18 +32,18 @@ const App: FC = () => {
     document.documentElement.classList.add(styles.isActive);
     document.title = '[ENABLED] wake.lol is enabled, sleep is disabled';
     document.head.querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', backgroundColor);
+      ?.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue(CSS_VAR_BG));
     iconRef.current?.setAttribute('href', iconActiveURL);
-  }, [backgroundColor]);
+  }, []);
 
   const showWakeLockDisabled = useCallback(() => {
     document.documentElement.classList.remove(styles.isActive);
     document.documentElement.classList.add(styles.isInactive);
     document.title = 'wake.lol';
     document.head.querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', backgroundColor);
+      ?.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue(CSS_VAR_BG));
     iconRef.current?.setAttribute('href', iconInactiveURL);
-  }, [backgroundColor]);
+  }, []);
 
   const handleClickToggle = useCallback(async () => {
     if (isEnabled && sentinel) {
