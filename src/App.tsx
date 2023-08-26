@@ -8,6 +8,7 @@ import { IconWindow } from './components/IconWindow';
 import { CSS_VAR_BG, FEATURES, PARAM_NEW_WINDOW } from './constants';
 import { useIsInitialized } from './use-is-initialized';
 import { useIsNewWindow } from './use-is-new-window';
+import { useIsStandalone } from './use-is-standalone';
 import { usePageUrl } from './use-page-url';
 import { useTheme } from './use-theme';
 import { getWakeLockSentinel } from './wake-lock-sentinel';
@@ -25,6 +26,7 @@ const App: FC = () => {
   const isActive = isEnabled && sentinel != null;
   const pageUrl = usePageUrl();
   const isNewWindow = useIsNewWindow();
+  const isStandalone = useIsStandalone();
   const { next: nextTheme } = useTheme();
 
   const showWakeLockEnabled = useCallback(() => {
@@ -150,7 +152,7 @@ const App: FC = () => {
         </button>
       </div>
       <div className={styles.actions}>
-        {isNewWindow ? null : (
+        {isNewWindow || isStandalone ? null : (
           <>
             <button
               type="button"
