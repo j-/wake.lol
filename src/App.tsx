@@ -27,6 +27,7 @@ const App: FC = () => {
   const pageUrl = usePageUrl();
   const isNewWindow = useIsNewWindow();
   const isStandalone = useIsStandalone();
+  const hideActions = isNewWindow || isStandalone;
   const { next: nextTheme } = useTheme();
 
   const showWakeLockEnabled = useCallback(() => {
@@ -126,8 +127,7 @@ const App: FC = () => {
   }, []);
 
   return (
-    // <link rel="icon" type="image/svg+xml" href={isActive ? svgActive : svgInactive} />
-    <div className={classNames(styles.container, isNewWindow && styles.containerNewWindow)}>
+    <div className={classNames(styles.container, hideActions && styles.containerNewWindow)}>
       <div className={styles.main}>
         <button
           type="button"
@@ -152,7 +152,7 @@ const App: FC = () => {
         </button>
       </div>
       <div className={styles.actions}>
-        {isNewWindow || isStandalone ? null : (
+        {hideActions ? null : (
           <>
             <button
               type="button"
