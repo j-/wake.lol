@@ -1,11 +1,10 @@
 .git/
 .github/
-.next/
 node_modules/
-out/
+dist/
 .dockerignore
 .DS_Store
-.eslintrc.json
+.eslintrc.cjs
 Dockerfile
 fly.toml
 README.md
