@@ -1,8 +1,8 @@
 [wake.lol][site]
 ================
 
-This repo contains the [wake.lol][site] Next.js project source files as well as
-a [Docker][docker] file [fly.io][fly] deployment configuration.
+This repo contains the [wake.lol][site] Vite project source files as well as a
+[Docker][docker] file [fly.io][fly] deployment configuration.
 
 Installing
 ----------
