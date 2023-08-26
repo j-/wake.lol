@@ -156,7 +156,7 @@ const App: FC = () => {
           <>
             <button
               type="button"
-              className={classNames(styles.button)}
+              className={styles.button}
               onClick={handleClickOpenNewWindow}
               title="Open in new window"
             >
@@ -168,7 +168,7 @@ const App: FC = () => {
             </button>
             <button
               type="button"
-              className={classNames(styles.button)}
+              className={styles.button}
               onClick={nextTheme}
               title="Change theme"
             >
@@ -177,6 +177,10 @@ const App: FC = () => {
                 width={64}
                 height={64}
               />
+              <div className={styles.swatches}>
+                <span className={classNames(styles.swatch, styles.swatchInactive)} />
+                <span className={classNames(styles.swatch, styles.swatchActive)} />
+              </div>
             </button>
           </>
         )}

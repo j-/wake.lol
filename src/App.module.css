@@ -19,6 +19,7 @@
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
   border-radius: 10%;
+  position: relative;
 }
 
 .button:hover {
@@ -54,4 +55,35 @@
 
 .toggleButton:not(:disabled) {
   cursor: pointer;
+}
+
+.swatches {
+  opacity: 0;
+  transition: opacity 0.25s;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.button:active .swatches,
+.button:focus .swatches,
+.button:hover .swatches {
+  opacity: 1;
+}
+
+.swatch {
+  width: 10px;
+  aspect-ratio: 1/1;
+  border: 1px solid #000;
+  border-radius: 50%;
+}
+
+.swatchInactive {
+  background-color: var(--color-inactive-bg);
+}
+
+.swatchActive {
+  background-color: var(--color-active-bg);
 }
