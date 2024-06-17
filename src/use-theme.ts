@@ -26,5 +26,5 @@ export const useTheme = () => {
     }
   }, [themeIndex]);
 
-  return { next };
+  return { index: themeIndex, next };
 };

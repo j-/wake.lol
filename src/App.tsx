@@ -11,7 +11,7 @@ import { useIsNewWindow } from './use-is-new-window';
 import { useIsStandalone } from './use-is-standalone';
 import { usePageUrl } from './use-page-url';
 import { useTheme } from './use-theme';
-import { getWakeLockSentinel } from './wake-lock-sentinel';
+import { SENTINEL_TYPE, WakeLockSentinelWithType, getWakeLockSentinel } from './wake-lock-sentinel';
 import iconActive from '/active.svg?raw';
 import iconInactive from '/inactive.svg?raw';
 
@@ -21,14 +21,24 @@ const iconInactiveURL = `data:image/svg+xml;base64,${btoa(iconInactive)}`;
 const App: FC = () => {
   const iconRef = useRef<HTMLLinkElement>();
   const [isEnabled, setIsEnabled] = useState(false);
-  const [sentinel, setSentinel] = useState<WakeLockSentinel>();
+  const [sentinel, setSentinel] = useState<WakeLockSentinelWithType>();
   const isInitialized = useIsInitialized();
   const isActive = isEnabled && sentinel != null;
   const pageUrl = usePageUrl();
   const isNewWindow = useIsNewWindow();
   const isStandalone = useIsStandalone();
   const hideActions = isNewWindow || isStandalone;
-  const { next: nextTheme } = useTheme();
+  const { index: themeIndex, next: nextTheme } = useTheme();
+
+  const setSentinelWithTracking = useCallback((sentinel: WakeLockSentinelWithType | undefined) => {
+    if (sentinel) {
+      window.umami?.track('Lock');
+      window.umami?.track(`Sentinel type "${sentinel[SENTINEL_TYPE]}"`);
+    } else {
+      window.umami?.track('Release');
+    }
+    setSentinel(sentinel);
+  }, []);
 
   const showWakeLockEnabled = useCallback(() => {
     document.documentElement.classList.remove(styles.isInactive);
@@ -54,20 +64,27 @@ const App: FC = () => {
       try {
         await sentinel.release();
       } finally {
-        setSentinel(undefined);
+        setSentinelWithTracking(undefined);
       }
     } else {
       setIsEnabled(true);
       const sentinel = await getWakeLockSentinel();
-      setSentinel(sentinel);
+      setSentinelWithTracking(sentinel);
     }
   }, [isEnabled, sentinel]);
 
   const handleClickOpenNewWindow = useCallback(() => {
+    window.umami?.track('Open in new window');
     const newUrl = new URL(pageUrl);
     newUrl.searchParams.set(PARAM_NEW_WINDOW, '');
     window.open(newUrl, undefined, FEATURES);
   }, [pageUrl]);
+
+  const handleClickChangeTheme = useCallback(() => {
+    window.umami?.track('Change theme', {
+      index: themeIndex,
+    });
+  }, [nextTheme])
 
   useEffect(() => {
     if (isActive) {
@@ -80,7 +97,7 @@ const App: FC = () => {
   useEffect(() => {
     if (!sentinel) return;
     const handleRelease = () => {
-      setSentinel(undefined);
+      setSentinelWithTracking(undefined);
     };
     sentinel.addEventListener('release', handleRelease);
     return () => {
@@ -169,7 +186,7 @@ const App: FC = () => {
             <button
               type="button"
               className={styles.button}
-              onClick={nextTheme}
+              onClick={handleClickChangeTheme}
               title="Change theme"
             >
               <IconSwatch
