@@ -1,11 +1,23 @@
-import { useMemo } from 'react';
-import { PARAM_STANDALONE } from './constants';
-import { usePageUrl } from './use-page-url';
+import { useEffect, useState } from 'react';
+
+const QUERY = '(display-mode: standalone)';
 
 export const useIsStandalone = () => {
-  const pageUrl = usePageUrl();
+  const [isStandalone, setIsStandalone] = useState(() => (
+    typeof window === 'undefined' ?
+      false :
+      window.matchMedia(QUERY).matches
+  ));
 
-  return useMemo(() => {
-    return pageUrl.searchParams.has(PARAM_STANDALONE);
-  }, [pageUrl]);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(QUERY);
+    setIsStandalone(mediaQuery.matches);
+    const changeHandler = () => setIsStandalone(mediaQuery.matches);
+    mediaQuery.addEventListener('change', changeHandler);
+    return () => {
+      mediaQuery.removeEventListener('change', changeHandler);
+    };
+  }, []);
+  
+  return isStandalone;
 };
