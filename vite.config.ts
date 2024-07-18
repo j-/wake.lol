@@ -22,6 +22,13 @@ export default defineConfig({
         background_color: '#000000',
         display: 'standalone',
         display_override: ['window-controls-overlay'],
+        related_applications: [
+          {
+            platform: 'webapp',
+            url: 'https://wake.lol/manifest.webmanifest',
+          },
+        ],
+        prefer_related_applications: true,
       },
     }),
     viteSingleFile({
