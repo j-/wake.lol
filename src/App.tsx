@@ -139,6 +139,21 @@ const App: FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleAppInstalled = () => {
+      window.umami?.track('App installed');
+    };
+    const handleBeforeInstallPrompt = () => {
+      window.umami?.track('Before install prompt');
+    };
+    window.addEventListener('appinstalled', handleAppInstalled);
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    return () => {
+      window.removeEventListener('appinstalled', handleAppInstalled);
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
   return (
     <div className={classNames(styles.container, hideActions && styles.containerNewWindow)}>
       <div className={styles.main}>
