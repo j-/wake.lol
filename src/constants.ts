@@ -1,6 +1,5 @@
 export const BASE_URL = 'https://wake.lol/';
 export const FEATURES = 'width=300,height=200';
-export const WINDOW_NAME = 'wake.lol';
 export const THEME_COUNT = 2;
 export const THEME_INDEX_DATASET_KEY = 'themeIndex';
 export const THEME_INDEX_STORAGE_KEY = 'theme';

@@ -5,7 +5,7 @@ import { IconInactive } from './components/IconActive';
 import { IconActive } from './components/IconInactive';
 import { IconSwatch } from './components/IconSwatch';
 import { IconWindow } from './components/IconWindow';
-import { CSS_VAR_BG, FEATURES, WINDOW_NAME } from './constants';
+import { CSS_VAR_BG, FEATURES } from './constants';
 import { useIsInitialized } from './use-is-initialized';
 import { useIsNewWindow } from './use-is-new-window';
 import { useIsStandalone } from './use-is-standalone';
