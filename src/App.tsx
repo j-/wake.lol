@@ -73,7 +73,7 @@ const App: FC = () => {
 
   const handleClickOpenNewWindow = useCallback(() => {
     window.umami?.track('Open in new window');
-    window.open(window.location.href, WINDOW_NAME, FEATURES);
+    window.open(window.location.href, Date.now().toString(), FEATURES);
   }, []);
 
   const handleClickChangeTheme = useCallback(() => {
