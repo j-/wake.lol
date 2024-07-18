@@ -5,11 +5,10 @@ import { IconInactive } from './components/IconActive';
 import { IconActive } from './components/IconInactive';
 import { IconSwatch } from './components/IconSwatch';
 import { IconWindow } from './components/IconWindow';
-import { CSS_VAR_BG, FEATURES, PARAM_NEW_WINDOW } from './constants';
+import { CSS_VAR_BG, FEATURES, WINDOW_NAME } from './constants';
 import { useIsInitialized } from './use-is-initialized';
 import { useIsNewWindow } from './use-is-new-window';
 import { useIsStandalone } from './use-is-standalone';
-import { usePageUrl } from './use-page-url';
 import { useTheme } from './use-theme';
 import { SENTINEL_TYPE, WakeLockSentinelWithType, getWakeLockSentinel } from './wake-lock-sentinel';
 import iconActive from '/active.svg?raw';
@@ -24,7 +23,6 @@ const App: FC = () => {
   const [sentinel, setSentinel] = useState<WakeLockSentinelWithType>();
   const isInitialized = useIsInitialized();
   const isActive = isEnabled && sentinel != null;
-  const pageUrl = usePageUrl();
   const isNewWindow = useIsNewWindow();
   const isStandalone = useIsStandalone();
   const hideActions = isNewWindow || isStandalone;
@@ -75,10 +73,8 @@ const App: FC = () => {
 
   const handleClickOpenNewWindow = useCallback(() => {
     window.umami?.track('Open in new window');
-    const newUrl = new URL(pageUrl);
-    newUrl.searchParams.set(PARAM_NEW_WINDOW, '');
-    window.open(newUrl, undefined, FEATURES);
-  }, [pageUrl]);
+    window.open(window.location.href, WINDOW_NAME, FEATURES);
+  }, []);
 
   const handleClickChangeTheme = useCallback(() => {
     window.umami?.track('Change theme', {
