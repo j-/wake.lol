@@ -10,17 +10,17 @@ installation and uses web technologies to prevent the screen from sleeping.
 Installing
 ----------
 
-    $ npm i
+    $ bun i
 
 Development server
 ------------------
 
-    $ npm run dev
+    $ bun dev
 
 Build + export
 --------------
 
-    $ npm run build
+    $ bun run build
 
 Docker build
 ------------

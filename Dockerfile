@@ -1,21 +1,17 @@
-FROM node:lts-alpine3.17 as builder
+FROM oven/bun:1 AS builder
 
 WORKDIR /tmp
 
-RUN chown node:node ./
-USER node
-
 ARG NODE_ENV=production
-ENV NODE_ENV $NODE_ENV
+ENV NODE_ENV=$NODE_ENV
 
-COPY --chown=node:node package*.json ./
+COPY package.json bun.lock ./
 
-RUN npm ci && npm cache clean --force
+RUN bun install --production
 
-COPY --chown=node:node . .
+COPY . .
 
-RUN npm run build
-RUN npm prune --production
+RUN bun run build
 
 FROM nginx:stable-alpine
 COPY --from=builder /tmp/dist /usr/share/nginx/html
