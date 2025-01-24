@@ -69,7 +69,7 @@ const App: FC = () => {
       const sentinel = await getWakeLockSentinel();
       setSentinelWithTracking(sentinel);
     }
-  }, [isEnabled, sentinel]);
+  }, [isEnabled, sentinel, setSentinelWithTracking]);
 
   const handleClickOpenNewWindow = useCallback(() => {
     window.umami?.track('Open in new window');
@@ -78,7 +78,7 @@ const App: FC = () => {
 
   const handleClickChangeTheme = useCallback(() => {
     window.umami?.track('Change theme', {
-      index: themeIndex,
+      index: nextTheme(),
     });
   }, [nextTheme])
 
@@ -99,7 +99,7 @@ const App: FC = () => {
     return () => {
       sentinel.removeEventListener('release', handleRelease);
     };
-  }, [sentinel]);
+  }, [sentinel, setSentinelWithTracking]);
 
   useEffect(() => {
     const handleVisibilityChange = async () => {

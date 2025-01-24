@@ -6,17 +6,20 @@ import {
   THEME_INDEX_STORAGE_KEY,
 } from './constants';
 
+const nextThemeIndex = (themeIndex: number | undefined) => {
+  if (themeIndex == null) return 1;
+  if (themeIndex >= THEME_COUNT) return undefined;
+  return themeIndex + 1;
+};
+
 export const useTheme = () => {
   const [themeIndex, setThemeIndex] =
     useLocalStorageState<number>(THEME_INDEX_STORAGE_KEY);
 
   const next = useCallback(() => {
-    setThemeIndex((themeIndex) => {
-      if (themeIndex == null) return 1;
-      if (themeIndex >= THEME_COUNT) return undefined;
-      return themeIndex + 1;
-    });
-  }, [setThemeIndex]);
+    setThemeIndex(nextThemeIndex);
+    return nextThemeIndex(themeIndex);
+  }, [setThemeIndex, themeIndex]);
 
   useEffect(() => {
     if (themeIndex) {
