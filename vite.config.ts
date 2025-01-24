@@ -14,7 +14,7 @@ export default defineConfig({
         short_name: 'wake.lol',
         icons: [
           {
-            src: '/active.svg',
+            src: '/favicon.svg',
             sizes: 'any',
           },
         ],
@@ -33,6 +33,7 @@ export default defineConfig({
     }),
     viteSingleFile({
       inlinePattern: [
+        '!favicon.svg',
         '!favicon.ico',
       ],
     }),
