@@ -26,7 +26,7 @@ const App: FC = () => {
   const isNewWindow = useIsNewWindow();
   const isStandalone = useIsStandalone();
   const hideActions = isNewWindow || isStandalone;
-  const { index: themeIndex, next: nextTheme } = useTheme();
+  const { next: nextTheme } = useTheme();
 
   const setSentinelWithTracking = useCallback((sentinel: WakeLockSentinelWithType | undefined) => {
     if (sentinel) {
