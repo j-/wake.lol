@@ -18,7 +18,7 @@ const iconActiveURL = `data:image/svg+xml;base64,${btoa(iconActive)}`;
 const iconInactiveURL = `data:image/svg+xml;base64,${btoa(iconInactive)}`;
 
 const App: FC = () => {
-  const iconRef = useRef<HTMLLinkElement>();
+  const iconRef = useRef<HTMLLinkElement>(null);
   const [isEnabled, setIsEnabled] = useState(false);
   const [sentinel, setSentinel] = useState<WakeLockSentinelWithType>();
   const isInitialized = useIsInitialized();
