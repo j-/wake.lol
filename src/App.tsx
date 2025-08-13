@@ -6,18 +6,21 @@ import type { FC } from 'react';
 const App: FC = () => {
   return (
     <Box m={2}>
-      <Box p={2}>
+      <Box p={2} sx={(theme) => ({
+        height: theme.spacing(10),
+      })}>
         <Typography component="h1" variant='h4'>wake.lol</Typography>
       </Box>
 
       <Box sx={(theme) => ({
-        '--container-height': 'calc(100vh - 6.5rem)',
+        '--container-height': `calc(100vh - ${theme.spacing(14)})`,
         '--peek-height': theme.spacing(6),
         position: 'sticky',
         top: 'calc(var(--peek-height) - var(--container-height))',
         height: 'var(--container-height)',
         background: 'hsl(100, 80%, 80%)',
         borderRadius: 2,
+        color: theme.palette.getContrastText('hsl(100, 80%, 80%)'),
       })}>
         <Box sx={{
           position: 'sticky',
