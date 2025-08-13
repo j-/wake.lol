@@ -1,219 +1,124 @@
-import classNames from 'classnames';
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
-import styles from './App.module.css';
-import { IconInactive } from './components/IconActive';
-import { IconActive } from './components/IconInactive';
-import { IconSwatch } from './components/IconSwatch';
-import { IconWindow } from './components/IconWindow';
-import { CSS_VAR_BG, FEATURES } from './constants';
-import { useIsInitialized } from './use-is-initialized';
-import { useIsNewWindow } from './use-is-new-window';
-import { useIsStandalone } from './use-is-standalone';
-import { useTheme } from './use-theme';
-import { SENTINEL_TYPE, WakeLockSentinelWithType, getWakeLockSentinel } from './wake-lock-sentinel';
-import iconActive from '/active.svg?raw';
-import iconInactive from '/inactive.svg?raw';
-
-const iconActiveURL = `data:image/svg+xml;base64,${btoa(iconActive)}`;
-const iconInactiveURL = `data:image/svg+xml;base64,${btoa(iconInactive)}`;
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import type { FC } from 'react';
 
 const App: FC = () => {
-  const iconRef = useRef<HTMLLinkElement>(null);
-  const [isEnabled, setIsEnabled] = useState(false);
-  const [sentinel, setSentinel] = useState<WakeLockSentinelWithType>();
-  const isInitialized = useIsInitialized();
-  const isActive = isEnabled && sentinel != null;
-  const isNewWindow = useIsNewWindow();
-  const isStandalone = useIsStandalone();
-  const hideActions = isNewWindow || isStandalone;
-  const { next: nextTheme } = useTheme();
-
-  const setSentinelWithTracking = useCallback((sentinel: WakeLockSentinelWithType | undefined) => {
-    if (sentinel) {
-      window.umami?.track('Lock');
-      window.umami?.track(`Sentinel type "${sentinel[SENTINEL_TYPE]}"`);
-    } else {
-      window.umami?.track('Release');
-    }
-    setSentinel(sentinel);
-  }, []);
-
-  const showWakeLockEnabled = useCallback(() => {
-    document.documentElement.classList.remove(styles.isInactive);
-    document.documentElement.classList.add(styles.isActive);
-    document.title = '[ENABLED] wake.lol is enabled, sleep is disabled';
-    document.head.querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue(CSS_VAR_BG));
-    iconRef.current?.setAttribute('href', iconActiveURL);
-  }, []);
-
-  const showWakeLockDisabled = useCallback(() => {
-    document.documentElement.classList.remove(styles.isActive);
-    document.documentElement.classList.add(styles.isInactive);
-    document.title = 'wake.lol';
-    document.head.querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue(CSS_VAR_BG));
-    iconRef.current?.setAttribute('href', iconInactiveURL);
-  }, []);
-
-  const handleClickToggle = useCallback(async () => {
-    if (isEnabled && sentinel) {
-      setIsEnabled(false);
-      try {
-        await sentinel.release();
-      } finally {
-        setSentinelWithTracking(undefined);
-      }
-    } else {
-      setIsEnabled(true);
-      const sentinel = await getWakeLockSentinel();
-      setSentinelWithTracking(sentinel);
-    }
-  }, [isEnabled, sentinel, setSentinelWithTracking]);
-
-  const handleClickOpenNewWindow = useCallback(() => {
-    window.umami?.track('Open in new window');
-    window.open(window.location.href, Date.now().toString(), FEATURES);
-  }, []);
-
-  const handleClickChangeTheme = useCallback(() => {
-    window.umami?.track('Change theme', {
-      index: nextTheme(),
-    });
-  }, [nextTheme])
-
-  useEffect(() => {
-    if (isActive) {
-      showWakeLockEnabled();
-    } else {
-      showWakeLockDisabled();
-    }
-  }, [isActive, showWakeLockDisabled, showWakeLockEnabled]);
-
-  useEffect(() => {
-    if (!sentinel) return;
-    const handleRelease = () => {
-      setSentinelWithTracking(undefined);
-    };
-    sentinel.addEventListener('release', handleRelease);
-    return () => {
-      sentinel.removeEventListener('release', handleRelease);
-    };
-  }, [sentinel, setSentinelWithTracking]);
-
-  useEffect(() => {
-    const handleVisibilityChange = async () => {
-      if (isEnabled && sentinel == null && document.visibilityState === 'visible') {
-        const sentinel = await getWakeLockSentinel();
-        setSentinel(sentinel);
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    document.addEventListener('fullscreenchange', handleVisibilityChange);
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      document.removeEventListener('fullscreenchange', handleVisibilityChange);
-    };
-  }, [isEnabled, sentinel]);
-
-  useEffect(() => {
-    const icons = Array.from(
-      document.querySelectorAll<HTMLLinkElement>('link[rel~="icon"]')
-    );
-
-    for (const icon of icons) {
-      icon.parentElement?.removeChild(icon);
-    }
-
-    const icon = document.createElement('link');
-    icon.setAttribute('rel', 'icon');
-    icon.setAttribute('href', iconInactiveURL);
-    iconRef.current = icon;
-    document.head.appendChild(icon);
-
-    return () => {
-      for (const icon of icons) {
-        document.head.appendChild(icon);
-      }
-      document.head.removeChild(icon);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleAppInstalled = () => {
-      window.umami?.track('App installed');
-    };
-    const handleBeforeInstallPrompt = () => {
-      window.umami?.track('Before install prompt');
-    };
-    window.addEventListener('appinstalled', handleAppInstalled);
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    return () => {
-      window.removeEventListener('appinstalled', handleAppInstalled);
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    };
-  }, []);
-
   return (
-    <div className={classNames(styles.container, hideActions && styles.containerNewWindow)}>
-      <div className={styles.main}>
-        <button
-          type="button"
-          className={classNames(styles.button, styles.mainButton)}
-          onClick={handleClickToggle}
-          title={isActive ? 'Wake lock is enabled, click to disable' : 'Wake lock is disabled, click to enable'}
-          disabled={!isInitialized}
-        >
-          {
-            isActive ?
-              <IconActive
-                className={styles.icon}
-                width={64}
-                height={64}
-              /> :
-              <IconInactive
-                className={styles.icon}
-                width={64}
-                height={64}
-              />
-          }
-        </button>
-      </div>
-      <div className={styles.actions}>
-        {hideActions ? null : (
-          <>
-            <button
-              type="button"
-              className={styles.button}
-              onClick={handleClickOpenNewWindow}
-              title="Open in new window"
-            >
-              <IconWindow
-                className={styles.icon}
-                width={64}
-                height={64}
-              />
-            </button>
-            <button
-              type="button"
-              className={styles.button}
-              onClick={handleClickChangeTheme}
-              title="Change theme"
-            >
-              <IconSwatch
-                className={styles.icon}
-                width={64}
-                height={64}
-              />
-              <div className={styles.swatches}>
-                <span className={classNames(styles.swatch, styles.swatchInactive)} />
-                <span className={classNames(styles.swatch, styles.swatchActive)} />
-              </div>
-            </button>
-          </>
-        )}
-      </div>
-    </div>
+    <Box m={2}>
+      <Box p={2}>
+        <Typography component="h1" variant='h4'>wake.lol</Typography>
+      </Box>
+
+      <Box sx={(theme) => ({
+        '--container-height': 'calc(100vh - 6.5rem)',
+        '--peek-height': theme.spacing(6),
+        position: 'sticky',
+        top: 'calc(var(--peek-height) - var(--container-height))',
+        height: 'var(--container-height)',
+        background: 'hsl(100, 80%, 80%)',
+        borderRadius: 2,
+      })}>
+        <Box sx={{
+          position: 'sticky',
+          top: 0,
+          height: 'var(--peek-height)',
+          padding: 2,
+        }}>
+          <Stack direction="row" gap={4}>
+            <Typography lineHeight={1}>
+              Sticks to the top of the screen
+            </Typography>
+
+            <Stack direction="row" gap={2}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-maximize-icon lucide-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-minimize-icon lucide-minimize"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-maximize2-icon lucide-maximize-2"><path d="M15 3h6v6"/><path d="m21 3-7 7"/><path d="m3 21 7-7"/><path d="M9 21H3v-6"/></svg>
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-minimize2-icon lucide-minimize-2"><path d="m14 10 7-7"/><path d="M20 10h-6V4"/><path d="m3 21 7-7"/><path d="M4 14h6v6"/></svg>
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-expand-icon lucide-expand"><path d="m15 15 6 6"/><path d="m15 9 6-6"/><path d="M21 16v5h-5"/><path d="M21 8V3h-5"/><path d="M3 16v5h5"/><path d="m3 21 6-6"/><path d="M3 8V3h5"/><path d="M9 9 3 3"/></svg>
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shrink-icon lucide-shrink"><path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8"/><path d="M9 19.8V15m0 0H4.2M9 15l-6 6"/><path d="M15 4.2V9m0 0h4.8M15 9l6-6"/><path d="M9 4.2V9m0 0H4.2M9 9 3 3"/></svg>
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-fullscreen-icon lucide-fullscreen"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><rect width="10" height="8" x="7" y="8" rx="1"/></svg>
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-picture-in-picture-icon lucide-picture-in-picture"><path d="M2 10h6V4"/><path d="m2 4 6 6"/><path d="M21 10V7a2 2 0 0 0-2-2h-7"/><path d="M3 14v2a2 2 0 0 0 2 2h3"/><rect x="12" y="14" width="10" height="7" rx="1"/></svg>
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-icon lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-closed-icon lucide-eye-closed"><path d="m15 18-.722-3.25"/><path d="M2 8a10.645 10.645 0 0 0 20 0"/><path d="m20 15-1.726-2.05"/><path d="m4 15 1.726-2.05"/><path d="m9 18 .722-3.25"/></svg>
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-off-icon lucide-eye-off"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg>
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-view-icon lucide-view"><path d="M21 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2"/><path d="M21 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2"/><circle cx="12" cy="12" r="1"/><path d="M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0"/></svg>
+            </Stack>
+          </Stack>
+        </Box>
+      </Box>
+
+      <Box p={2}>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+      </Box>
+    </Box>
   );
 };
 
