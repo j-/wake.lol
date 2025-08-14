@@ -7,12 +7,14 @@
     "dev": "bunx --bun vite",
     "build": "bunx --bun vite build",
     "lint": "bunx eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
-    "preview": "bunx --bun vite preview"
+    "preview": "bunx --bun vite preview",
+    "ladle": "bunx --bun ladle serve"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@fontsource/roboto": "^5.2.6",
+    "@ladle/react": "^5.0.3",
     "@mui/material": "^7.3.1",
     "@types/classnames": "^2.3.1",
     "@types/dom-screen-wake-lock": "^1.0.1",

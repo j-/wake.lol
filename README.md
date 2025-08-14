@@ -34,6 +34,11 @@ Will build and deploy remotely. A local Docker build is not required.
 
     $ fly deploy
 
+Component stories
+-----------------
+
+    $ bun ladle
+
 Features
 --------
 
