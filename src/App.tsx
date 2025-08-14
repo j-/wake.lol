@@ -5,7 +5,11 @@ import type { FC } from 'react';
 
 const App: FC = () => {
   return (
-    <Box m={2}>
+    <Box m={2} sx={(theme) => ({
+      '--header-height': theme.spacing(14),
+      '--container-height': `calc(100vh - var(--header-height))`,
+      '--peek-height': theme.spacing(6),
+    })}>
       <Box p={2} sx={(theme) => ({
         height: theme.spacing(10),
       })}>
@@ -13,8 +17,6 @@ const App: FC = () => {
       </Box>
 
       <Box sx={(theme) => ({
-        '--container-height': `calc(100vh - ${theme.spacing(14)})`,
-        '--peek-height': theme.spacing(6),
         position: 'sticky',
         top: 'calc(var(--peek-height) - var(--container-height))',
         height: 'var(--container-height)',
