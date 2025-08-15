@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import type { FC } from 'react';
-import { Actions } from './Actions';
+import { WakeActionsContainer } from './WakeActionsContainer';
 
 const App: FC = () => {
   return (
@@ -16,22 +16,16 @@ const App: FC = () => {
         <Typography component="h1" variant='h4'>wake.lol</Typography>
       </Box>
 
-      <Box sx={(theme) => ({
+      <Box sx={{
         position: 'sticky',
         top: 'calc(var(--peek-height) - var(--container-height))',
         height: 'var(--container-height)',
-        background: 'hsl(100, 80%, 80%)',
-        borderRadius: 2,
-        color: theme.palette.getContrastText('hsl(100, 80%, 80%)'),
-      })}>
-        <Box sx={{
-          position: 'sticky',
-          top: 0,
-          height: 'var(--peek-height)',
-          padding: 2,
-        }}>
-          <Actions />
-        </Box>
+        display: 'grid',
+      }}>
+        <WakeActionsContainer
+          bgColor="hsl(100, 80%, 80%)"
+          actionsHeight="var(--peek-height)"
+        />
       </Box>
 
       <Box p={2}>
