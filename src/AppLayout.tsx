@@ -15,7 +15,7 @@ export const AppLayout: FC<AppLayoutProps> = ({
   <Box m={2} sx={(theme) => ({
     '--header-height': theme.spacing(14),
     '--container-height': `calc(100vh - var(--header-height))`,
-    '--peek-height': theme.spacing(6),
+    '--peek-height': theme.spacing(8),
   })} {...props}>
     <Box p={2} sx={(theme) => ({
       height: theme.spacing(10),

@@ -11,7 +11,6 @@ const App: FC = () => {
       }
       slotActions={
         <WakeActionsContainer
-          bgColor="hsl(100, 80%, 80%)"
           actionsHeight="var(--peek-height)"
         />
       }
