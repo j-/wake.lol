@@ -14,10 +14,10 @@ export const AppLayout: FC<AppLayoutProps> = ({
 }) => (
   <Box m={2} sx={(theme) => ({
     '--header-height': theme.spacing(14),
-    '--container-height': `calc(100vh - var(--header-height))`,
+    '--container-height': `calc(100svh - var(--header-height))`,
     '--peek-height': theme.spacing(8),
   })} {...props}>
-    <Box p={2} sx={(theme) => ({
+    <Box py={2} px={3} sx={(theme) => ({
       height: theme.spacing(10),
     })}>
       {slotHeader}
@@ -34,7 +34,7 @@ export const AppLayout: FC<AppLayoutProps> = ({
       {slotActions}
     </Box>
 
-    <Box p={2}>
+    <Box p={3}>
       {children}
     </Box>
   </Box>
