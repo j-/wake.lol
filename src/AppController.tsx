@@ -184,7 +184,7 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
   const contextValue = useMemo<AppContextType>(() => ({
     canExpandCollapse: canExpandCollapse && !isNewWindow,
     canFullscreen,
-    canNewWindow: !isNewWindow,
+    canNewWindow: !isNewWindow && !isFullscreen,
     collapseUI,
     exitFullscreen,
     expandUI,
