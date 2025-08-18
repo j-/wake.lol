@@ -6,10 +6,20 @@ import { useAppContext } from './AppController';
 
 const IconEyeClosed: FC<SVGProps<SVGSVGElement>> = (props) => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-closed-icon lucide-eye-closed" {...props}><path d="m15 18-.722-3.25"/><path d="M2 8a10.645 10.645 0 0 0 20 0"/><path d="m20 15-1.726-2.05"/><path d="m4 15 1.726-2.05"/><path d="m9 18 .722-3.25"/></svg>;
 
-const IconEye: FC<SVGProps<SVGSVGElement>> = (props) => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-icon lucide-eye" {...props}><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
+const IconEye: FC<SVGProps<SVGSVGElement>> = (props) => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-icon lucide-eye" {...props}><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>;
+
+const IconMaximize2: FC<SVGProps<SVGSVGElement>> = (props) => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-maximize2-icon lucide-maximize-2" {...props}><path d="M15 3h6v6"/><path d="m21 3-7 7"/><path d="m3 21 7-7"/><path d="M9 21H3v-6"/></svg>;
+
+const IconMinimize2: FC<SVGProps<SVGSVGElement>> = (props) => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-minimize2-icon lucide-minimize-2" {...props}><path d="m14 10 7-7"/><path d="M20 10h-6V4"/><path d="m3 21 7-7"/><path d="M4 14h6v6"/></svg>;
 
 export const Actions: FC = () => {
-  const { isWakeLockEnabled, toggleWakeLock } = useAppContext();
+  const {
+    isWakeLockEnabled,
+    toggleWakeLock,
+    canExpandCollapse,
+    isExpanded,
+    toggleExpandCollapseUI,
+  } = useAppContext();
 
   return (
     <Stack direction="row" gap={4} height={(theme) => theme.spacing(4)} alignItems="center">
@@ -21,6 +31,18 @@ export const Actions: FC = () => {
             <IconEyeClosed />
           )}
         </IconButton>
+      </Box>
+
+      <Box lineHeight={1}>
+        {canExpandCollapse ? (
+          <IconButton size="small" color="inherit" onClick={toggleExpandCollapseUI}>
+            {isExpanded ? (
+              <IconMinimize2 />
+            ) : (
+              <IconMaximize2 />
+            )}
+          </IconButton>
+        ) : null}
       </Box>
 
       <Stack direction="row" gap={2}>
