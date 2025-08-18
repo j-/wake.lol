@@ -20,6 +20,7 @@ export const Actions: FC = () => {
     canFullscreen,
     canNewWindow,
     isExpanded,
+    isFullyVisible,
     isFullscreen,
     isWakeLockEnabled,
     toggleExpandCollapseUI,
@@ -27,14 +28,17 @@ export const Actions: FC = () => {
     toggleWakeLock,
   } = useAppContext();
 
+  const iconSize = isFullyVisible ? 32 : 24;
+  const iconStyle = { transition: 'all 200ms ease-in-out' };
+
   return (
     <Stack direction="row" gap={4} height={(theme) => theme.spacing(4)} alignItems="center">
       <Box lineHeight={1}>
         <IconButton color="inherit" onClick={toggleWakeLock}>
           {isWakeLockEnabled ? (
-            <IconEye />
+            <IconEye size={iconSize} style={iconStyle} />
           ) : (
-            <IconEyeClosed />
+            <IconEyeClosed size={iconSize} style={iconStyle} />
           )}
         </IconButton>
       </Box>
@@ -70,16 +74,16 @@ export const Actions: FC = () => {
           <IconButton color="inherit" onClick={() => {
             window.open(window.location.href, Date.now().toString(), FEATURES);
           }}>
-            <IconAppWindowMac />
+            <IconAppWindowMac size={iconSize} style={iconStyle} />
           </IconButton>
         ) : null}
 
         {canExpandCollapse ? (
           <IconButton color="inherit" onClick={toggleExpandCollapseUI}>
             {isExpanded ? (
-              <IconMinimize2 />
+              <IconMinimize2 size={iconSize} style={iconStyle} />
             ) : (
-              <IconMaximize2 />
+              <IconMaximize2 size={iconSize} style={iconStyle} />
             )}
           </IconButton>
         ) : null}
@@ -87,9 +91,9 @@ export const Actions: FC = () => {
         {canFullscreen ? (
           <IconButton color="inherit" onClick={toggleFullscreen}>
             {isFullscreen ? (
-              <IconMinimize />
+              <IconMinimize size={iconSize} style={iconStyle} />
             ) : (
-              <IconMaximize />
+              <IconMaximize size={iconSize} style={iconStyle} />
             )}
           </IconButton>
         ) : null}

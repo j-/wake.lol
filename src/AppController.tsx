@@ -24,6 +24,7 @@ export type AppContextType = {
   fullscreenRef?: RefObject<HTMLElement | null>;
   canExpandCollapse: boolean;
   isExpanded: boolean;
+  isFullyVisible: boolean;
   isWakeLockEnabled: boolean;
   canFullscreen: boolean;
   isFullscreen: boolean;
@@ -56,6 +57,7 @@ const defaultAppContext = new Proxy<AppContextType>({
   },
   fullscreenRef: undefined,
   isExpanded: false,
+  isFullyVisible: true,
   isFullscreen: false,
   isWakeLockEnabled: false,
   releaseWakeLock: async () => {
@@ -95,6 +97,7 @@ export const AppContext = createContext<AppContextType>(defaultAppContext);
 export const AppController: FC<PropsWithChildren> = ({ children }) => {
   const fullscreenRef = useRef<HTMLElement>(null);
 
+  const [isFullyVisible, setIsFullyVisible] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [sentinel, setSentinel] = useState<WakeLockSentinel | null>(null);
@@ -185,6 +188,7 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     expandUI,
     fullscreenRef,
     isExpanded: isExpanded || isNewWindow,
+    isFullyVisible,
     isFullscreen,
     isNewWindow,
     isWakeLockEnabled,
@@ -202,6 +206,7 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     expandUI,
     fullscreenRef,
     isExpanded,
+    isFullyVisible,
     isFullscreen,
     isNewWindow,
     isWakeLockEnabled,
@@ -233,6 +238,26 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     return () => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, [fullscreenRef]);
+
+  useEffect(() => {
+    const element = fullscreenRef?.current;
+    if (!element) return;
+
+    const io = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) return;
+      setIsFullyVisible(entry.intersectionRatio >= 0.95);
+    }, {
+      root: null,
+      threshold: [1, 0.95],
+    });
+
+    io.observe(element);
+
+    return () => {
+      io.disconnect();
     };
   }, [fullscreenRef]);
 
