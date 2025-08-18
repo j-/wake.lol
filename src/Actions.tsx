@@ -10,11 +10,14 @@ import {
   Minimize as IconMinimize,
   Minimize2 as IconMinimize2,
 } from 'lucide-react';
-import type { FC } from 'react';
+import { useState, type FC } from 'react';
+import { useIdleTimer } from 'react-idle-timer';
 import { useAppContext } from './AppController';
 import { FEATURES } from './constants';
 
 export const Actions: FC = () => {
+  const [isIdle, setIsIdle] = useState(false);
+
   const {
     canExpandCollapse,
     canFullscreen,
@@ -28,8 +31,20 @@ export const Actions: FC = () => {
     toggleWakeLock,
   } = useAppContext();
 
+  useIdleTimer({
+    timeout: 5_000,
+    throttle: 500,
+    onIdle: () => setIsIdle(true),
+    onActive: () => setIsIdle(false),
+  });
+
   const iconSize = isFullyVisible ? 32 : 24;
   const iconStyle = { transition: 'all 200ms ease-in-out' };
+
+  const buttonStyle = {
+    opacity: isIdle && isFullyVisible ? 0.1 : 1,
+    transition: 'opacity 200ms ease-in-out',
+  };
 
   return (
     <Stack direction="row" gap={4} height={(theme) => theme.spacing(4)} alignItems="center">
@@ -71,7 +86,7 @@ export const Actions: FC = () => {
 
       <Stack direction="row" lineHeight={1} gap={2} ml="auto">
         {canNewWindow ? (
-          <IconButton color="inherit" onClick={() => {
+          <IconButton color="inherit" sx={buttonStyle} onClick={() => {
             window.open(window.location.href, Date.now().toString(), FEATURES);
           }}>
             <IconAppWindowMac size={iconSize} style={iconStyle} />
@@ -79,7 +94,7 @@ export const Actions: FC = () => {
         ) : null}
 
         {canExpandCollapse ? (
-          <IconButton color="inherit" onClick={toggleExpandCollapseUI}>
+          <IconButton color="inherit" sx={buttonStyle} onClick={toggleExpandCollapseUI}>
             {isExpanded ? (
               <IconMinimize2 size={iconSize} style={iconStyle} />
             ) : (
@@ -89,7 +104,7 @@ export const Actions: FC = () => {
         ) : null}
 
         {canFullscreen ? (
-          <IconButton color="inherit" onClick={toggleFullscreen}>
+          <IconButton color="inherit" sx={buttonStyle} onClick={toggleFullscreen}>
             {isFullscreen ? (
               <IconMinimize size={iconSize} style={iconStyle} />
             ) : (

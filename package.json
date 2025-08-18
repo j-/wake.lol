@@ -33,6 +33,7 @@
     "lucide-react": "^0.539.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-idle-timer": "^5.7.2",
     "use-local-storage-state": "^19.0.4",
     "vite": "^7.1.2",
     "vite-plugin-pwa": "^1.0.2",
