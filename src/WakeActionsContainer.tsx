@@ -11,14 +11,14 @@ type WakeActionsContainerProps = {
 export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
   actionsHeight,
 }) => {
-  const { isWakeLockEnabled } = useAppContext();
+  const { fullscreenRef, isWakeLockEnabled } = useAppContext();
 
   const bgColor = useMemo(() => {
     return isWakeLockEnabled ? 'hsl(100, 80%, 80%)' : 'hsl(0, 0%, 20%)';
   }, [isWakeLockEnabled]);
 
   return (
-    <Box sx={(theme) => ({
+    <Box ref={fullscreenRef} sx={(theme) => ({
       color: theme.palette.getContrastText(bgColor),
       backgroundColor: bgColor,
       transition: 'background-color 200ms ease-in-out',
