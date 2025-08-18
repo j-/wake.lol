@@ -1,20 +1,16 @@
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
-import type { FC, SVGProps } from 'react';
+import {
+  Eye as IconEye,
+  EyeClosed as IconEyeClosed,
+  Maximize as IconMaximize,
+  Maximize2 as IconMaximize2,
+  Minimize as IconMinimize,
+  Minimize2 as IconMinimize2,
+} from 'lucide-react';
+import type { FC } from 'react';
 import { useAppContext } from './AppController';
-
-const IconEyeClosed: FC<SVGProps<SVGSVGElement>> = (props) => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-closed-icon lucide-eye-closed" {...props}><path d="m15 18-.722-3.25"/><path d="M2 8a10.645 10.645 0 0 0 20 0"/><path d="m20 15-1.726-2.05"/><path d="m4 15 1.726-2.05"/><path d="m9 18 .722-3.25"/></svg>;
-
-const IconEye: FC<SVGProps<SVGSVGElement>> = (props) => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-eye-icon lucide-eye" {...props}><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>;
-
-const IconMaximize: FC<SVGProps<SVGSVGElement>> = (props) => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-maximize-icon lucide-maximize" {...props}><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>;
-
-const IconMinimize: FC<SVGProps<SVGSVGElement>> = (props) => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-minimize-icon lucide-minimize" {...props}><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>;
-
-const IconMaximize2: FC<SVGProps<SVGSVGElement>> = (props) => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-maximize2-icon lucide-maximize-2" {...props}><path d="M15 3h6v6"/><path d="m21 3-7 7"/><path d="m3 21 7-7"/><path d="M9 21H3v-6"/></svg>;
-
-const IconMinimize2: FC<SVGProps<SVGSVGElement>> = (props) => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-minimize2-icon lucide-minimize-2" {...props}><path d="m14 10 7-7"/><path d="M20 10h-6V4"/><path d="m3 21 7-7"/><path d="M4 14h6v6"/></svg>;
 
 export const Actions: FC = () => {
   const {
@@ -31,7 +27,7 @@ export const Actions: FC = () => {
   return (
     <Stack direction="row" gap={4} height={(theme) => theme.spacing(4)} alignItems="center">
       <Box lineHeight={1}>
-        <IconButton size="small" color="inherit" onClick={toggleWakeLock}>
+        <IconButton color="inherit" onClick={toggleWakeLock}>
           {isWakeLockEnabled ? (
             <IconEye />
           ) : (
@@ -68,7 +64,7 @@ export const Actions: FC = () => {
 
       <Stack direction="row" lineHeight={1} gap={2} ml="auto">
         {canExpandCollapse ? (
-          <IconButton size="small" color="inherit" onClick={toggleExpandCollapseUI}>
+          <IconButton color="inherit" onClick={toggleExpandCollapseUI}>
             {isExpanded ? (
               <IconMinimize2 />
             ) : (
@@ -78,7 +74,7 @@ export const Actions: FC = () => {
         ) : null}
 
         {canFullscreen ? (
-          <IconButton size="small" color="inherit" onClick={toggleFullscreen}>
+          <IconButton color="inherit" onClick={toggleFullscreen}>
             {isFullscreen ? (
               <IconMinimize />
             ) : (
