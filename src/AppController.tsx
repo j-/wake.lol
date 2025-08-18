@@ -13,6 +13,8 @@ import {
 import { useIsNewWindow } from './use-is-new-window';
 import { getWakeLockSentinel } from './wake-lock-sentinel';
 
+const enableIntersectionObserver = false;
+
 export type RequestWakeLock = () => Promise<WakeLockSentinel | null>;
 export type ReleaseWakeLock = () => Promise<void>;
 export type ToggleWakeLock = () => Promise<WakeLockSentinel | null | void>;
@@ -57,7 +59,7 @@ const defaultAppContext = new Proxy<AppContextType>({
   },
   fullscreenRef: undefined,
   isExpanded: false,
-  isFullyVisible: true,
+  isFullyVisible: false,
   isFullscreen: false,
   isWakeLockEnabled: false,
   releaseWakeLock: async () => {
@@ -97,7 +99,7 @@ export const AppContext = createContext<AppContextType>(defaultAppContext);
 export const AppController: FC<PropsWithChildren> = ({ children }) => {
   const fullscreenRef = useRef<HTMLElement>(null);
 
-  const [isFullyVisible, setIsFullyVisible] = useState(true);
+  const [isFullyVisible, setIsFullyVisible] = useState(enableIntersectionObserver);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [sentinel, setSentinel] = useState<WakeLockSentinel | null>(null);
@@ -242,6 +244,8 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
   }, [fullscreenRef]);
 
   useEffect(() => {
+    if (!enableIntersectionObserver) return;
+
     const element = fullscreenRef?.current;
     if (!element) return;
 
