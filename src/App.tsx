@@ -20,7 +20,9 @@ const App: FC = () => {
         position: 'sticky',
         top: 'calc(var(--peek-height) - var(--container-height))',
         height: 'var(--container-height)',
+        borderRadius: 2,
         display: 'grid',
+        contain: 'strict',
       }}>
         <WakeActionsContainer
           bgColor="hsl(100, 80%, 80%)"

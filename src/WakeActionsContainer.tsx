@@ -15,7 +15,6 @@ export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
   return (
     <Box sx={(theme) => ({
       background: bgColor,
-      borderRadius: 2,
       color: theme.palette.getContrastText(bgColor),
     })}>
       <Box sx={{
