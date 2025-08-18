@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import {
+  AppWindowMac as IconAppWindowMac,
   Eye as IconEye,
   EyeClosed as IconEyeClosed,
   Maximize as IconMaximize,
@@ -11,17 +12,19 @@ import {
 } from 'lucide-react';
 import type { FC } from 'react';
 import { useAppContext } from './AppController';
+import { FEATURES } from './constants';
 
 export const Actions: FC = () => {
   const {
-    isWakeLockEnabled,
-    toggleWakeLock,
     canExpandCollapse,
-    isExpanded,
-    toggleExpandCollapseUI,
     canFullscreen,
+    canNewWindow,
+    isExpanded,
     isFullscreen,
+    isWakeLockEnabled,
+    toggleExpandCollapseUI,
     toggleFullscreen,
+    toggleWakeLock,
   } = useAppContext();
 
   return (
@@ -63,6 +66,14 @@ export const Actions: FC = () => {
       </Stack> */}
 
       <Stack direction="row" lineHeight={1} gap={2} ml="auto">
+        {canNewWindow ? (
+          <IconButton color="inherit" onClick={() => {
+            window.open(window.location.href, Date.now().toString(), FEATURES);
+          }}>
+            <IconAppWindowMac />
+          </IconButton>
+        ) : null}
+
         {canExpandCollapse ? (
           <IconButton color="inherit" onClick={toggleExpandCollapseUI}>
             {isExpanded ? (

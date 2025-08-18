@@ -10,6 +10,7 @@ import {
   useRef,
   useState
 } from 'react';
+import { useIsNewWindow } from './use-is-new-window';
 import { getWakeLockSentinel } from './wake-lock-sentinel';
 
 export type RequestWakeLock = () => Promise<WakeLockSentinel | null>;
@@ -26,6 +27,7 @@ export type AppContextType = {
   isWakeLockEnabled: boolean;
   canFullscreen: boolean;
   isFullscreen: boolean;
+  canNewWindow: boolean;
   expandUI: () => void;
   collapseUI: () => void;
   toggleExpandCollapseUI: () => void;
@@ -40,40 +42,41 @@ export type AppContextType = {
 let didAccessDefaultAppContext = false;
 
 const defaultAppContext = new Proxy<AppContextType>({
-  fullscreenRef: undefined,
   canExpandCollapse: false,
-  isExpanded: false,
-  isWakeLockEnabled: false,
   canFullscreen: false,
-  isFullscreen: false,
-  expandUI: () => {
-    console.error('Default expandUI called, this may indicate a missing AppController provider.');
-  },
+  canNewWindow: false,
   collapseUI: () => {
     console.error('Default collapseUI called, this may indicate a missing AppController provider.');
   },
-  toggleExpandCollapseUI: () => {
-    console.error('Default toggleExpandCollapseUI called, this may indicate a missing AppController provider.');
+  exitFullscreen: async () => {
+    console.error('Default exitFullscreen called, this may indicate a missing AppController provider.');
+  },
+  expandUI: () => {
+    console.error('Default expandUI called, this may indicate a missing AppController provider.');
+  },
+  fullscreenRef: undefined,
+  isExpanded: false,
+  isFullscreen: false,
+  isWakeLockEnabled: false,
+  releaseWakeLock: async () => {
+    console.error('Default releaseWakeLock called, this may indicate a missing AppController provider.');
+  },
+  requestFullscreen: async () => {
+    console.error('Default requestFullscreen called, this may indicate a missing AppController provider.');
   },
   requestWakeLock: async () => {
     console.error('Default requestWakeLock called, this may indicate a missing AppController provider.');
     return null;
   },
-  releaseWakeLock: async () => {
-    console.error('Default releaseWakeLock called, this may indicate a missing AppController provider.');
+  toggleExpandCollapseUI: () => {
+    console.error('Default toggleExpandCollapseUI called, this may indicate a missing AppController provider.');
+  },
+  toggleFullscreen: async () => {
+    console.error('Default toggleFullscreen called, this may indicate a missing AppController provider.');
   },
   toggleWakeLock: async () => {
     console.error('Default toggleWakeLock called, this may indicate a missing AppController provider.');
     return null;
-  },
-  requestFullscreen: async () => {
-    console.error('Default requestFullscreen called, this may indicate a missing AppController provider.');
-  },
-  exitFullscreen: async () => {
-    console.error('Default exitFullscreen called, this may indicate a missing AppController provider.');
-  },
-  toggleFullscreen: async () => {
-    console.error('Default toggleFullscreen called, this may indicate a missing AppController provider.');
   },
 }, {
   get: (target, prop) => {
@@ -95,6 +98,8 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [sentinel, setSentinel] = useState<WakeLockSentinel | null>(null);
+
+  const isNewWindow = useIsNewWindow();
 
   const canExpandCollapse = !isFullscreen;
   const canFullscreen = true;
@@ -172,37 +177,40 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
   }, [isFullscreen, requestFullscreen, exitFullscreen]);
 
   const contextValue = useMemo<AppContextType>(() => ({
-    fullscreenRef,
-    isExpanded,
-    canExpandCollapse,
-    isWakeLockEnabled,
+    canExpandCollapse: canExpandCollapse && !isNewWindow,
     canFullscreen,
-    isFullscreen,
-    expandUI,
+    canNewWindow: !isNewWindow,
     collapseUI,
-    toggleExpandCollapseUI,
-    requestWakeLock,
-    releaseWakeLock,
-    toggleWakeLock,
-    requestFullscreen,
     exitFullscreen,
+    expandUI,
+    fullscreenRef,
+    isExpanded: isExpanded || isNewWindow,
+    isFullscreen,
+    isNewWindow,
+    isWakeLockEnabled,
+    releaseWakeLock,
+    requestFullscreen,
+    requestWakeLock,
+    toggleExpandCollapseUI,
     toggleFullscreen,
+    toggleWakeLock,
   }), [
+    canExpandCollapse,
+    canFullscreen,
+    collapseUI,
+    exitFullscreen,
+    expandUI,
     fullscreenRef,
     isExpanded,
-    canExpandCollapse,
-    isWakeLockEnabled,
-    canFullscreen,
     isFullscreen,
-    expandUI,
-    collapseUI,
-    toggleExpandCollapseUI,
-    requestWakeLock,
+    isNewWindow,
+    isWakeLockEnabled,
     releaseWakeLock,
-    toggleWakeLock,
     requestFullscreen,
-    exitFullscreen,
+    requestWakeLock,
+    toggleExpandCollapseUI,
     toggleFullscreen,
+    toggleWakeLock,
   ]);
 
   useEffect(() => {
