@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
+import Tooltip, { TooltipProps } from '@mui/material/Tooltip';
 import {
   AppWindowMac as IconAppWindowMac,
   Eye as IconEye,
@@ -22,6 +23,7 @@ export const Actions: FC = () => {
     canExpandCollapse,
     canFullscreen,
     canNewWindow,
+    fullscreenRef,
     isExpanded,
     isFullyVisible,
     isFullscreen,
@@ -46,45 +48,75 @@ export const Actions: FC = () => {
     transition: 'opacity 200ms ease-in-out',
   };
 
+  const tooltipSlotProps: TooltipProps['slotProps'] = {
+    popper: {
+      container: fullscreenRef?.current
+    },
+  };
+
   return (
     <Stack direction="row" gap={4} height={(theme) => theme.spacing(4)} alignItems="center">
       <Box lineHeight={1}>
-        <IconButton color="inherit" onClick={toggleWakeLock}>
-          {isWakeLockEnabled ? (
-            <IconEye size={iconSize} style={iconStyle} />
-          ) : (
-            <IconEyeClosed size={iconSize} style={iconStyle} />
-          )}
-        </IconButton>
+        <Tooltip
+          title={
+            isWakeLockEnabled ?
+              'Wake lock is enabled, click to disable' :
+              'Wake lock is disabled, click to enable'
+            }
+          slotProps={tooltipSlotProps}
+        >
+          <IconButton color="inherit" onClick={toggleWakeLock}>
+            {isWakeLockEnabled ? (
+              <IconEye size={iconSize} style={iconStyle} />
+            ) : (
+              <IconEyeClosed size={iconSize} style={iconStyle} />
+            )}
+          </IconButton>
+        </Tooltip>
       </Box>
 
       <Stack direction="row" lineHeight={1} gap={2} ml="auto">
         {canNewWindow ? (
-          <IconButton color="inherit" sx={buttonStyle} onClick={() => {
-            window.open(window.location.href, Date.now().toString(), FEATURES);
-          }}>
-            <IconAppWindowMac size={iconSize} style={iconStyle} />
-          </IconButton>
+          <Tooltip
+            title="Open in new window"
+            slotProps={tooltipSlotProps}
+          >
+            <IconButton color="inherit" sx={buttonStyle} onClick={() => {
+              window.open(window.location.href, Date.now().toString(), FEATURES);
+            }}>
+              <IconAppWindowMac size={iconSize} style={iconStyle} />
+            </IconButton>
+          </Tooltip>
         ) : null}
 
         {canExpandCollapse ? (
-          <IconButton color="inherit" sx={buttonStyle} onClick={toggleExpandCollapseUI}>
-            {isExpanded ? (
-              <IconMinimize2 size={iconSize} style={iconStyle} />
-            ) : (
-              <IconMaximize2 size={iconSize} style={iconStyle} />
-            )}
-          </IconButton>
+          <Tooltip
+            title={isExpanded ? 'Collapse UI' : 'Expand UI'}
+            slotProps={tooltipSlotProps}
+          >
+            <IconButton color="inherit" sx={buttonStyle} onClick={toggleExpandCollapseUI}>
+              {isExpanded ? (
+                <IconMinimize2 size={iconSize} style={iconStyle} />
+              ) : (
+                <IconMaximize2 size={iconSize} style={iconStyle} />
+              )}
+            </IconButton>
+          </Tooltip>
         ) : null}
 
         {canFullscreen ? (
-          <IconButton color="inherit" sx={buttonStyle} onClick={toggleFullscreen}>
-            {isFullscreen ? (
-              <IconMinimize size={iconSize} style={iconStyle} />
-            ) : (
-              <IconMaximize size={iconSize} style={iconStyle} />
-            )}
-          </IconButton>
+          <Tooltip
+            title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+            slotProps={tooltipSlotProps}
+          >
+            <IconButton color="inherit" sx={buttonStyle} onClick={toggleFullscreen}>
+              {isFullscreen ? (
+                <IconMinimize size={iconSize} style={iconStyle} />
+              ) : (
+                <IconMaximize size={iconSize} style={iconStyle} />
+              )}
+            </IconButton>
+          </Tooltip>
         ) : null}
       </Stack>
     </Stack>
