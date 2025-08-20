@@ -31,9 +31,7 @@ const App: FC = () => {
         inset: 0,
         display: 'grid',
       }}>
-        <WakeActionsContainer
-          actionsHeight="var(--peek-height)"
-        />
+        {actionsContainer}
       </Box>
     );
   }
