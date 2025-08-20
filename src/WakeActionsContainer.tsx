@@ -4,6 +4,7 @@ import { type FC } from 'react';
 import { Actions } from './Actions';
 import { useAppContext } from './controller';
 import { booleanSerializer, STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD } from './controller/use-preferences';
+import { HideCursorOnIdle } from './HideCursorOnIdle';
 
 type WakeActionsContainerProps = {
   actionsHeight: ResponsiveStyleValue<number | string>;
@@ -46,6 +47,8 @@ export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
       }}>
         <Actions />
       </Box>
+
+      <HideCursorOnIdle />
     </Box>
   );
 };
