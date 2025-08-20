@@ -11,8 +11,8 @@ import {
   useState
 } from 'react';
 import { flushSync } from 'react-dom';
-import { useIsNewWindow } from '../use-is-new-window';
-import { getWakeLockSentinel } from '../wake-lock-sentinel';
+import { useIsNewWindow } from './use-is-new-window';
+import { getWakeLockSentinel } from './wake-lock-sentinel';
 
 const enableIntersectionObserver = false;
 
