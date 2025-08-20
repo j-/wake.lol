@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import type { FC } from 'react';
-import { useAppContext } from './AppController';
 import { AppLayout } from './AppLayout';
+import { useAppContext } from './controller';
 import { WakeActionsContainer } from './WakeActionsContainer';
 
 const App: FC = () => {

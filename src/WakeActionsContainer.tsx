@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import { type ResponsiveStyleValue } from '@mui/system';
 import { type FC } from 'react';
 import { Actions } from './Actions';
-import { useAppContext } from './AppController';
+import { useAppContext } from './controller';
 
 type WakeActionsContainerProps = {
   actionsHeight: ResponsiveStyleValue<number | string>;

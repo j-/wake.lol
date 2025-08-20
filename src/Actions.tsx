@@ -13,8 +13,8 @@ import {
 } from 'lucide-react';
 import { useState, type FC } from 'react';
 import { useIdleTimer } from 'react-idle-timer';
-import { useAppContext } from './AppController';
 import { FEATURES } from './constants';
+import { useAppContext } from './controller';
 
 export const Actions: FC = () => {
   const [isIdle, setIsIdle] = useState(false);
