@@ -16,23 +16,24 @@ import type {
 } from './use-wake-lock';
 
 export type AppContextType = {
-  fullscreenRef?: RefObject<HTMLElement | null>;
   canExpandCollapse: boolean;
-  isExpanded: boolean;
-  isFullyVisible: boolean;
-  isWakeLockEnabled: boolean;
   canFullscreen: boolean;
-  isFullscreen: boolean;
   canNewWindow: boolean;
-  expandUI: ExpandUI;
   collapseUI: CollapseUI;
-  toggleExpandCollapseUI: ToggleExpandCollapseUI;
-  requestWakeLock: RequestWakeLock;
-  releaseWakeLock: ReleaseWakeLock;
-  toggleWakeLock: ToggleWakeLock;
-  requestFullscreen: RequestFullscreen;
   exitFullscreen: ExitFullscreen;
+  expandUI: ExpandUI;
+  fullscreenRef?: RefObject<HTMLElement | null>;
+  isExpanded: boolean;
+  isFullscreen: boolean;
+  isFullyVisible: boolean;
+  isIdle: boolean;
+  isWakeLockEnabled: boolean;
+  releaseWakeLock: ReleaseWakeLock;
+  requestFullscreen: RequestFullscreen;
+  requestWakeLock: RequestWakeLock;
+  toggleExpandCollapseUI: ToggleExpandCollapseUI;
   toggleFullscreen: ToggleFullscreen;
+  toggleWakeLock: ToggleWakeLock;
 };
 
 let didAccessDefaultAppContext = false;
@@ -54,6 +55,7 @@ const defaultAppContext = new Proxy<AppContextType>({
   isExpanded: false,
   isFullyVisible: false,
   isFullscreen: false,
+  isIdle: false,
   isWakeLockEnabled: false,
   releaseWakeLock: async () => {
     console.error('Default releaseWakeLock called, this may indicate a missing AppController provider.');

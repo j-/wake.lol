@@ -12,8 +12,9 @@ import { useFullscreen } from './use-fullscreen';
 import { useIsNewWindow } from './use-is-new-window';
 import { useIsWakeLockEnabled } from './use-is-wake-lock-enabled';
 import { useWakeLock } from './use-wake-lock';
+import { useIsIdle } from './use-is-idle';
 
-const enableContainerVisibility = false;
+const enableContainerVisibility = true;
 
 export const AppController: FC<PropsWithChildren> = ({ children }) => {
   const fullscreenRef = useRef<HTMLElement>(null);
@@ -66,6 +67,8 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     requestWakeLock,
   });
 
+  const isIdle = useIsIdle();
+
   const contextValue = useMemo<AppContextType>(() => ({
     canExpandCollapse: canExpandCollapse && !isNewWindow,
     canFullscreen,
@@ -77,6 +80,7 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     isExpanded: isExpanded || isNewWindow,
     isFullyVisible,
     isFullscreen,
+    isIdle,
     isNewWindow,
     isWakeLockEnabled,
     releaseWakeLock,
@@ -95,6 +99,7 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     isExpanded,
     isFullyVisible,
     isFullscreen,
+    isIdle,
     isNewWindow,
     isWakeLockEnabled,
     releaseWakeLock,
