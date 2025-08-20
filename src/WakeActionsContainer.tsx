@@ -8,6 +8,8 @@ type WakeActionsContainerProps = {
   actionsHeight: ResponsiveStyleValue<number | string>;
 };
 
+const INTEND_TO_LOCK = localStorage.getItem('shouldAcquireOnLoad') === 'true';
+
 export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
   actionsHeight,
 }) => {
@@ -21,7 +23,9 @@ export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
         transition: 'background-color 200ms ease-in-out',
       },
 
-      isWakeLockEnabled ? (theme) => ({
+      // Optimistically render enabled style if page is still loading but we
+      // expect the lock to be acquired automatically.
+      isWakeLockEnabled || (INTEND_TO_LOCK && document.readyState === 'interactive') ? (theme) => ({
         color: theme.palette.getContrastText(bgColor),
         backgroundColor: bgColor,
       }) : null,
