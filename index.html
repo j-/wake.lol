@@ -19,7 +19,36 @@
     <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="loading-splash">
+        <div>
+          <p id="loading-text"><em>Loading&hellip;</em> If this takes too long you can try <a href=".">reloading the page</a>.</p>
+          <noscript id="loading-failed">It looks like JavaScript is disabled, which is required by the app.</noscript>
+        </div>
+      </div>
+      <style>
+        :root {
+          color-scheme: light dark;
+          font-family: sans-serif;
+        }
+        #loading-splash {
+          height: 100svh;
+          display: grid;
+          place-items: center;
+          opacity: 0.5;
+        }
+        #loading-text {
+          opacity: 0;
+          animation: show 200ms forwards;
+          animation-delay: 2s;
+        }
+        @keyframes show {
+          to {
+            opacity: 1;
+          }
+        }
+      </style>
+    </div>
     <script type="module" src="./src/main.tsx"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLZRPEP9E7"></script>
     <script>
