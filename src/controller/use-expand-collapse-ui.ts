@@ -1,4 +1,5 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
+import { usePreferences } from './use-preferences';
 
 export type ExpandUI = () => void;
 export type CollapseUI = () => void;
@@ -14,19 +15,22 @@ export type UseExpandCollapseResult = {
 };
 
 export const useExpandCollapseUI: UseExpandCollapseUI = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const {
+    shouldExpandUI: isExpanded,
+    setShouldExpandUI: setIsExpanded,
+  } = usePreferences();
 
   const expandUI = useCallback(() => {
     setIsExpanded(true);
-  }, []);
+  }, [setIsExpanded]);
 
   const collapseUI = useCallback(() => {
     setIsExpanded(false);
-  }, []);
+  }, [setIsExpanded]);
 
   const toggleExpandCollapseUI = useCallback(() => {
     setIsExpanded((isExpanded) => !isExpanded);
-  }, []);
+  }, [setIsExpanded]);
 
   const result = useMemo<UseExpandCollapseResult>(() => ({
     isExpanded,
