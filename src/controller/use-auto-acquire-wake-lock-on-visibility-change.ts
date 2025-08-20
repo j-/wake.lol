@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import type { RequestWakeLock } from './context';
+import type { RequestWakeLock } from './use-wake-lock';
 
 export type UseAutoAcquireWakeLockOnVisibilityChange =
   (params: UseAutoAcquireWakeLockOnVisibilityChangeParams) => void;
