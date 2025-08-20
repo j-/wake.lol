@@ -13,6 +13,7 @@ import {
 import { flushSync } from 'react-dom';
 import { useIsNewWindow } from './use-is-new-window';
 import { getWakeLockSentinel } from './wake-lock-sentinel';
+import { useIsWakeLockEnabled } from './use-is-wake-lock-enabled';
 
 const enableIntersectionObserver = false;
 
@@ -114,9 +115,7 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
   const shouldReacquireWakeLock = true;
   const shouldAcquireOnLoad = true;
 
-  const isWakeLockEnabled = useMemo(() => {
-    return sentinel != null && !sentinel.released;
-  }, [sentinel]);
+  const isWakeLockEnabled = useIsWakeLockEnabled({ sentinel });
 
   const releaseWakeLock = useCallback<ReleaseWakeLock>(async () => {
     if (sentinel) {
