@@ -1,0 +1,80 @@
+import {
+  AppWindowMac as IconAppWindowMac,
+  Eye as IconEye,
+  EyeClosed as IconEyeClosed,
+  Maximize as IconMaximize,
+  Maximize2 as IconMaximize2,
+  Minimize as IconMinimize,
+  Minimize2 as IconMinimize2,
+} from 'lucide-react';
+
+# What is this?
+
+You can use this web app to keep your device's screen awake.
+
+Click <IconEyeClosed size={12} /> to enable wake lock.
+Click <IconEye size={12} /> to disable it again.
+
+The screen will stay awake as long as the tab is open and the device is not
+locked. The wake lock will be released if the tab is closed or minimized and the
+screen will turn off as usual.
+
+Click <IconAppWindowMac size={12} /> to open the app in a separate window. On a
+desktop device this new window will have minimal browser UI for a more compact
+version of the app.
+
+Clicking <IconMaximize2 size={12} /> and <IconMinimize2 size={12} /> will toggle
+the content of this window and only show the app controls.
+
+Clicking <IconMaximize size={12} /> and <IconMinimize size={12} /> will toggle
+fullscreen mode for this window. This feature may not be available on all
+devices.
+
+# Why is this useful?
+
+This app is useful for keeping your device's screen awake without having to
+change system settings or use other apps. It can be particularly helpful for
+developers, testers, or anyone who needs to keep their screen on for extended
+periods of time.
+
+[Wake.lol][site] requires zero installation and works across all browsers and
+devices.
+
+# How does it work?
+
+[Wake.lol][site] uses the [Screen Wake Lock API][api] to keep the screen awake.
+This API allows web applications to request a wake lock that prevents the screen
+from dimming or turning off.
+
+This API is supported in most modern browsers. On unsupported browsers it will
+fall back to showing an invisible video which tricks the operating system into
+thinking a video is playing, thus keeping the screen awake.
+
+# When does it not work?
+
+While handy this app cannot fully prevent the screen from turning off in all
+cases. For example, if the device is locked or if the browser is closed, the
+wake lock will be released and the screen will turn off as usual.
+
+If using virtual machines or remote desktops [wake.lol][site] must be running on
+the host system to keep the physical screen awake and also on the guest system
+to prevent that system from going to sleep.
+
+# Features
+
+* **Offline mode**: This app works even when not connected to the internet.
+* **Portable mode**: You can save this app with Cmd/Ctrl+S as `wake.lol.html`
+  to run it locally.
+* **Progressive web app**: This app can be installed to the desktop and run in a
+  native-like way.
+* **Color schemes**: Supports system light mode and dark mode.
+
+# Who made this?
+
+[Wake.lol][site] was created by [J Hoeks][skeoh]. The source code is available
+[on GitHub][github].
+
+[site]: https://wake.lol/
+[api]: https://developer.mozilla.org/en-US/docs/Web/API/Screen_Wake_Lock_API
+[skeoh]: https://skeoh.com/
+[github]: https://github.com/j-/wake.lol

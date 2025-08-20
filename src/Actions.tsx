@@ -21,7 +21,6 @@ export const Actions: FC = () => {
     canExpandCollapse,
     canFullscreen,
     canNewWindow,
-    fullscreenRef,
     isExpanded,
     isFullyVisible,
     isFullscreen,

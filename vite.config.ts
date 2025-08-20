@@ -1,3 +1,4 @@
+import mdx from '@mdx-js/rollup';
 import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -7,6 +8,7 @@ import { viteSingleFile } from 'vite-plugin-singlefile';
 export default defineConfig({
   base: './',
   plugins: [
+    mdx(),
     react(),
     VitePWA({
       injectRegister: 'auto',

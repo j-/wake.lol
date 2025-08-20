@@ -9,6 +9,14 @@ declare module '@mui/material/styles' {
   interface PaletteOptions {
     muted?: PaletteOptions['primary'];
   }
+
+  interface TypographyVariants {
+    fontFamilyMonospace: React.CSSProperties['fontFamily'];
+  }
+
+  interface TypographyVariantsOptions {
+    fontFamilyMonospace: React.CSSProperties['fontFamily'];
+  }
 }
 
 export const theme = createTheme({
@@ -25,5 +33,20 @@ export const theme = createTheme({
         muted: { main: grey[900] },
       },
     },
+  },
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    fontFamilyMonospace: 'ui-monospace, SFMono-Regular, Menlo, monospace',
   },
 });

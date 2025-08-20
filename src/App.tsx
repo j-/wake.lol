@@ -1,4 +1,5 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Link } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -6,7 +7,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import type { FC } from 'react';
 import { AppLayout } from './AppLayout';
+import { BASE_URL } from './constants';
+import Content from './content.mdx';
 import { useAppContext } from './controller';
+import { mdxComponents } from './mdx-components';
 import { Preferences } from './Preferences';
 import { WakeActionsContainer } from './WakeActionsContainer';
 
@@ -35,7 +39,11 @@ const App: FC = () => {
   }
 
   const header = (
-    <Typography component="h1" variant="h4">wake.lol</Typography>
+    <Typography component="h1" variant="h4">
+      <Link href={BASE_URL} color="inherit" sx={{ textDecoration: 'none' }}>
+        wake.lol
+      </Link>
+    </Typography>
   );
 
   return (
@@ -43,76 +51,24 @@ const App: FC = () => {
       slotHeader={header}
       slotActions={actionsContainer}
     >
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="App-preferences-content"
-          id="App-preferences-header"
-        >
-          <Typography component="span">Settings</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Preferences />
-        </AccordionDetails>
-      </Accordion>
+      <Box maxWidth="70ch" my={4} mx="auto">
+        <Content components={mdxComponents} />
 
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
-      <p>Content</p>
+        <Box my={4}>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="App-preferences-content"
+              id="App-preferences-header"
+            >
+              <Typography component="span">Settings</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Preferences />
+            </AccordionDetails>
+          </Accordion>
+        </Box>
+      </Box>
     </AppLayout>
   );
 };
