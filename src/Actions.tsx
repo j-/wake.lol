@@ -41,6 +41,9 @@ export const Actions: FC = () => {
     opacity: isIdle && isFullyVisible || isIdle && isExpanded ? 0.25 : 1,
     transition: 'opacity 200ms ease-in-out',
     color: 'inherit',
+    '&:hover': {
+      opacity: 1,
+    },
   };
 
   const tooltipSlotProps: TooltipProps['slotProps'] = {
