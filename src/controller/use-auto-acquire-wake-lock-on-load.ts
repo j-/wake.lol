@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { RequestWakeLock } from './AppController';
+import type { RequestWakeLock } from './context';
 
 export type UseAutoAcquireWakeLockOnLoad =
   (params: UseAutoAcquireWakeLockOnLoadParams) => void;
