@@ -46,7 +46,7 @@ export const Actions: FC = () => {
 
   const tooltipSlotProps: TooltipProps['slotProps'] = {
     popper: {
-      container: fullscreenRef?.current
+      container: document.fullscreenElement ?? document.body,
     },
   };
 
