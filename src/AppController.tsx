@@ -10,6 +10,7 @@ import {
   useRef,
   useState
 } from 'react';
+import { flushSync } from 'react-dom';
 import { useIsNewWindow } from './use-is-new-window';
 import { getWakeLockSentinel } from './wake-lock-sentinel';
 
@@ -103,11 +104,15 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [sentinel, setSentinel] = useState<WakeLockSentinel | null>(null);
+  const [didRelease, setDidRelease] = useState(false);
+  const [didInit, setDidInit] = useState(false);
 
   const isNewWindow = useIsNewWindow();
 
   const canExpandCollapse = !isFullscreen;
   const canFullscreen = true;
+  const shouldReacquireWakeLock = true;
+  const shouldAcquireOnLoad = true;
 
   const isWakeLockEnabled = useMemo(() => {
     return sentinel != null && !sentinel.released;
@@ -222,16 +227,59 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (!sentinel) return;
-    const handleSentinelRelease = () => {
+    const handleSentinelRelease = async () => {
       if (sentinel.released) {
         setSentinel(null);
+        setDidRelease(true);
       }
     };
     sentinel.addEventListener('release', handleSentinelRelease);
     return () => {
       sentinel.removeEventListener('release', handleSentinelRelease);
     };
-  }, [sentinel]);
+  }, [sentinel, shouldReacquireWakeLock]);
+
+  useEffect(() => {
+    if (!shouldReacquireWakeLock || !didRelease) return;
+    const handleVisibilitychange = () => {
+      if (shouldReacquireWakeLock && document.visibilityState === 'visible') {
+        flushSync(() => {
+          requestWakeLock().then((newSentinel) => {
+            if (newSentinel) {
+              setSentinel(newSentinel);
+              setDidRelease(false);
+            }
+          });
+        });
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilitychange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilitychange);
+    };
+  }, [didRelease, fullscreenRef, requestWakeLock, shouldReacquireWakeLock]);
+
+  useEffect(() => {
+    if (!shouldAcquireOnLoad || didInit) return;
+    const handleVisibilitychange = () => {
+      if (document.visibilityState === 'visible') {
+        flushSync(() => {
+          requestWakeLock().then((newSentinel) => {
+            if (newSentinel) {
+              setSentinel(newSentinel);
+              setDidRelease(false);
+              setDidInit(true);
+            }
+          });
+        });
+      }
+    };
+    handleVisibilitychange();
+    document.addEventListener('visibilitychange', handleVisibilitychange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilitychange);
+    };
+  }, [didInit, requestWakeLock, shouldAcquireOnLoad]);
 
   useEffect(() => {
     const handleFullscreenChange = () => {
