@@ -47,10 +47,11 @@ export const mdxComponents: MDXComponents = {
     />
   ),
   a: (props) => (
-    <Link
-      color={props.href === 'https://wake.lol/' ? 'inherit' : undefined}
-      {...props}
-    />
+    props.href === 'https://wake.lol/' ?
+      // Internal link.
+      <Link color="inherit" {...props} /> :
+      // External link.
+      <Link target="_blank" {...props} />
   ),
   ul: (props) => (
     <List
