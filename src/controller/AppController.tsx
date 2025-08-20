@@ -28,7 +28,7 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
   } = useFullscreen({ fullscreenRef });
 
   const canExpandCollapse = !isFullscreen;
-  const canFullscreen = true;
+  const canFullscreen = document.fullscreenEnabled;
 
   const shouldAcquireOnLoad = true;
   const shouldAcquireOnVisibilityChange = true;
