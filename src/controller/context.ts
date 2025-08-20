@@ -1,18 +1,19 @@
 import { createContext, useContext, type RefObject } from 'react';
-import {
-  type CollapseUI,
-  type ExpandUI,
-  type ToggleExpandCollapseUI
+import type {
+  CollapseUI,
+  ExpandUI,
+  ToggleExpandCollapseUI
 } from './use-expand-collapse-ui';
-import {
-  type ExitFullscreen,
-  type RequestFullscreen,
-  type ToggleFullscreen
+import type {
+  ExitFullscreen,
+  RequestFullscreen,
+  ToggleFullscreen
 } from './use-fullscreen';
-
-export type RequestWakeLock = () => Promise<WakeLockSentinel | null>;
-export type ReleaseWakeLock = () => Promise<void>;
-export type ToggleWakeLock = () => Promise<WakeLockSentinel | null | void>;
+import type {
+  ReleaseWakeLock,
+  RequestWakeLock,
+  ToggleWakeLock,
+} from './use-wake-lock';
 
 export type AppContextType = {
   fullscreenRef?: RefObject<HTMLElement | null>;
