@@ -31,6 +31,10 @@ export type AppContextType = {
   releaseWakeLock: ReleaseWakeLock;
   requestFullscreen: RequestFullscreen;
   requestWakeLock: RequestWakeLock;
+  setShouldAcquireOnLoad: (value: boolean) => void;
+  setShouldAcquireOnVisibilityChange: (value: boolean) => void;
+  shouldAcquireOnLoad: boolean;
+  shouldAcquireOnVisibilityChange: boolean;
   toggleExpandCollapseUI: ToggleExpandCollapseUI;
   toggleFullscreen: ToggleFullscreen;
   toggleWakeLock: ToggleWakeLock;
@@ -67,6 +71,14 @@ const defaultAppContext = new Proxy<AppContextType>({
     console.error('Default requestWakeLock called, this may indicate a missing AppController provider.');
     return null;
   },
+  setShouldAcquireOnLoad: () => {
+    console.error('Default setShouldAcquireOnLoad called, this may indicate a missing AppController provider.');
+  },
+  setShouldAcquireOnVisibilityChange: () => {
+    console.error('Default setShouldAcquireOnVisibilityChange called, this may indicate a missing AppController provider.');
+  },
+  shouldAcquireOnLoad: false,
+  shouldAcquireOnVisibilityChange: true,
   toggleExpandCollapseUI: () => {
     console.error('Default toggleExpandCollapseUI called, this may indicate a missing AppController provider.');
   },

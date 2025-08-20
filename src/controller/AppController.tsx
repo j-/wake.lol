@@ -9,10 +9,11 @@ import {
 import { useContainerVisibility } from './use-container-visibility';
 import { useExpandCollapseUI } from './use-expand-collapse-ui';
 import { useFullscreen } from './use-fullscreen';
+import { useIsIdle } from './use-is-idle';
 import { useIsNewWindow } from './use-is-new-window';
 import { useIsWakeLockEnabled } from './use-is-wake-lock-enabled';
+import { usePreferences } from './use-preferences';
 import { useWakeLock } from './use-wake-lock';
-import { useIsIdle } from './use-is-idle';
 
 const enableContainerVisibility = true;
 
@@ -31,8 +32,12 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
   const canExpandCollapse = !isFullscreen;
   const canFullscreen = document.fullscreenEnabled;
 
-  const shouldAcquireOnLoad = true;
-  const shouldAcquireOnVisibilityChange = true;
+  const {
+    shouldAcquireOnLoad,
+    setShouldAcquireOnLoad,
+    shouldAcquireOnVisibilityChange,
+    setShouldAcquireOnVisibilityChange,
+  } = usePreferences();
 
   const {
     isExpanded,
@@ -78,14 +83,18 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     expandUI,
     fullscreenRef,
     isExpanded: isExpanded || isNewWindow,
-    isFullyVisible,
     isFullscreen,
+    isFullyVisible,
     isIdle,
     isNewWindow,
     isWakeLockEnabled,
     releaseWakeLock,
     requestFullscreen,
     requestWakeLock,
+    setShouldAcquireOnLoad,
+    setShouldAcquireOnVisibilityChange,
+    shouldAcquireOnLoad,
+    shouldAcquireOnVisibilityChange,
     toggleExpandCollapseUI,
     toggleFullscreen,
     toggleWakeLock,
@@ -97,14 +106,18 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     expandUI,
     fullscreenRef,
     isExpanded,
-    isFullyVisible,
     isFullscreen,
+    isFullyVisible,
     isIdle,
     isNewWindow,
     isWakeLockEnabled,
     releaseWakeLock,
     requestFullscreen,
     requestWakeLock,
+    setShouldAcquireOnLoad,
+    setShouldAcquireOnVisibilityChange,
+    shouldAcquireOnLoad,
+    shouldAcquireOnVisibilityChange,
     toggleExpandCollapseUI,
     toggleFullscreen,
     toggleWakeLock,
