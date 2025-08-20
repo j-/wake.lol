@@ -20,22 +20,18 @@ import {
 import {
   useAutoAcquireWakeLockOnVisibilityChange,
 } from './use-auto-acquire-wake-lock-on-visibility-change';
-import {
-  useExpandCollapseUI
-} from './use-expand-collapse-ui';
-import {
-  useFullscreen
-} from './use-fullscreen';
+import { useContainerVisibility } from './use-container-visibility';
+import { useExpandCollapseUI } from './use-expand-collapse-ui';
+import { useFullscreen } from './use-fullscreen';
 import { useIsNewWindow } from './use-is-new-window';
 import { useIsWakeLockEnabled } from './use-is-wake-lock-enabled';
 import { getWakeLockSentinel } from './wake-lock-sentinel';
 
-const enableIntersectionObserver = false;
+const enableContainerVisibility = false;
 
 export const AppController: FC<PropsWithChildren> = ({ children }) => {
   const fullscreenRef = useRef<HTMLElement>(null);
 
-  const [isFullyVisible, setIsFullyVisible] = useState(enableIntersectionObserver);
   const [sentinel, setSentinel] = useState<WakeLockSentinel | null>(null);
   const [didReleaseAutomatically, setDidReleaseAutomatically] = useState(false);
 
@@ -91,6 +87,11 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     collapseUI,
     toggleExpandCollapseUI,
   } = useExpandCollapseUI();
+
+  const { isFullyVisible } = useContainerVisibility({
+    containerRef: fullscreenRef,
+    enableContainerVisibility,
+  });
 
   useAutoAcquireWakeLockOnLoad({
     shouldAcquireOnLoad,
@@ -154,28 +155,6 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
       sentinel.removeEventListener('release', handleSentinelRelease);
     };
   }, [sentinel, didReleaseAutomatically]);
-
-  useEffect(() => {
-    if (!enableIntersectionObserver) return;
-
-    const element = fullscreenRef?.current;
-    if (!element) return;
-
-    const io = new IntersectionObserver((entries) => {
-      const entry = entries[0];
-      if (!entry) return;
-      setIsFullyVisible(entry.intersectionRatio >= 0.95);
-    }, {
-      root: null,
-      threshold: [1, 0.95],
-    });
-
-    io.observe(element);
-
-    return () => {
-      io.disconnect();
-    };
-  }, [fullscreenRef]);
 
   return (
     <AppContext.Provider value={contextValue}>
