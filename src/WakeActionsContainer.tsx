@@ -3,12 +3,20 @@ import { type ResponsiveStyleValue } from '@mui/system';
 import { type FC } from 'react';
 import { Actions } from './Actions';
 import { useAppContext } from './controller';
+import { booleanSerializer, STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD } from './controller/use-preferences';
 
 type WakeActionsContainerProps = {
   actionsHeight: ResponsiveStyleValue<number | string>;
 };
 
-const INTEND_TO_LOCK = localStorage.getItem('shouldAcquireOnLoad') === 'true';
+const INTEND_TO_LOCK = (() => {
+  try {
+    const item = localStorage.getItem(STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD);
+    return item ? booleanSerializer.parse(item) : false;
+  } catch {
+    return false;
+  }
+})();
 
 export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
   actionsHeight,

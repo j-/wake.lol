@@ -12,15 +12,43 @@ export type UsePreferencesResult = {
   setShouldExpandUI: Dispatch<SetStateAction<boolean>>;
 };
 
+export const booleanSerializer = {
+  stringify(value: unknown) {
+    return value ? '1': '';
+  },
+  parse(value: string) {
+    return !!value;
+  },
+};
+
+export const STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD =
+  'shouldAcquireOnLoad';
+
+export const STORAGE_KEY_SHOULD_ACQUIRE_ON_VISIBILITY_CHANGE =
+  'shouldAcquireOnVisibilityChange';
+
+export const STORAGE_KEY_SHOULD_EXPAND_UI =
+  'shouldExpandUI';
+
+
 export const usePreferences: UsePreferences = () => {
   const [shouldAcquireOnLoad, setShouldAcquireOnLoad] =
-    useLocalStorageState('shouldAcquireOnLoad', { defaultValue: false });
+    useLocalStorageState(STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD, {
+      defaultValue: false,
+      serializer: booleanSerializer,
+    });
 
   const [shouldAcquireOnVisibilityChange, setShouldAcquireOnVisibilityChange] =
-    useLocalStorageState('shouldAcquireOnVisibilityChange', { defaultValue: true });
+    useLocalStorageState(STORAGE_KEY_SHOULD_ACQUIRE_ON_VISIBILITY_CHANGE, {
+      defaultValue: true,
+      serializer: booleanSerializer,
+    });
 
   const [shouldExpandUI, setShouldExpandUI] =
-    useLocalStorageState('shouldExpandUI', { defaultValue: false });
+    useLocalStorageState(STORAGE_KEY_SHOULD_EXPAND_UI, {
+      defaultValue: false,
+      serializer: booleanSerializer,
+    });
 
   const result = useMemo<UsePreferencesResult>(() => ({
     shouldAcquireOnLoad,
