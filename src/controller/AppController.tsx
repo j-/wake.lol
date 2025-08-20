@@ -17,6 +17,12 @@ import {
   useAutoAcquireWakeLockOnVisibilityChange,
 } from './use-auto-acquire-wake-lock-on-visibility-change';
 import {
+  useExpandCollapseUI,
+  type CollapseUI,
+  type ExpandUI,
+  type ToggleExpandCollapseUI,
+} from './use-expand-collapse-ui';
+import {
   useFullscreen,
   type ExitFullscreen,
   type RequestFullscreen,
@@ -41,9 +47,9 @@ export type AppContextType = {
   canFullscreen: boolean;
   isFullscreen: boolean;
   canNewWindow: boolean;
-  expandUI: () => void;
-  collapseUI: () => void;
-  toggleExpandCollapseUI: () => void;
+  expandUI: ExpandUI;
+  collapseUI: CollapseUI;
+  toggleExpandCollapseUI: ToggleExpandCollapseUI;
   requestWakeLock: RequestWakeLock;
   releaseWakeLock: ReleaseWakeLock;
   toggleWakeLock: ToggleWakeLock;
@@ -110,7 +116,6 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
   const fullscreenRef = useRef<HTMLElement>(null);
 
   const [isFullyVisible, setIsFullyVisible] = useState(enableIntersectionObserver);
-  const [isExpanded, setIsExpanded] = useState(false);
   const [sentinel, setSentinel] = useState<WakeLockSentinel | null>(null);
   const [didReleaseAutomatically, setDidReleaseAutomatically] = useState(false);
 
@@ -160,21 +165,12 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [releaseWakeLock, requestWakeLock, sentinel]);
 
-  const expandUI = useCallback(() => {
-    setIsExpanded(true);
-  }, []);
-
-  const collapseUI = useCallback(() => {
-    setIsExpanded(false);
-  }, []);
-
-  const toggleExpandCollapseUI = useCallback(() => {
-    if (isExpanded) {
-      collapseUI();
-    } else {
-      expandUI();
-    }
-  }, [isExpanded, expandUI, collapseUI]);
+  const {
+    isExpanded,
+    expandUI,
+    collapseUI,
+    toggleExpandCollapseUI,
+  } = useExpandCollapseUI();
 
   useAutoAcquireWakeLockOnLoad({
     shouldAcquireOnLoad,
