@@ -1,28 +1,31 @@
 import {
-  type FC,
-  type PropsWithChildren,
-  type RefObject,
   createContext,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
-  useState
+  useState,
+  type FC,
+  type PropsWithChildren,
+  type RefObject
 } from 'react';
 import { flushSync } from 'react-dom';
+import {
+  useFullscreen,
+  type ExitFullscreen,
+  type RequestFullscreen,
+  type ToggleFullscreen,
+} from './use-fullscreen';
 import { useIsNewWindow } from './use-is-new-window';
-import { getWakeLockSentinel } from './wake-lock-sentinel';
 import { useIsWakeLockEnabled } from './use-is-wake-lock-enabled';
+import { getWakeLockSentinel } from './wake-lock-sentinel';
 
 const enableIntersectionObserver = false;
 
 export type RequestWakeLock = () => Promise<WakeLockSentinel | null>;
 export type ReleaseWakeLock = () => Promise<void>;
 export type ToggleWakeLock = () => Promise<WakeLockSentinel | null | void>;
-export type RequestFullscreen = () => Promise<void>;
-export type ExitFullscreen = () => Promise<void>;
-export type ToggleFullscreen = () => Promise<void>;
 
 export type AppContextType = {
   fullscreenRef?: RefObject<HTMLElement | null>;
@@ -102,13 +105,19 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
   const fullscreenRef = useRef<HTMLElement>(null);
 
   const [isFullyVisible, setIsFullyVisible] = useState(enableIntersectionObserver);
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [sentinel, setSentinel] = useState<WakeLockSentinel | null>(null);
   const [didRelease, setDidRelease] = useState(false);
   const [didInit, setDidInit] = useState(false);
 
   const isNewWindow = useIsNewWindow();
+
+  const {
+    isFullscreen,
+    exitFullscreen,
+    requestFullscreen,
+    toggleFullscreen,
+  } = useFullscreen({ fullscreenRef });
 
   const canExpandCollapse = !isFullscreen;
   const canFullscreen = true;
@@ -156,34 +165,6 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
       expandUI();
     }
   }, [isExpanded, expandUI, collapseUI]);
-
-  const requestFullscreen = useCallback<RequestFullscreen>(async () => {
-    if (!fullscreenRef.current) {
-      console.warn('Fullscreen request failed: fullscreenRef is not set.');
-      return;
-    }
-    if (fullscreenRef.current.requestFullscreen) {
-      await fullscreenRef.current.requestFullscreen();
-    } else {
-      console.warn('Fullscreen request failed: no compatible method found.');
-    }
-  }, [fullscreenRef]);
-
-  const exitFullscreen = useCallback<ExitFullscreen>(async () => {
-    if (document.exitFullscreen) {
-      await document.exitFullscreen();
-    } else {
-      console.warn('Exit fullscreen request failed: no compatible method found.');
-    }
-  }, []);
-
-  const toggleFullscreen = useCallback<ToggleFullscreen>(() => {
-    if (isFullscreen) {
-      return exitFullscreen();
-    } else {
-      return requestFullscreen();
-    }
-  }, [isFullscreen, requestFullscreen, exitFullscreen]);
 
   const contextValue = useMemo<AppContextType>(() => ({
     canExpandCollapse: canExpandCollapse && !isNewWindow,
@@ -279,16 +260,6 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
       document.removeEventListener('visibilitychange', handleVisibilitychange);
     };
   }, [didInit, requestWakeLock, shouldAcquireOnLoad]);
-
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(document.fullscreenElement === fullscreenRef.current);
-    };
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-    };
-  }, [fullscreenRef]);
 
   useEffect(() => {
     if (!enableIntersectionObserver) return;

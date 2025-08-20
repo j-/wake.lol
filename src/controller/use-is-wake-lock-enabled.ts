@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
-type UseIsWakeLockEnabled = (options: UseIsWakeLockEnabledOptions) => boolean;
+type UseIsWakeLockEnabled = (params: UseIsWakeLockEnabledParams) => boolean;
 
-type UseIsWakeLockEnabledOptions = {
+type UseIsWakeLockEnabledParams = {
   sentinel: WakeLockSentinel | null;
 };
 
