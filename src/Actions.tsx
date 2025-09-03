@@ -89,7 +89,7 @@ export const Actions: FC = () => {
 
         {canExpandCollapse ? (
           <Tooltip
-            title={isExpanded ? 'Collapse UI' : 'Expand UI'}
+            title={isExpanded ? 'Collapse UI [t]' : 'Expand UI [t]'}
             slotProps={tooltipSlotProps}
           >
             <IconButton sx={buttonStyle} onClick={toggleExpandCollapseUI}>

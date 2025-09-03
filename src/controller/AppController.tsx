@@ -72,6 +72,7 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     requestWakeLock,
   });
 
+  // Handle global keypresses for fullscreen toggle (f).
   useEffect(() => {
     if (!document.fullscreenEnabled) return;
 
@@ -87,6 +88,21 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
       window.removeEventListener('keydown', handleKeydown);
     };
   }, [toggleFullscreen]);
+
+  // Handle global keypresses for expand/collapse toggle (t).
+  useEffect(() => {
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (e.key === 't') {
+        e.preventDefault();
+        toggleExpandCollapseUI();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeydown);
+    return () => {
+      window.removeEventListener('keydown', handleKeydown);
+    };
+  }, [toggleExpandCollapseUI]);
 
   const isIdle = useIsIdle();
 
