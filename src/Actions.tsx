@@ -104,7 +104,7 @@ export const Actions: FC = () => {
 
         {canFullscreen ? (
           <Tooltip
-            title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+            title={isFullscreen ? 'Exit fullscreen [f]' : 'Enter fullscreen [f]'}
             slotProps={tooltipSlotProps}
           >
             <IconButton sx={buttonStyle} onClick={toggleFullscreen}>

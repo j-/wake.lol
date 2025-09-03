@@ -1,4 +1,4 @@
-import { useMemo, useRef, type FC, type PropsWithChildren } from 'react';
+import { useEffect, useMemo, useRef, type FC, type PropsWithChildren } from 'react';
 import { AppContext, type AppContextType, } from './context';
 import {
   useAutoAcquireWakeLockOnLoad,
@@ -71,6 +71,22 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     didReleaseAutomatically,
     requestWakeLock,
   });
+
+  useEffect(() => {
+    if (!document.fullscreenEnabled) return;
+
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (e.key === 'F11' || e.key === 'f') {
+        e.preventDefault();
+        toggleFullscreen();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeydown);
+    return () => {
+      window.removeEventListener('keydown', handleKeydown);
+    };
+  }, [toggleFullscreen]);
 
   const isIdle = useIsIdle();
 
