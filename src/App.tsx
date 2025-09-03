@@ -1,9 +1,6 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { type FC } from 'react';
 import { AppLayout } from './AppLayout';
@@ -12,7 +9,7 @@ import { APP_NAME, BASE_URL } from './constants';
 import Content from './content.mdx';
 import { useAppContext } from './controller';
 import { mdxComponents } from './mdx-components';
-import { Preferences } from './Preferences';
+import { PreferencesAccordion } from './PreferencesAccordion';
 import { WakeActionsContainer } from './WakeActionsContainer';
 
 const App: FC = () => {
@@ -52,24 +49,13 @@ const App: FC = () => {
       slotActions={actionsContainer}
     >
       <AppMetadata />
-      <Box maxWidth="70ch" my={4} mx="auto">
-        <Content components={mdxComponents} />
-
-        <Box my={4}>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="App-preferences-content"
-              id="App-preferences-header"
-            >
-              <Typography component="span">Settings</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Preferences />
-            </AccordionDetails>
-          </Accordion>
+      <Stack maxWidth="70ch" my={4} mx="auto" gap={4}>
+        <Box>
+          <Content components={mdxComponents} />
         </Box>
-      </Box>
+
+        <PreferencesAccordion />
+      </Stack>
     </AppLayout>
   );
 };
