@@ -1,12 +1,14 @@
 import { grey } from '@mui/material/colors';
-import { createTheme } from '@mui/material/styles';
+import { extendTheme } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
   interface Palette {
+    enabled: Palette['primary'];
     muted: Palette['primary'];
   }
 
   interface PaletteOptions {
+    enabled?: PaletteOptions['primary'];
     muted?: PaletteOptions['primary'];
   }
 
@@ -19,16 +21,20 @@ declare module '@mui/material/styles' {
   }
 }
 
-export const theme = createTheme({
+const defaultEnabledColor = 'hsl(100, 80%, 80%)';
+
+export const theme = extendTheme({
   colorSchemes: {
     light: {
       palette: {
+        enabled: { main: defaultEnabledColor },
         // Light grey in light mode.
         muted: { main: grey[100] },
       },
     },
     dark: {
       palette: {
+        enabled: { main: defaultEnabledColor },
         // Dark grey in dark mode.
         muted: { main: grey[900] },
       },

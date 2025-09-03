@@ -1,13 +1,14 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Link } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import type { FC } from 'react';
+import { type FC } from 'react';
 import { AppLayout } from './AppLayout';
-import { BASE_URL } from './constants';
+import { AppMetadata } from './AppMetadata';
+import { APP_NAME, BASE_URL } from './constants';
 import Content from './content.mdx';
 import { useAppContext } from './controller';
 import { mdxComponents } from './mdx-components';
@@ -31,6 +32,7 @@ const App: FC = () => {
         inset: 0,
         display: 'grid',
       }}>
+        <AppMetadata />
         {actionsContainer}
       </Box>
     );
@@ -39,7 +41,7 @@ const App: FC = () => {
   const header = (
     <Typography component="h1" variant="h4">
       <Link href={BASE_URL} color="inherit" sx={{ textDecoration: 'none' }}>
-        wake.lol
+        {APP_NAME}
       </Link>
     </Typography>
   );
@@ -49,6 +51,7 @@ const App: FC = () => {
       slotHeader={header}
       slotActions={actionsContainer}
     >
+      <AppMetadata />
       <Box maxWidth="70ch" my={4} mx="auto">
         <Content components={mdxComponents} />
 

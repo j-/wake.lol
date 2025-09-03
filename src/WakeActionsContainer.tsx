@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import { type ResponsiveStyleValue } from '@mui/system';
+import { useTheme, type ResponsiveStyleValue } from '@mui/system';
 import { type FC } from 'react';
 import { Actions } from './Actions';
 import { useAppContext } from './controller';
@@ -23,7 +23,7 @@ export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
   actionsHeight,
 }) => {
   const { fullscreenRef, isWakeLockEnabled } = useAppContext();
-  const bgColor = 'hsl(100, 80%, 80%)';
+  const bgColor = useTheme().palette.enabled.main;
 
   return (
     <Box ref={fullscreenRef} sx={[

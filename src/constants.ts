@@ -1,3 +1,4 @@
+export const APP_NAME = 'wake.lol';
 export const BASE_URL = 'https://wake.lol/';
 export const FEATURES = 'width=300,height=200';
 export const THEME_COUNT = 2;
