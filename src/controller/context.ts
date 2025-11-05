@@ -19,6 +19,7 @@ export type AppContextType = {
   canExpandCollapse: boolean;
   canFullscreen: boolean;
   canNewWindow: boolean;
+  canPictureInPicture: boolean;
   collapseUI: CollapseUI;
   exitFullscreen: ExitFullscreen;
   expandUI: ExpandUI;
@@ -46,6 +47,7 @@ const defaultAppContext = new Proxy<AppContextType>({
   canExpandCollapse: false,
   canFullscreen: false,
   canNewWindow: false,
+  canPictureInPicture: false,
   collapseUI: () => {
     console.error('Default collapseUI called, this may indicate a missing AppController provider.');
   },

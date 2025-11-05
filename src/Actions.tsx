@@ -2,20 +2,19 @@ import Box from '@mui/material/Box';
 import IconButton, { type IconButtonProps } from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Tooltip, { type TooltipProps } from '@mui/material/Tooltip';
-import {
-  AppWindowMac as IconAppWindowMac,
-  Eye as IconEye,
-  EyeClosed as IconEyeClosed,
-  Maximize as IconMaximize,
-  Maximize2 as IconMaximize2,
-  Minimize as IconMinimize,
-  Minimize2 as IconMinimize2,
-  type LucideProps,
-} from 'lucide-react';
+import type { LucideProps } from 'lucide-react';
 import type { FC } from 'react';
 import { FEATURES } from './constants';
-import { useAppContext } from './controller';
+import { usePictureInPictureOpener } from './context/PictureInPictureOpenerContext/hooks';
 import { useDocument, useWindow } from './context/WindowContext';
+import { useAppContext } from './controller';
+import {
+  IconAppWindowPlatform,
+  IconExpandCollapse,
+  IconEyeOpenClosed,
+  IconMaximizeMinimize,
+  IconPictureInPicture
+} from './icons';
 
 export const Actions: FC = () => {
   const document = useDocument();
@@ -25,6 +24,7 @@ export const Actions: FC = () => {
     canExpandCollapse,
     canFullscreen,
     canNewWindow,
+    canPictureInPicture,
     isExpanded,
     isFullyVisible,
     isFullscreen,
@@ -34,6 +34,11 @@ export const Actions: FC = () => {
     toggleFullscreen,
     toggleWakeLock,
   } = useAppContext();
+
+  const {
+    isPictureInPictureWindowOpen,
+    openPictureInPictureWindow,
+  } = usePictureInPictureOpener();
 
   // const iconSize = isFullyVisible ? 32 : 24;
   const iconSize = 24;
@@ -57,7 +62,13 @@ export const Actions: FC = () => {
   };
 
   return (
-    <Stack direction="row" gap={4} height={(theme) => theme.spacing(4)} alignItems="center">
+    <Stack
+      direction="row"
+      gap={4}
+      height={(theme) => theme.spacing(4)}
+      alignItems="center"
+      data-test-id="Actions"
+    >
       <Box lineHeight={1}>
         <Tooltip
           title={
@@ -68,16 +79,32 @@ export const Actions: FC = () => {
           slotProps={tooltipSlotProps}
         >
           <IconButton sx={buttonStyle} onClick={toggleWakeLock}>
-            {isWakeLockEnabled ? (
-              <IconEye size={iconSize} style={iconStyle} />
-            ) : (
-              <IconEyeClosed size={iconSize} style={iconStyle} />
-            )}
+            <IconEyeOpenClosed
+              isWakeLockEnabled={isWakeLockEnabled}
+              size={iconSize}
+              style={iconStyle}
+            />
           </IconButton>
         </Tooltip>
       </Box>
 
       <Stack direction="row" lineHeight={1} gap={2} ml="auto">
+        {canPictureInPicture && !isPictureInPictureWindowOpen ? (
+          <Tooltip
+            title="Open in picture-in-picture window"
+            slotProps={tooltipSlotProps}
+          >
+            <IconButton sx={buttonStyle} onClick={() => {
+              openPictureInPictureWindow({
+                width: 100,
+                height: 100,
+              });
+            }}>
+              <IconPictureInPicture size={iconSize} style={iconStyle} />
+            </IconButton>
+          </Tooltip>
+        ) : null}
+
         {canNewWindow ? (
           <Tooltip
             title="Open in new window"
@@ -86,7 +113,7 @@ export const Actions: FC = () => {
             <IconButton sx={buttonStyle} onClick={() => {
               window.open(window.location.href, Date.now().toString(), FEATURES);
             }}>
-              <IconAppWindowMac size={iconSize} style={iconStyle} />
+              <IconAppWindowPlatform size={iconSize} style={iconStyle} />
             </IconButton>
           </Tooltip>
         ) : null}
@@ -97,11 +124,11 @@ export const Actions: FC = () => {
             slotProps={tooltipSlotProps}
           >
             <IconButton sx={buttonStyle} onClick={toggleExpandCollapseUI}>
-              {isExpanded ? (
-                <IconMinimize2 size={iconSize} style={iconStyle} />
-              ) : (
-                <IconMaximize2 size={iconSize} style={iconStyle} />
-              )}
+              <IconExpandCollapse
+                isExpanded={isExpanded}
+                size={iconSize}
+                style={iconStyle}
+              />
             </IconButton>
           </Tooltip>
         ) : null}
@@ -112,11 +139,11 @@ export const Actions: FC = () => {
             slotProps={tooltipSlotProps}
           >
             <IconButton sx={buttonStyle} onClick={toggleFullscreen}>
-              {isFullscreen ? (
-                <IconMinimize size={iconSize} style={iconStyle} />
-              ) : (
-                <IconMaximize size={iconSize} style={iconStyle} />
-              )}
+              <IconMaximizeMinimize
+                isMaximized={isFullscreen}
+                size={iconSize}
+                style={iconStyle}
+              />
             </IconButton>
           </Tooltip>
         ) : null}

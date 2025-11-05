@@ -1,5 +1,5 @@
 import { grey } from '@mui/material/colors';
-import { extendTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -23,7 +23,8 @@ declare module '@mui/material/styles' {
 
 const defaultEnabledColor = 'hsl(100, 80%, 80%)';
 
-export const theme = extendTheme({
+export const theme = createTheme({
+  cssVariables: true,
   colorSchemes: {
     light: {
       palette: {

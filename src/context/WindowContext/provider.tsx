@@ -1,8 +1,8 @@
-import { FC, PropsWithChildren } from 'react';
+import { ComponentProps, FC, PropsWithChildren } from 'react';
 import { WindowContext } from './context';
 
 export type WindowProviderProps = PropsWithChildren<{
-  window?: Window;
+  window?: ComponentProps<typeof WindowContext>['value'];
 }>;
 
 export const WindowProvider: FC<WindowProviderProps> = ({

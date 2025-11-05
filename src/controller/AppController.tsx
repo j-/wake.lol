@@ -18,7 +18,14 @@ import { useDocument, useWindow } from '../context/WindowContext';
 
 const enableContainerVisibility = true;
 
-export const AppController: FC<PropsWithChildren> = ({ children }) => {
+export type AppControllerProps = PropsWithChildren<{
+  isPiPWindow?: boolean;
+}>;
+
+export const AppController: FC<AppControllerProps> = ({
+  isPiPWindow = false,
+  children,
+}) => {
   const fullscreenRef = useRef<HTMLElement>(null);
 
   const window = useWindow();
@@ -63,6 +70,13 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
   } = useWakeLock();
 
   const isWakeLockEnabled = useIsWakeLockEnabled({ sentinel });
+
+  const canPictureInPicture = (
+    !!window.documentPictureInPicture &&
+    !isPiPWindow &&
+    !isFullscreen &&
+    !isNewWindow
+  );
 
   useAutoAcquireWakeLockOnLoad({
     shouldAcquireOnLoad,
@@ -110,14 +124,15 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
   const isIdle = useIsIdle();
 
   const contextValue = useMemo<AppContextType>(() => ({
-    canExpandCollapse: canExpandCollapse && !isNewWindow,
-    canFullscreen,
-    canNewWindow: !isNewWindow && !isFullscreen,
+    canExpandCollapse: canExpandCollapse && !isNewWindow && !isPiPWindow,
+    canFullscreen: canFullscreen && !isPiPWindow,
+    canNewWindow: !isNewWindow && !isFullscreen && !isPiPWindow,
+    canPictureInPicture,
     collapseUI,
     exitFullscreen,
     expandUI,
     fullscreenRef,
-    isExpanded: isExpanded || isNewWindow,
+    isExpanded: isExpanded || isNewWindow || isPiPWindow,
     isFullscreen,
     isFullyVisible,
     isIdle,
@@ -136,6 +151,7 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
   }), [
     canExpandCollapse,
     canFullscreen,
+    canPictureInPicture,
     collapseUI,
     exitFullscreen,
     expandUI,
@@ -145,6 +161,7 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     isFullyVisible,
     isIdle,
     isNewWindow,
+    isPiPWindow,
     isWakeLockEnabled,
     releaseWakeLock,
     requestFullscreen,
@@ -164,3 +181,5 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     </AppContext.Provider>
   );
 };
+
+AppController.displayName = 'AppController';

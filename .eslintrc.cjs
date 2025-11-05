@@ -27,5 +27,6 @@ module.exports = {
     'no-restricted-globals': ['error', 'window', 'document', 'navigator'],
 
     'react-refresh/only-export-components': 'off',
+    'no-empty': 'off',
   },
 };

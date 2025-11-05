@@ -1,12 +1,13 @@
 import {
-  AppWindowMac as IconAppWindowMac,
-  Eye as IconEye,
-  EyeClosed as IconEyeClosed,
-  Maximize as IconMaximize,
-  Maximize2 as IconMaximize2,
-  Minimize as IconMinimize,
-  Minimize2 as IconMinimize2,
-} from 'lucide-react';
+  IconAppWindowPlatform,
+  IconEye,
+  IconEyeClosed,
+  IconMaximize,
+  IconMaximize2,
+  IconMinimize,
+  IconMinimize2,
+  IconPictureInPicture,
+} from './icons';
 
 # What is this?
 
@@ -19,9 +20,14 @@ The screen will stay awake as long as the tab is open and the device is not
 locked. The wake lock will be released if the tab is closed or minimized and the
 screen will turn off as usual.
 
-Click <IconAppWindowMac size={12} /> to open the app in a separate window. On a
-desktop device this new window will have minimal browser UI for a more compact
-version of the app.
+Click <IconPictureInPicture size={12} /> (shown only if supported in your
+browser supports it) to open the app in a picture-in-picture window.
+This will open a small floating popup that stays on top of other windows.
+Note that this popup will automatically close if you close the main window.
+
+Click <IconAppWindowPlatform size={12} /> to open the app in a separate window.
+On a desktop device this new window will have minimal browser UI for a more
+compact version of the app.
 
 Clicking <IconMaximize2 size={12} /> and <IconMinimize2 size={12} /> will toggle
 the content of this window and only show the app controls.
@@ -65,6 +71,8 @@ to prevent that system from going to sleep.
 * **Offline mode**: This app works even when not connected to the internet.
 * **Portable mode**: You can save this app with Cmd/Ctrl+S as `wake.lol.html`
   to run it locally.
+* **Picture-in-picture window**: Open the app in a small floating window that
+  stays on top of other windows.
 * **Progressive web app**: This app can be installed to the desktop and run in a
   native-like way.
 * **Color schemes**: Supports system light mode and dark mode.

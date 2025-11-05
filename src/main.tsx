@@ -3,6 +3,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import { PictureInPictureOpenerProvider } from './context/PictureInPictureOpenerContext/provider';
 import { AppController } from './controller/AppController';
 import './index.css';
 import { theme } from './theme';
@@ -13,7 +14,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppController>
-        <App />
+        <PictureInPictureOpenerProvider>
+          <App />
+        </PictureInPictureOpenerProvider>
       </AppController>
     </ThemeProvider>
   </React.StrictMode>,

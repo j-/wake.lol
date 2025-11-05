@@ -1,15 +1,11 @@
 import Box from '@mui/material/Box';
-import { useTheme, type ResponsiveStyleValue } from '@mui/system';
+import { useTheme } from '@mui/system';
 import { type FC } from 'react';
 import { Actions } from './Actions';
 import { useDocument } from './context/WindowContext';
 import { useAppContext } from './controller';
 import { booleanSerializer, STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD } from './controller/use-preferences';
 import { HideCursorOnIdle } from './HideCursorOnIdle';
-
-type WakeActionsContainerProps = {
-  actionsHeight: ResponsiveStyleValue<number | string>;
-};
 
 const INTEND_TO_LOCK = (() => {
   try {
@@ -20,18 +16,18 @@ const INTEND_TO_LOCK = (() => {
   }
 })();
 
-export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
-  actionsHeight,
-}) => {
+export const WakeActionsContainerInset0: FC = () => {
   const document = useDocument();
   const { fullscreenRef, isWakeLockEnabled } = useAppContext();
   const bgColor = useTheme().palette.enabled.main;
 
   return (
-    <Box ref={fullscreenRef} sx={[
+    <Box data-test-id="WakeActionsContainerInset0" ref={fullscreenRef} sx={[
       {
         backgroundColor: 'muted.main',
         transition: 'background-color 200ms ease-in-out',
+        position: 'absolute',
+        inset: 0,
       },
 
       // Optimistically render enabled style if page is still loading but we
@@ -42,9 +38,6 @@ export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
       }) : null,
     ]}>
       <Box sx={{
-        position: 'sticky',
-        top: 0,
-        height: actionsHeight,
         padding: {
           xs: 1,
           sm: 2,
