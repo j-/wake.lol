@@ -1,6 +1,7 @@
 import {
   AppWindow as IconAppWindow,
   AppWindowMac as IconAppWindowMac,
+  Ellipsis as IconEllipsis,
   Eye as IconEye,
   EyeClosed as IconEyeClosed,
   Maximize as IconMaximize,
@@ -17,6 +18,7 @@ import { Platform, detectPlatform } from './detect-platform';
 export {
   IconAppWindow,
   IconAppWindowMac,
+  IconEllipsis,
   IconEye,
   IconEyeClosed,
   IconMaximize,

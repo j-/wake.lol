@@ -10,4 +10,5 @@ export const CSS_VAR_ACTIVE_BG = '--color-active-bg';
 export const CSS_VAR_ACTIVE_FG = '--color-active-fg';
 export const CSS_VAR_INACTIVE_BG = '--color-inactive-bg';
 export const CSS_VAR_INACTIVE_FG = '--color-inactive-fg';
+export const ID_BELOW_THE_FOLD = 'below-the-fold';
 // export const IS_FILE_PROTOCOL = window.location.protocol === 'file:';

@@ -4,12 +4,13 @@ import Stack from '@mui/material/Stack';
 import Tooltip, { type TooltipProps } from '@mui/material/Tooltip';
 import type { LucideProps } from 'lucide-react';
 import type { FC } from 'react';
-import { FEATURES } from './constants';
+import { FEATURES, ID_BELOW_THE_FOLD } from './constants';
 import { usePictureInPictureOpener } from './context/PictureInPictureOpenerContext/hooks';
 import { useDocument, useWindow } from './context/WindowContext';
 import { useAppContext } from './controller';
 import {
   IconAppWindowPlatform,
+  IconEllipsis,
   IconExpandCollapse,
   IconEyeOpenClosed,
   IconMaximizeMinimize,
@@ -89,6 +90,27 @@ export const Actions: FC = () => {
       </Box>
 
       <Stack direction="row" lineHeight={1} gap={2} ml="auto">
+        <Tooltip
+          title="More info and settings"
+          slotProps={tooltipSlotProps}
+        >
+          <IconButton
+            sx={[
+              buttonStyle,
+              {
+                opacity: isFullyVisible ? 1 : 0.1,
+                transition: 'opacity 200ms ease-in-out',
+              },
+            ]}
+            onClick={() => {
+              document.getElementById(ID_BELOW_THE_FOLD)
+                ?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            <IconEllipsis size={iconSize} style={iconStyle} />
+          </IconButton>
+        </Tooltip>
+
         {canPictureInPicture && !isPictureInPictureWindowOpen ? (
           <Tooltip
             title="Open in picture-in-picture window"

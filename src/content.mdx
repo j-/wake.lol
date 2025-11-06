@@ -1,3 +1,4 @@
+import { ID_BELOW_THE_FOLD } from './constants';
 import {
   IconAppWindowPlatform,
   IconEye,
@@ -8,8 +9,12 @@ import {
   IconMinimize2,
   IconPictureInPicture,
 } from './icons';
+import { ScrollToMarker } from './ScrollToMarker';
 
-# What is this?
+<ScrollToMarker id={ID_BELOW_THE_FOLD} />
+
+What is this?
+-------------
 
 You can use this web app to keep your device's screen awake.
 
@@ -36,7 +41,8 @@ Clicking <IconMaximize size={12} /> and <IconMinimize size={12} /> will toggle
 fullscreen mode for this window. This feature may not be available on all
 devices.
 
-# Why is this useful?
+Why is this useful?
+-------------------
 
 This app is useful for keeping your device's screen awake without having to
 change system settings or use other apps. It can be particularly helpful for
@@ -46,7 +52,8 @@ periods of time.
 [Wake.lol][site] requires zero installation and works across all browsers and
 devices.
 
-# How does it work?
+How does it work?
+-----------------
 
 [Wake.lol][site] uses the [Screen Wake Lock API][api] to keep the screen awake.
 This API allows web applications to request a wake lock that prevents the screen
@@ -56,7 +63,8 @@ This API is supported in most modern browsers. On unsupported browsers it will
 fall back to showing an invisible video which tricks the operating system into
 thinking a video is playing, thus keeping the screen awake.
 
-# When does it not work?
+When does it not work?
+----------------------
 
 While handy this app cannot fully prevent the screen from turning off in all
 cases. For example, if the device is locked or if the browser is closed, the
@@ -66,7 +74,8 @@ If using virtual machines or remote desktops [wake.lol][site] must be running on
 the host system to keep the physical screen awake and also on the guest system
 to prevent that system from going to sleep.
 
-# Features
+Features
+--------
 
 * **Offline mode**: This app works even when not connected to the internet.
 * **Portable mode**: You can save this app with Cmd/Ctrl+S as `wake.lol.html`
@@ -77,7 +86,8 @@ to prevent that system from going to sleep.
   native-like way.
 * **Color schemes**: Supports system light mode and dark mode.
 
-# Who made this?
+Who made this?
+--------------
 
 [Wake.lol][site] was created by [J Hoeks][skeoh]. The source code is available
 [on GitHub][github].
