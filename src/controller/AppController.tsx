@@ -14,12 +14,15 @@ import { useIsNewWindow } from './use-is-new-window';
 import { useIsWakeLockEnabled } from './use-is-wake-lock-enabled';
 import { usePreferences } from './use-preferences';
 import { useWakeLock } from './use-wake-lock';
+import { useDocument, useWindow } from '../context/WindowContext';
 
 const enableContainerVisibility = true;
 
 export const AppController: FC<PropsWithChildren> = ({ children }) => {
   const fullscreenRef = useRef<HTMLElement>(null);
 
+  const window = useWindow();
+  const document = useDocument();
   const isNewWindow = useIsNewWindow();
 
   const {
@@ -87,7 +90,7 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     return () => {
       window.removeEventListener('keydown', handleKeydown);
     };
-  }, [toggleFullscreen]);
+  }, [document.fullscreenEnabled, toggleFullscreen, window]);
 
   // Handle global keypresses for expand/collapse toggle (t).
   useEffect(() => {
@@ -102,7 +105,7 @@ export const AppController: FC<PropsWithChildren> = ({ children }) => {
     return () => {
       window.removeEventListener('keydown', handleKeydown);
     };
-  }, [toggleExpandCollapseUI]);
+  }, [toggleExpandCollapseUI, window]);
 
   const isIdle = useIsIdle();
 

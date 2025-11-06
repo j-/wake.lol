@@ -30,7 +30,6 @@ export const STORAGE_KEY_SHOULD_ACQUIRE_ON_VISIBILITY_CHANGE =
 export const STORAGE_KEY_SHOULD_EXPAND_UI =
   'shouldExpandUI';
 
-
 export const usePreferences: UsePreferences = () => {
   const [shouldAcquireOnLoad, setShouldAcquireOnLoad] =
     useLocalStorageState(STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD, {

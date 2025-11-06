@@ -5,6 +5,7 @@ import {
   useMemo,
   useState
 } from 'react';
+import { useDocument } from '../context/WindowContext';
 
 export type RequestFullscreen = () => Promise<void>;
 export type ExitFullscreen = () => Promise<void>;
@@ -24,6 +25,7 @@ export type UseFullscreenResult = {
 };
 
 export const useFullscreen: UseFullscreen = ({ fullscreenRef }) => {
+  const document = useDocument();
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const requestFullscreen = useCallback<RequestFullscreen>(async () => {
@@ -44,7 +46,7 @@ export const useFullscreen: UseFullscreen = ({ fullscreenRef }) => {
     } else {
       console.warn('Exit fullscreen request failed: no compatible method found.');
     }
-  }, []);
+  }, [document]);
 
   const toggleFullscreen = useCallback<ToggleFullscreen>(() => {
     if (isFullscreen) {
@@ -74,7 +76,7 @@ export const useFullscreen: UseFullscreen = ({ fullscreenRef }) => {
     return () => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
     };
-  }, [fullscreenRef]);
+  }, [document, fullscreenRef]);
 
   return result;
 };

@@ -7,6 +7,7 @@ import { AppController } from './controller/AppController';
 import './index.css';
 import { theme } from './theme';
 
+// eslint-disable-next-line no-restricted-globals
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>

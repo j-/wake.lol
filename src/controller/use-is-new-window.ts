@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
+import { useWindow } from '../context/WindowContext';
 
 export const useIsNewWindow = () => {
-  return useMemo(() => {
-    return !window.statusbar.visible;
-  }, []);
+  const window = useWindow();
+
+  return useMemo(() => !window.statusbar.visible, [window]);
 };

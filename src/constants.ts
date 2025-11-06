@@ -10,4 +10,4 @@ export const CSS_VAR_ACTIVE_BG = '--color-active-bg';
 export const CSS_VAR_ACTIVE_FG = '--color-active-fg';
 export const CSS_VAR_INACTIVE_BG = '--color-inactive-bg';
 export const CSS_VAR_INACTIVE_FG = '--color-inactive-fg';
-export const IS_FILE_PROTOCOL = window.location.protocol === 'file:';
+// export const IS_FILE_PROTOCOL = window.location.protocol === 'file:';

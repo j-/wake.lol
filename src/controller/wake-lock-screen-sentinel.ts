@@ -1,1 +1,2 @@
-export const getWakeLockScreenSentinel = () => navigator.wakeLock.request('screen');
+export const getWakeLockScreenSentinel = (navigator: Navigator) =>
+  navigator.wakeLock.request('screen');

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { RequestWakeLock } from './use-wake-lock';
+import { useDocument } from '../context/WindowContext';
 
 export type UseAutoAcquireWakeLockOnLoad =
   (params: UseAutoAcquireWakeLockOnLoadParams) => void;
@@ -13,6 +14,7 @@ export const useAutoAcquireWakeLockOnLoad: UseAutoAcquireWakeLockOnLoad = ({
   shouldAcquireOnLoad,
   requestWakeLock,
 }) => {
+  const document = useDocument();
   const [didInit, setDidInit] = useState(false);
 
   // Acquire wake lock on load.
@@ -34,5 +36,5 @@ export const useAutoAcquireWakeLockOnLoad: UseAutoAcquireWakeLockOnLoad = ({
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilitychange);
     };
-  }, [didInit, requestWakeLock, shouldAcquireOnLoad]);
+  }, [didInit, document, requestWakeLock, shouldAcquireOnLoad]);
 };

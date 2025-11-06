@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import { useTheme, type ResponsiveStyleValue } from '@mui/system';
 import { type FC } from 'react';
 import { Actions } from './Actions';
+import { useDocument } from './context/WindowContext';
 import { useAppContext } from './controller';
 import { booleanSerializer, STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD } from './controller/use-preferences';
 import { HideCursorOnIdle } from './HideCursorOnIdle';
@@ -22,6 +23,7 @@ const INTEND_TO_LOCK = (() => {
 export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
   actionsHeight,
 }) => {
+  const document = useDocument();
   const { fullscreenRef, isWakeLockEnabled } = useAppContext();
   const bgColor = useTheme().palette.enabled.main;
 

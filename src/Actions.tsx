@@ -15,8 +15,12 @@ import {
 import type { FC } from 'react';
 import { FEATURES } from './constants';
 import { useAppContext } from './controller';
+import { useDocument, useWindow } from './context/WindowContext';
 
 export const Actions: FC = () => {
+  const document = useDocument();
+  const window = useWindow();
+
   const {
     canExpandCollapse,
     canFullscreen,

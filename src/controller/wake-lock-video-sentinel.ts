@@ -160,7 +160,9 @@ FgQAABZ0AAAWwAAAFzAAABegAAAX7AAAGFwAAAGJ1ZHRhAAAAWm1ldGEAAAAAAAAAIWhkbHIAAAAAAAA
 AAG1kaXJhcHBsAAAAAAAAAAAAAAAALWlsc3QAAAAlqXRvbwAAAB1kYXRhAAAAAQAAAABMYXZmNTUuMzM
 uMTAw`;
 
-export const getWakeLockVideoSentinel = async (): Promise<WakeLockSentinel> => {
+export const getWakeLockVideoSentinel = async (document: Document): Promise<
+  WakeLockSentinel
+> => {
   const video = document.createElement('video');
   video.setAttribute('title', 'no sleep');
   video.setAttribute('playsinline', '');

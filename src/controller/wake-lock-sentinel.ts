@@ -9,12 +9,11 @@ export type WakeLockSentinelWithType = WakeLockSentinel & {
   [SENTINEL_TYPE]: string;
 };
 
-export const getWakeLockSentinel = async () => (
+export const getWakeLockSentinel = async (
+  navigator: Navigator,
+  document: Document,
+) => (
   'wakeLock' in navigator ?
-    Object.assign(await getWakeLockScreenSentinel(), {
-      [SENTINEL_TYPE]: SENTINEL_TYPE_SCREEN,
-    }) :
-    Object.assign(await getWakeLockVideoSentinel(), {
-      [SENTINEL_TYPE]: SENTINEL_TYPE_VIDEO,
-    })
+    getWakeLockScreenSentinel(navigator) :
+    getWakeLockVideoSentinel(document)
 );

@@ -22,6 +22,10 @@ module.exports = {
         ignoreRestSiblings: true,
       },
     ],
+
+    // Blocks bare `window` (and e.g. `document`) as globals
+    'no-restricted-globals': ['error', 'window', 'document', 'navigator'],
+
     'react-refresh/only-export-components': 'off',
   },
 };

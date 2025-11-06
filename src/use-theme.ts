@@ -5,6 +5,7 @@ import {
   THEME_INDEX_DATASET_KEY,
   THEME_INDEX_STORAGE_KEY,
 } from './constants';
+import { useDocument } from './context/WindowContext';
 
 const nextThemeIndex = (themeIndex: number | undefined) => {
   if (themeIndex == null) return 1;
@@ -13,6 +14,8 @@ const nextThemeIndex = (themeIndex: number | undefined) => {
 };
 
 export const useTheme = () => {
+  const document = useDocument();
+
   const [themeIndex, setThemeIndex] =
     useLocalStorageState<number>(THEME_INDEX_STORAGE_KEY);
 
@@ -27,7 +30,7 @@ export const useTheme = () => {
     } else {
       delete document.documentElement.dataset[THEME_INDEX_DATASET_KEY];
     }
-  }, [themeIndex]);
+  }, [document.documentElement.dataset, themeIndex]);
 
   return { index: themeIndex, next };
 };

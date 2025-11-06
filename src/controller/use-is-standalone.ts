@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useWindow } from '../context/WindowContext';
 
 const QUERY = '(display-mode: standalone)';
 
 export const useIsStandalone = () => {
+  const window = useWindow();
+
   const [isStandalone, setIsStandalone] = useState(() => (
     typeof window === 'undefined' ?
       false :
@@ -17,7 +20,7 @@ export const useIsStandalone = () => {
     return () => {
       mediaQuery.removeEventListener('change', changeHandler);
     };
-  }, []);
-  
+  }, [window]);
+
   return isStandalone;
 };

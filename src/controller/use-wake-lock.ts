@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getWakeLockSentinel } from './wake-lock-sentinel';
+import { useDocument, useNavigator } from '../context/WindowContext';
 
 export type RequestWakeLock = () => Promise<WakeLockSentinel | null>;
 export type ReleaseWakeLock = () => Promise<void>;
@@ -16,6 +17,8 @@ export type UseWakeLockResult = {
 };
 
 export const useWakeLock: UseWakeLock = () => {
+  const navigator = useNavigator();
+  const document = useDocument();
   const [sentinel, setSentinel] = useState<WakeLockSentinel | null>(null);
   const [didReleaseAutomatically, setDidReleaseAutomatically] = useState(false);
 
@@ -31,11 +34,11 @@ export const useWakeLock: UseWakeLock = () => {
     if (sentinel && !sentinel.released) {
       await releaseWakeLock();
     }
-    const newSentinel = await getWakeLockSentinel();
+    const newSentinel = await getWakeLockSentinel(navigator, document);
     setSentinel(newSentinel);
     setDidReleaseAutomatically(false);
     return newSentinel;
-  }, [releaseWakeLock, sentinel]);
+  }, [document, navigator, releaseWakeLock, sentinel]);
 
   const toggleWakeLock = useCallback<ToggleWakeLock>(async () => {
     if (sentinel && !sentinel.released) {
