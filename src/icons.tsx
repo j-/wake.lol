@@ -8,6 +8,7 @@ import {
   Minimize as IconMinimize,
   Minimize2 as IconMinimize2,
   PictureInPicture as IconPictureInPicture,
+  SquarePlus as IconSquarePlus,
   type LucideProps,
 } from 'lucide-react';
 import { FC } from 'react';
@@ -70,12 +71,8 @@ export const IconAppWindowPlatform: FC<IconAppWindowPlatformProps> = ({
     case Platform.WIN:
       return <IconAppWindow {...props} />;
     case Platform.MAC:
-    case Platform.IOS:
       return <IconAppWindowMac {...props} />;
-    case Platform.LIN:
-    case Platform.AND:
-    case Platform.OTH:
     default:
-      return <IconAppWindow {...props} />;
+      return <IconSquarePlus {...props} />;
   }
 };
