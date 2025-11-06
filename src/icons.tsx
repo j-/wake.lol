@@ -1,5 +1,3 @@
-import { FC } from 'react';
-
 import {
   AppWindow as IconAppWindow,
   AppWindowMac as IconAppWindowMac,
@@ -12,6 +10,8 @@ import {
   PictureInPicture as IconPictureInPicture,
   type LucideProps,
 } from 'lucide-react';
+import { FC } from 'react';
+import { Platform, detectPlatform } from './detect-platform';
 
 export {
   IconAppWindow,
@@ -59,13 +59,23 @@ export const IconExpandCollapse: FC<IconExpandCollapseProps> = ({
 );
 
 export type IconAppWindowPlatformProps = LucideProps & {
-  plat?: 'mac' | 'win';
+  platform?: Platform;
 };
 
 export const IconAppWindowPlatform: FC<IconAppWindowPlatformProps> = ({
-  // eslint-disable-next-line no-restricted-globals
-  plat = navigator.platform.startsWith('Mac') ? 'mac' : 'win',
+  platform = detectPlatform(),
   ...props
-}) => (
-  plat === 'mac' ? <IconAppWindowMac {...props} /> : <IconAppWindow {...props} />
-);
+}) => {
+  switch (platform) {
+    case Platform.WIN:
+      return <IconAppWindow {...props} />;
+    case Platform.MAC:
+    case Platform.IOS:
+      return <IconAppWindowMac {...props} />;
+    case Platform.LIN:
+    case Platform.AND:
+    case Platform.OTH:
+    default:
+      return <IconAppWindow {...props} />;
+  }
+};
