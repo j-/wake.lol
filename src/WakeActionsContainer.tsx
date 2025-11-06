@@ -45,10 +45,7 @@ export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
         position: 'sticky',
         top: 0,
         height: actionsHeight,
-        padding: {
-          xs: 1,
-          sm: 2,
-        },
+        padding: 2,
       }}>
         <Actions />
       </Box>
