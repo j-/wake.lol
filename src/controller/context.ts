@@ -2,12 +2,12 @@ import { createContext, useContext, type RefObject } from 'react';
 import type {
   CollapseUI,
   ExpandUI,
-  ToggleExpandCollapseUI
+  ToggleExpandCollapseUI,
 } from './use-expand-collapse-ui';
 import type {
   ExitFullscreen,
   RequestFullscreen,
-  ToggleFullscreen
+  ToggleFullscreen,
 } from './use-fullscreen';
 import type {
   ReleaseWakeLock,

@@ -1,4 +1,4 @@
-import { ComponentProps, FC, PropsWithChildren } from 'react';
+import type { ComponentProps, FC, PropsWithChildren } from 'react';
 import { WindowContext } from './context';
 
 export type WindowProviderProps = PropsWithChildren<{

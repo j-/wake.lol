@@ -3,7 +3,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
-  useState
+  useState,
 } from 'react';
 import { useDocument } from '../context/WindowContext';
 

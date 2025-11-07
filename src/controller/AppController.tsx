@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, type FC, type PropsWithChildren } from 'react';
-import { AppContext, type AppContextType, } from './context';
+import { AppContext, type AppContextType } from './context';
 import {
   useAutoAcquireWakeLockOnLoad,
 } from './use-auto-acquire-wake-lock-on-load';

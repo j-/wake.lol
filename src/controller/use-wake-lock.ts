@@ -71,7 +71,7 @@ export const useWakeLock: UseWakeLock = () => {
       if (sentinel.released) {
         setDidReleaseAutomatically(true);
       }
-    }
+    };
     sentinel.addEventListener('release', handleSentinelRelease);
     return () => {
       sentinel.removeEventListener('release', handleSentinelRelease);

@@ -12,7 +12,7 @@ import {
   SquarePlus as IconSquarePlus,
   type LucideProps,
 } from 'lucide-react';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { Platform, detectPlatform } from './detect-platform';
 
 export {
@@ -25,7 +25,7 @@ export {
   IconMaximize2,
   IconMinimize,
   IconMinimize2,
-  IconPictureInPicture
+  IconPictureInPicture,
 };
 
 export type IconEyeOpenClosedProps = LucideProps & {

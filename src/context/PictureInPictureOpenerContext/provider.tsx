@@ -9,9 +9,9 @@ import { theme } from '../../theme';
 import { WakeActionsContainerInset0 } from '../../WakeActionsContainerInset0';
 import { useWindow, WindowProvider } from '../WindowContext';
 import {
-  OpenPictureInPictureWindow,
+  type OpenPictureInPictureWindow,
   PictureInPictureOpenerContext,
-  PictureInPictureOpenerContextType
+  type PictureInPictureOpenerContextType,
 } from './context';
 
 export const PictureInPictureOpenerProvider: FC<PropsWithChildren> = ({
@@ -46,7 +46,7 @@ export const PictureInPictureOpenerProvider: FC<PropsWithChildren> = ({
             </AppController>
           </WindowProvider>
         </ThemeProvider>
-      </CacheProvider>
+      </CacheProvider>,
     );
 
     pipWin.addEventListener('pagehide', () => {

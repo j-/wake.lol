@@ -1,4 +1,4 @@
-import Box, { BoxProps } from '@mui/material/Box';
+import Box, { type BoxProps } from '@mui/material/Box';
 import type { FC, ReactNode } from 'react';
 
 export type AppLayoutProps = BoxProps & {

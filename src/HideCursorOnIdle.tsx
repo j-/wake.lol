@@ -1,11 +1,11 @@
-import { GlobalStyles } from '@mui/material';
+import GlobalStyles from '@mui/material/GlobalStyles';
 import type { FC } from 'react';
 import { useAppContext } from './controller';
 
 const globalStyles = (
   <GlobalStyles
     styles={{
-      ':root': { cursor: 'none', },
+      ':root': { cursor: 'none' },
     }}
   />
 );

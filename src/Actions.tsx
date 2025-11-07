@@ -14,7 +14,7 @@ import {
   IconExpandCollapse,
   IconEyeOpenClosed,
   IconMaximizeMinimize,
-  IconPictureInPicture
+  IconPictureInPicture,
 } from './icons';
 
 export const Actions: FC = () => {

@@ -1,13 +1,11 @@
 import type { MDXProvider } from '@mdx-js/react';
-import {
-  Box,
-  Divider,
-  List,
-  ListItem,
-  Link,
-  Typography,
-} from '@mui/material';
-import { ComponentProps } from 'react';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import Link from '@mui/material/Link';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Typography from '@mui/material/Typography';
+import type { ComponentProps } from 'react';
 
 type MDXProviderProps = ComponentProps<typeof MDXProvider>;
 type MDXComponents = MDXProviderProps['components'];

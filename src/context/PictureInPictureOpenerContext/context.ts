@@ -15,7 +15,7 @@ export const PictureInPictureOpenerContext = createContext<
   isPictureInPictureWindowOpen: false,
   openPictureInPictureWindow: async () => {
     throw new Error(
-      'openPictureInPictureWindow must be used within a PictureInPictureOpenerContext'
+      'openPictureInPictureWindow must be used within a PictureInPictureOpenerContext',
     );
   },
 });
