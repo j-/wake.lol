@@ -10,6 +10,12 @@ export default defineConfig({
   plugins: [
     mdx(),
     react(),
+    viteSingleFile({
+      inlinePattern: [
+        '!favicon.svg',
+        '!favicon.ico',
+      ],
+    }),
     VitePWA({
       injectRegister: 'inline',
       registerType: 'autoUpdate',
@@ -38,12 +44,6 @@ export default defineConfig({
         ],
         prefer_related_applications: true,
       },
-    }),
-    viteSingleFile({
-      inlinePattern: [
-        '!favicon.svg',
-        '!favicon.ico',
-      ],
     }),
   ],
 });
