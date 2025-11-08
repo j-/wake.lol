@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import { useCallback, useMemo, useState, type FC, type PropsWithChildren } from 'react';
 import { createRoot } from 'react-dom/client';
+import { AppErrorBoundary } from '../../AppErrorBoundary';
 import { AppController } from '../../controller/AppController';
 import { theme } from '../../theme';
 import { WakeActionsContainerInset0 } from '../../WakeActionsContainerInset0';
@@ -40,11 +41,13 @@ export const PictureInPictureOpenerProvider: FC<PropsWithChildren> = ({
       <CacheProvider value={pipCache}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <WindowProvider window={pipWin.window}>
-            <AppController isPiPWindow>
-              <WakeActionsContainerInset0 />
-            </AppController>
-          </WindowProvider>
+          <AppErrorBoundary>
+            <WindowProvider window={pipWin.window}>
+              <AppController isPiPWindow>
+                <WakeActionsContainerInset0 />
+              </AppController>
+            </WindowProvider>
+          </AppErrorBoundary>
         </ThemeProvider>
       </CacheProvider>,
     );

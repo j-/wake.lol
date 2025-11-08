@@ -53,6 +53,7 @@ module.exports = {
     ],
 
     'no-empty': 'off',
+    'no-empty-pattern': 'off',
 
     // Blocks bare `window` (and e.g. `document`) as globals
     'no-restricted-globals': ['error', 'window', 'document', 'navigator'],

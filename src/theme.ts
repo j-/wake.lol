@@ -50,4 +50,13 @@ export const theme = createTheme({
     ].join(','),
     fontFamilyMonospace: 'ui-monospace, SFMono-Regular, Menlo, monospace',
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+        },
+      },
+    },
+  },
 });
