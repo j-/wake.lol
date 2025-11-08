@@ -127,9 +127,10 @@ export const AppController: FC<AppControllerProps> = ({
 
   const contextValue = useMemo<AppContextType>(() => ({
     canExpandCollapse: canExpandCollapse && !isNewWindow && !isPiPWindow,
-    canFullscreen: canFullscreen && !isPiPWindow,
+    canFullscreen,
     canNewWindow: !isNewWindow && !isFullscreen && !isPiPWindow,
     canPictureInPicture,
+    canScroll: !isNewWindow && !isFullscreen && !isPiPWindow,
     collapseUI,
     exitFullscreen,
     expandUI,

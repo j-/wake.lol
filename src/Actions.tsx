@@ -26,6 +26,7 @@ export const Actions: FC = () => {
     canFullscreen,
     canNewWindow,
     canPictureInPicture,
+    canScroll,
     isExpanded,
     isFullyVisible,
     isFullscreen,
@@ -90,26 +91,28 @@ export const Actions: FC = () => {
       </Box>
 
       <Stack direction="row" lineHeight={1} gap={2} ml="auto">
-        <Tooltip
-          title="More info and settings"
-          slotProps={tooltipSlotProps}
-        >
-          <IconButton
-            sx={[
-              buttonStyle,
-              {
-                opacity: isFullyVisible ? 1 : 0.1,
-                transition: 'opacity 200ms ease-in-out',
-              },
-            ]}
-            onClick={() => {
-              document.getElementById(ID_BELOW_THE_FOLD)
-                ?.scrollIntoView({ behavior: 'smooth' });
-            }}
+        {canScroll ? (
+          <Tooltip
+            title="More info and settings"
+            slotProps={tooltipSlotProps}
           >
-            <IconEllipsis size={iconSize} style={iconStyle} />
-          </IconButton>
-        </Tooltip>
+            <IconButton
+              sx={[
+                buttonStyle,
+                {
+                  opacity: isFullyVisible ? 1 : 0.1,
+                  transition: 'opacity 200ms ease-in-out',
+                },
+              ]}
+              onClick={() => {
+                document.getElementById(ID_BELOW_THE_FOLD)
+                  ?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              <IconEllipsis size={iconSize} style={iconStyle} />
+            </IconButton>
+          </Tooltip>
+        ) : null}
 
         {canPictureInPicture && !isPictureInPictureWindowOpen ? (
           <Tooltip
