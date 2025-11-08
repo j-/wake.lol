@@ -10,6 +10,7 @@ import Content from './content.mdx';
 import { useAppContext } from './controller';
 import { mdxComponents } from './mdx-components';
 import { PreferencesAccordion } from './PreferencesAccordion';
+import { PWAControls } from './PWAControls';
 import { WakeActionsContainer } from './WakeActionsContainer';
 
 const App: FC = () => {
@@ -53,6 +54,8 @@ const App: FC = () => {
         <Box>
           <Content components={mdxComponents} />
         </Box>
+
+        <PWAControls />
 
         <PreferencesAccordion />
       </Stack>
