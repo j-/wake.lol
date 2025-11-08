@@ -11,7 +11,7 @@ export default defineConfig({
     mdx(),
     react(),
     VitePWA({
-      injectRegister: 'auto',
+      injectRegister: 'inline',
       registerType: 'autoUpdate',
       workbox: {
         clientsClaim: true,
