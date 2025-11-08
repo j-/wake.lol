@@ -38,13 +38,10 @@ module.exports = {
         'groups': [
           'builtin',
           'external',
-          ['internal', 'parent', 'sibling', 'index'],
-        ],
-        'pathGroups': [
-          {
-            'pattern': './**',
-            'group': 'internal',
-          },
+          'parent',
+          'sibling',
+          'internal',
+          'index',
         ],
         'distinctGroup': false,
         'pathGroupsExcludedImportTypes': ['builtin'],
