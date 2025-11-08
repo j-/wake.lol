@@ -12,6 +12,11 @@ export default defineConfig({
     react(),
     VitePWA({
       injectRegister: 'auto',
+      registerType: 'autoUpdate',
+      workbox: {
+        clientsClaim: true,
+        skipWaiting: true,
+      },
       manifest: {
         name: 'wake.lol',
         short_name: 'wake.lol',
