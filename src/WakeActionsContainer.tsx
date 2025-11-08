@@ -42,7 +42,13 @@ export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
       // Optimistically render enabled style if page is still loading but we
       // expect the lock to be acquired automatically.
       isWakeLockEnabled || (INTEND_TO_LOCK && document.readyState === 'interactive') ? (theme) => ({
-        color: theme.palette.getContrastText(bgColor),
+        color: (() => {
+          try {
+            return theme.palette.getContrastText(bgColor);
+          } catch {
+            return theme.palette.text.primary;
+          }
+        })(),
         backgroundColor: bgColor,
       }) : null,
     ]}>

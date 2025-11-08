@@ -4,12 +4,16 @@ import {
   Ellipsis as IconEllipsis,
   Eye as IconEye,
   EyeClosed as IconEyeClosed,
+  Hash as IconHash,
   Maximize as IconMaximize,
   Maximize2 as IconMaximize2,
   Minimize as IconMinimize,
   Minimize2 as IconMinimize2,
+  Palette as IconPalette,
   PictureInPicture as IconPictureInPicture,
+  Pipette as IconPipette,
   SquarePlus as IconSquarePlus,
+  Undo as IconUndo,
   type LucideProps,
 } from 'lucide-react';
 import type { FC } from 'react';
@@ -21,11 +25,15 @@ export {
   IconEllipsis,
   IconEye,
   IconEyeClosed,
+  IconHash,
   IconMaximize,
   IconMaximize2,
   IconMinimize,
   IconMinimize2,
+  IconPalette,
   IconPictureInPicture,
+  IconPipette,
+  IconUndo,
 };
 
 export type IconEyeOpenClosedProps = LucideProps & {

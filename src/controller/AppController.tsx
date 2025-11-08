@@ -49,6 +49,7 @@ export const AppController: FC<AppControllerProps> = ({
     setShouldAcquireOnVisibilityChange,
     themeColor,
     setThemeColor,
+    resetThemeColor,
   } = usePreferences();
 
   const {
@@ -144,6 +145,7 @@ export const AppController: FC<AppControllerProps> = ({
     releaseWakeLock,
     requestFullscreen,
     requestWakeLock,
+    resetThemeColor,
     setShouldAcquireOnLoad,
     setShouldAcquireOnVisibilityChange,
     setThemeColor,
@@ -171,6 +173,7 @@ export const AppController: FC<AppControllerProps> = ({
     releaseWakeLock,
     requestFullscreen,
     requestWakeLock,
+    resetThemeColor,
     setShouldAcquireOnLoad,
     setShouldAcquireOnVisibilityChange,
     setThemeColor,

@@ -1,9 +1,15 @@
+import Box from '@mui/material/Box';
 import Checkbox, { checkboxClasses } from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
+import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
-import { useRef } from 'react';
+import Tooltip from '@mui/material/Tooltip';
+import { useId, useRef, useState } from 'react';
+import { ColorCodeDialog } from './ColorCodeDialog';
 import { useAppContext } from './controller';
+import { IconHash, IconPalette, IconPipette, IconUndo } from './icons';
+import { useEyeDropper } from './use-eye-dropper';
 
 const ColorCheckboxRoot = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -22,7 +28,6 @@ const HiddenColorInput = styled('input')({
   cursor: 'pointer',
 });
 
-// Small square that shows the current color inside checkbox frame
 const ColorSwatch = styled('span')(({ theme }) => ({
   width: theme.spacing(18 / 8),
   height: theme.spacing(18 / 8),
@@ -31,7 +36,11 @@ const ColorSwatch = styled('span')(({ theme }) => ({
 }));
 
 export const Preferences = () => {
+  const id = useId();
+  const colorInputId = `Preferences-color-${id}`;
   const colorInputRef = useRef<HTMLInputElement>(null);
+
+  const [colorCodeDialogOpen, setColorCodeDialogOpen] = useState(false);
 
   const {
     shouldAcquireOnLoad,
@@ -40,62 +49,113 @@ export const Preferences = () => {
     setShouldAcquireOnVisibilityChange,
     themeColor,
     setThemeColor,
+    resetThemeColor,
   } = useAppContext();
 
+  const { eyeDropper, open } = useEyeDropper();
+
   return (
-    <FormGroup sx={{ display: 'inline-flex' }}>
-      <FormControlLabel
-        label="Re-enable wake lock automatically"
-        control={
-          <Checkbox
-            checked={shouldAcquireOnVisibilityChange}
-            onChange={(e) => {
-              setShouldAcquireOnVisibilityChange(e.currentTarget.checked);
-            }}
-          />
-        }
+    <>
+      <ColorCodeDialog
+        open={colorCodeDialogOpen}
+        colorCode={themeColor}
+        onClose={() => {
+          setColorCodeDialogOpen(false);
+        }}
+        onSubmit={(_, newColor) => {
+          setThemeColor(newColor);
+          setColorCodeDialogOpen(false);
+        }}
       />
 
-      <FormControlLabel
-        label="Enable wake lock on startup"
-        control={
-          <Checkbox
-            checked={shouldAcquireOnLoad}
-            onChange={(e) => {
-              setShouldAcquireOnLoad(e.currentTarget.checked);
-            }}
-          />
-        }
-      />
-
-      <FormControlLabel
-        label="Wake lock indicator color"
-        htmlFor="Preferences-color"
-        control={
-          <ColorCheckboxRoot>
+      <FormGroup sx={{ display: 'inline-flex' }}>
+        <FormControlLabel
+          label="Re-enable wake lock automatically"
+          control={
             <Checkbox
-              // Reuse checkbox styles; no separate input[type=color] styling
-              // We render the swatch as both icon & checkedIcon so size/focus/hover are identical.
-              icon={<ColorSwatch style={{ backgroundColor: themeColor }} />}
-              checkedIcon={<ColorSwatch style={{ backgroundColor: themeColor }} />}
-              // This input is visually there, but actual color picking is handled by the overlaid input.
-              // Optionally disable ripple if you don't want double feedback.
-              // disableRipple
-              onClick={(e) => {
-                e.preventDefault();
-                colorInputRef.current?.click();
+              checked={shouldAcquireOnVisibilityChange}
+              onChange={(e) => {
+                setShouldAcquireOnVisibilityChange(e.currentTarget.checked);
               }}
             />
-            <HiddenColorInput
-              ref={colorInputRef}
-              id="Preferences-color"
-              type="color"
-              value={themeColor}
-              onChange={(e) => setThemeColor(e.currentTarget.value)}
+          }
+        />
+
+        <FormControlLabel
+          label="Enable wake lock on startup"
+          control={
+            <Checkbox
+              checked={shouldAcquireOnLoad}
+              onChange={(e) => {
+                setShouldAcquireOnLoad(e.currentTarget.checked);
+              }}
             />
-          </ColorCheckboxRoot>
-        }
-      />
-    </FormGroup>
+          }
+        />
+
+        <FormControlLabel
+          label={
+            <Box display="flex" alignItems="center" gap={1}>
+              <span>Wake lock indicator color</span>
+
+              <Tooltip title="Select color">
+                <IconButton size="small" onClick={() => {
+                  colorInputRef.current?.click();
+                }}>
+                  <IconPalette size={16} />
+                </IconButton>
+              </Tooltip>
+
+              <Tooltip title="Enter color code">
+                <IconButton size="small" onClick={() => {
+                  setColorCodeDialogOpen(true);
+                }}>
+                  <IconHash size={16} />
+                </IconButton>
+              </Tooltip>
+
+              {eyeDropper ? (
+                <Tooltip title="Pick color from screen">
+                  <IconButton size="small" onClick={async () => {
+                    try {
+                      const { sRGBHex } = await open();
+                      setThemeColor(sRGBHex);
+                    } catch {}
+                  }}>
+                    <IconPipette size={16} />
+                  </IconButton>
+                </Tooltip>
+              ) : null}
+
+              <Tooltip title="Reset color to default">
+                <IconButton size="small" onClick={resetThemeColor}>
+                  <IconUndo size={16} />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          }
+          htmlFor={colorInputId}
+          control={
+            <ColorCheckboxRoot>
+              <Checkbox
+                icon={<ColorSwatch style={{ backgroundColor: themeColor }} />}
+                checkedIcon={<ColorSwatch style={{ backgroundColor: themeColor }} />}
+                onClick={(e) => {
+                  e.preventDefault();
+                  colorInputRef.current?.click();
+                }}
+              />
+              <HiddenColorInput
+                ref={colorInputRef}
+                id={colorInputId}
+                type="color"
+                value={themeColor}
+                onChange={(e) => setThemeColor(e.currentTarget.value)}
+              />
+            </ColorCheckboxRoot>
+          }
+        />
+      </FormGroup>
+    </>
   );
 };

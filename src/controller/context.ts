@@ -32,6 +32,7 @@ export type AppContextType = {
   isIdle: boolean;
   isWakeLockEnabled: boolean;
   releaseWakeLock: ReleaseWakeLock;
+  resetThemeColor: () => void;
   requestFullscreen: RequestFullscreen;
   requestWakeLock: RequestWakeLock;
   setShouldAcquireOnLoad: (value: boolean) => void;
@@ -77,6 +78,9 @@ const defaultAppContext = new Proxy<AppContextType>({
   requestWakeLock: async () => {
     console.error('Default requestWakeLock called, this may indicate a missing AppController provider.');
     return null;
+  },
+  resetThemeColor: () => {
+    console.error('Default resetThemeColor called, this may indicate a missing AppController provider.');
   },
   setShouldAcquireOnLoad: () => {
     console.error('Default setShouldAcquireOnLoad called, this may indicate a missing AppController provider.');

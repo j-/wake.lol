@@ -13,6 +13,7 @@ export type UsePreferencesResult = {
   setShouldExpandUI: Dispatch<SetStateAction<boolean>>;
   themeColor: string;
   setThemeColor: Dispatch<SetStateAction<string>>;
+  resetThemeColor: () => void;
 };
 
 export const storage = localStorage;
@@ -57,7 +58,7 @@ export const usePreferences: UsePreferences = () => {
       serializer: booleanSerializer,
     });
 
-  const [themeColor, setThemeColor] =
+  const [themeColor, setThemeColor, { removeItem: resetThemeColor }] =
     useLocalStorageState(STORAGE_KEY_THEME_COLOR, {
       defaultValue: DEFAULT_THEME_COLOR,
     });
@@ -71,6 +72,7 @@ export const usePreferences: UsePreferences = () => {
     setShouldExpandUI,
     themeColor,
     setThemeColor,
+    resetThemeColor,
   }), [
     shouldAcquireOnLoad,
     setShouldAcquireOnLoad,
@@ -80,6 +82,7 @@ export const usePreferences: UsePreferences = () => {
     setShouldExpandUI,
     themeColor,
     setThemeColor,
+    resetThemeColor,
   ]);
 
   return result;
