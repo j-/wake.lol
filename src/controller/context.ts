@@ -1,4 +1,5 @@
 import { createContext, useContext, type RefObject } from 'react';
+import { DEFAULT_THEME_COLOR } from '../constants';
 import type {
   CollapseUI,
   ExpandUI,
@@ -34,8 +35,10 @@ export type AppContextType = {
   requestWakeLock: RequestWakeLock;
   setShouldAcquireOnLoad: (value: boolean) => void;
   setShouldAcquireOnVisibilityChange: (value: boolean) => void;
+  setThemeColor: (value: string) => void;
   shouldAcquireOnLoad: boolean;
   shouldAcquireOnVisibilityChange: boolean;
+  themeColor: string;
   toggleExpandCollapseUI: ToggleExpandCollapseUI;
   toggleFullscreen: ToggleFullscreen;
   toggleWakeLock: ToggleWakeLock;
@@ -79,8 +82,12 @@ const defaultAppContext = new Proxy<AppContextType>({
   setShouldAcquireOnVisibilityChange: () => {
     console.error('Default setShouldAcquireOnVisibilityChange called, this may indicate a missing AppController provider.');
   },
+  setThemeColor: () => {
+    console.error('Default setThemeColor called, this may indicate a missing AppController provider.');
+  },
   shouldAcquireOnLoad: false,
   shouldAcquireOnVisibilityChange: true,
+  themeColor: DEFAULT_THEME_COLOR,
   toggleExpandCollapseUI: () => {
     console.error('Default toggleExpandCollapseUI called, this may indicate a missing AppController provider.');
   },

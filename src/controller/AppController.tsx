@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, type FC, type PropsWithChildren } from 'react';
+import { useDocument, useWindow } from '../context/WindowContext';
 import { AppContext, type AppContextType } from './context';
 import {
   useAutoAcquireWakeLockOnLoad,
@@ -14,7 +15,6 @@ import { useIsNewWindow } from './use-is-new-window';
 import { useIsWakeLockEnabled } from './use-is-wake-lock-enabled';
 import { usePreferences } from './use-preferences';
 import { useWakeLock } from './use-wake-lock';
-import { useDocument, useWindow } from '../context/WindowContext';
 
 const enableContainerVisibility = true;
 
@@ -47,6 +47,8 @@ export const AppController: FC<AppControllerProps> = ({
     setShouldAcquireOnLoad,
     shouldAcquireOnVisibilityChange,
     setShouldAcquireOnVisibilityChange,
+    themeColor,
+    setThemeColor,
   } = usePreferences();
 
   const {
@@ -143,8 +145,10 @@ export const AppController: FC<AppControllerProps> = ({
     requestWakeLock,
     setShouldAcquireOnLoad,
     setShouldAcquireOnVisibilityChange,
+    setThemeColor,
     shouldAcquireOnLoad,
     shouldAcquireOnVisibilityChange,
+    themeColor,
     toggleExpandCollapseUI,
     toggleFullscreen,
     toggleWakeLock,
@@ -168,8 +172,10 @@ export const AppController: FC<AppControllerProps> = ({
     requestWakeLock,
     setShouldAcquireOnLoad,
     setShouldAcquireOnVisibilityChange,
+    setThemeColor,
     shouldAcquireOnLoad,
     shouldAcquireOnVisibilityChange,
+    themeColor,
     toggleExpandCollapseUI,
     toggleFullscreen,
     toggleWakeLock,

@@ -1,15 +1,19 @@
 import Box from '@mui/material/Box';
-import { useTheme } from '@mui/system';
 import { type FC } from 'react';
 import { Actions } from './Actions';
 import { useDocument } from './context/WindowContext';
 import { useAppContext } from './controller';
-import { booleanSerializer, STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD } from './controller/use-preferences';
+import {
+  booleanSerializer,
+  storage,
+  STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD,
+  usePreferences,
+} from './controller/use-preferences';
 import { HideCursorOnIdle } from './HideCursorOnIdle';
 
 const INTEND_TO_LOCK = (() => {
   try {
-    const item = localStorage.getItem(STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD);
+    const item = storage.getItem(STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD);
     return item ? booleanSerializer.parse(item) : false;
   } catch {
     return false;
@@ -19,7 +23,7 @@ const INTEND_TO_LOCK = (() => {
 export const WakeActionsContainerInset0: FC = () => {
   const document = useDocument();
   const { fullscreenRef, isWakeLockEnabled } = useAppContext();
-  const bgColor = useTheme().palette.enabled.main;
+  const { themeColor: bgColor } = usePreferences();
 
   return (
     <Box data-test-id="WakeActionsContainerInset0" ref={fullscreenRef} sx={[

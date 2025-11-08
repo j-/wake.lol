@@ -11,4 +11,5 @@ export const CSS_VAR_ACTIVE_FG = '--color-active-fg';
 export const CSS_VAR_INACTIVE_BG = '--color-inactive-bg';
 export const CSS_VAR_INACTIVE_FG = '--color-inactive-fg';
 export const ID_BELOW_THE_FOLD = 'below-the-fold';
+export const DEFAULT_THEME_COLOR = '#bef5a3'; // hsl(100, 80%, 80%)
 // export const IS_FILE_PROTOCOL = window.location.protocol === 'file:';
