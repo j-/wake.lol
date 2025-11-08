@@ -100,7 +100,7 @@ export const Actions: FC = () => {
               sx={[
                 buttonStyle,
                 {
-                  opacity: isFullyVisible ? 1 : 0.1,
+                  opacity: isFullyVisible ? buttonStyle.opacity : 0.25,
                   transition: 'opacity 200ms ease-in-out',
                 },
               ]}
