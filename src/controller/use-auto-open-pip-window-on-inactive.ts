@@ -21,7 +21,13 @@ export const useAutoOpenPiPWindowOnInactive: UseAutoOpenPiPWindowOnInactive = ({
 
     const handleVisibilitychange = async () => {
       if (document.visibilityState === 'hidden') {
-        await openPictureInPictureWindow();
+        try {
+          await openPictureInPictureWindow();
+        } catch {
+          // Document PiP requires user activation.
+          // Can fail with `NotAllowedError`.
+          // Nothing we can do, ignore it.
+        }
       }
     };
 

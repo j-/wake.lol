@@ -47,6 +47,7 @@ export const Preferences = () => {
     setShouldAcquireOnLoad,
     shouldAcquireOnVisibilityChange,
     setShouldAcquireOnVisibilityChange,
+    canPictureInPicture,
     shouldOpenPiPOnInactive,
     setShouldOpenPiPOnInactive,
     themeColor,
@@ -95,17 +96,19 @@ export const Preferences = () => {
           }
         />
 
-        <FormControlLabel
-          label="Launch picture-in-picture mode when main window is hidden"
-          control={
-            <Checkbox
-              checked={shouldOpenPiPOnInactive}
-              onChange={(e) => {
-                setShouldOpenPiPOnInactive(e.currentTarget.checked);
-              }}
-            />
-          }
-        />
+        {canPictureInPicture ? (
+          <FormControlLabel
+            label="Launch picture-in-picture mode when main window is hidden"
+            control={
+              <Checkbox
+                checked={shouldOpenPiPOnInactive}
+                onChange={(e) => {
+                  setShouldOpenPiPOnInactive(e.currentTarget.checked);
+                }}
+              />
+            }
+          />
+        ) : null}
 
         <FormControlLabel
           label={
