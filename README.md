@@ -46,7 +46,6 @@ Features
 * Falls back to using invisible video if wake lock is unavailable
 * CI/CD via GitHub Actions and fly.io
 * Offline support via service workers
-* Support for saving locally as HTML file
 * Open in new window to remove browser chrome
 * Themes
 
