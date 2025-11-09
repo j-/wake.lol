@@ -1,20 +1,10 @@
-import { type Dispatch, type SetStateAction, useMemo } from 'react';
+import { useMemo } from 'react';
 import useLocalStorageState from 'use-local-storage-state';
 import { DEFAULT_THEME_COLOR } from '../constants';
 
 export type UsePreferences = () => UsePreferencesResult;
 
-export type UsePreferencesResult = {
-  shouldAcquireOnLoad: boolean;
-  setShouldAcquireOnLoad: Dispatch<SetStateAction<boolean>>;
-  shouldAcquireOnVisibilityChange: boolean;
-  setShouldAcquireOnVisibilityChange: Dispatch<SetStateAction<boolean>>;
-  shouldExpandUI: boolean;
-  setShouldExpandUI: Dispatch<SetStateAction<boolean>>;
-  themeColor: string;
-  setThemeColor: Dispatch<SetStateAction<string>>;
-  resetThemeColor: () => void;
-};
+export type UsePreferencesResult = ReturnType<typeof usePreferences>;
 
 export const storage = localStorage;
 
@@ -36,10 +26,13 @@ export const STORAGE_KEY_SHOULD_ACQUIRE_ON_VISIBILITY_CHANGE =
 export const STORAGE_KEY_SHOULD_EXPAND_UI =
   'shouldExpandUI';
 
+export const STORAGE_KEY_SHOULD_OPEN_PIP_ON_INACTIVE =
+  'shouldOpenPiPOnInactive';
+
 export const STORAGE_KEY_THEME_COLOR =
   'themeColor';
 
-export const usePreferences: UsePreferences = () => {
+export const usePreferences = () => {
   const [shouldAcquireOnLoad, setShouldAcquireOnLoad] =
     useLocalStorageState(STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD, {
       defaultValue: false,
@@ -58,18 +51,26 @@ export const usePreferences: UsePreferences = () => {
       serializer: booleanSerializer,
     });
 
+  const [shouldOpenPiPOnInactive, setShouldOpenPiPOnInactive] =
+    useLocalStorageState(STORAGE_KEY_SHOULD_OPEN_PIP_ON_INACTIVE, {
+      defaultValue: false,
+      serializer: booleanSerializer,
+    });
+
   const [themeColor, setThemeColor, { removeItem: resetThemeColor }] =
     useLocalStorageState(STORAGE_KEY_THEME_COLOR, {
       defaultValue: DEFAULT_THEME_COLOR,
     });
 
-  const result = useMemo<UsePreferencesResult>(() => ({
+  const result = useMemo(() => ({
     shouldAcquireOnLoad,
     setShouldAcquireOnLoad,
     shouldAcquireOnVisibilityChange,
     setShouldAcquireOnVisibilityChange,
     shouldExpandUI,
     setShouldExpandUI,
+    shouldOpenPiPOnInactive,
+    setShouldOpenPiPOnInactive,
     themeColor,
     setThemeColor,
     resetThemeColor,
@@ -80,6 +81,8 @@ export const usePreferences: UsePreferences = () => {
     setShouldAcquireOnVisibilityChange,
     shouldExpandUI,
     setShouldExpandUI,
+    shouldOpenPiPOnInactive,
+    setShouldOpenPiPOnInactive,
     themeColor,
     setThemeColor,
     resetThemeColor,

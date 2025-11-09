@@ -23,7 +23,10 @@ export const PictureInPictureOpenerProvider: FC<PropsWithChildren> = ({
 
   const openPictureInPictureWindow = useCallback<
     OpenPictureInPictureWindow
-  >(async (options) => {
+  >(async (options = {
+    width: 100,
+    height: 100,
+  }) => {
     const pipWin = await window.documentPictureInPicture.requestWindow(options);
 
     const pipCache = createCache({

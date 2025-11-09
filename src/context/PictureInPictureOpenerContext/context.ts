@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 export type OpenPictureInPictureWindow = (
-  options: RequestPictureInPictureWindowOptions,
+  options?: RequestPictureInPictureWindowOptions,
 ) => Promise<PictureInPictureWindow>;
 
 export type PictureInPictureOpenerContextType = {

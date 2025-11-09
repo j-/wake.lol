@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, type FC, type PropsWithChildren } from 'react';
+import { usePictureInPictureOpener } from '../context/PictureInPictureOpenerContext/hooks';
 import { useDocument, useWindow } from '../context/WindowContext';
+import { useNewWindowOpener } from '../use-new-window-opener';
 import { AppContext, type AppContextType } from './context';
 import {
   useAutoAcquireWakeLockOnLoad,
@@ -7,6 +9,7 @@ import {
 import {
   useAutoAcquireWakeLockOnVisibilityChange,
 } from './use-auto-acquire-wake-lock-on-visibility-change';
+import { useAutoOpenPiPWindowOnInactive } from './use-auto-open-pip-window-on-inactive';
 import { useContainerVisibility } from './use-container-visibility';
 import { useExpandCollapseUI } from './use-expand-collapse-ui';
 import { useFullscreen } from './use-fullscreen';
@@ -47,6 +50,10 @@ export const AppController: FC<AppControllerProps> = ({
     setShouldAcquireOnLoad,
     shouldAcquireOnVisibilityChange,
     setShouldAcquireOnVisibilityChange,
+    shouldExpandUI,
+    setShouldExpandUI,
+    shouldOpenPiPOnInactive,
+    setShouldOpenPiPOnInactive,
     themeColor,
     setThemeColor,
     resetThemeColor,
@@ -81,6 +88,9 @@ export const AppController: FC<AppControllerProps> = ({
     !isNewWindow
   );
 
+  const { openPictureInPictureWindow } = usePictureInPictureOpener();
+  const { openNewWindow } = useNewWindowOpener();
+
   useAutoAcquireWakeLockOnLoad({
     shouldAcquireOnLoad,
     requestWakeLock,
@@ -90,6 +100,11 @@ export const AppController: FC<AppControllerProps> = ({
     shouldAcquireOnVisibilityChange,
     didReleaseAutomatically,
     requestWakeLock,
+  });
+
+  useAutoOpenPiPWindowOnInactive({
+    shouldAutoOpenPiPWindowOnInactive:
+      canPictureInPicture && shouldOpenPiPOnInactive,
   });
 
   // Handle global keypresses for fullscreen toggle (f).
@@ -124,6 +139,36 @@ export const AppController: FC<AppControllerProps> = ({
     };
   }, [toggleExpandCollapseUI, window]);
 
+  // Handle global keypresses for show PiP window (p).
+  useEffect(() => {
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (e.key === 'p') {
+        e.preventDefault();
+        openPictureInPictureWindow();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeydown);
+    return () => {
+      window.removeEventListener('keydown', handleKeydown);
+    };
+  }, [openPictureInPictureWindow, window]);
+
+  // Handle global keypresses for open in new window (n).
+  useEffect(() => {
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (e.key === 'n') {
+        e.preventDefault();
+        openNewWindow();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeydown);
+    return () => {
+      window.removeEventListener('keydown', handleKeydown);
+    };
+  }, [openNewWindow, window]);
+
   const isIdle = useIsIdle();
 
   const contextValue = useMemo<AppContextType>(() => ({
@@ -148,9 +193,13 @@ export const AppController: FC<AppControllerProps> = ({
     resetThemeColor,
     setShouldAcquireOnLoad,
     setShouldAcquireOnVisibilityChange,
+    setShouldExpandUI,
+    setShouldOpenPiPOnInactive,
     setThemeColor,
     shouldAcquireOnLoad,
     shouldAcquireOnVisibilityChange,
+    shouldExpandUI,
+    shouldOpenPiPOnInactive,
     themeColor,
     toggleExpandCollapseUI,
     toggleFullscreen,
@@ -176,9 +225,13 @@ export const AppController: FC<AppControllerProps> = ({
     resetThemeColor,
     setShouldAcquireOnLoad,
     setShouldAcquireOnVisibilityChange,
+    setShouldExpandUI,
+    setShouldOpenPiPOnInactive,
     setThemeColor,
     shouldAcquireOnLoad,
     shouldAcquireOnVisibilityChange,
+    shouldExpandUI,
+    shouldOpenPiPOnInactive,
     themeColor,
     toggleExpandCollapseUI,
     toggleFullscreen,

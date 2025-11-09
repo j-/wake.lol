@@ -10,13 +10,14 @@ import type {
   RequestFullscreen,
   ToggleFullscreen,
 } from './use-fullscreen';
+import { type UsePreferencesResult } from './use-preferences';
 import type {
   ReleaseWakeLock,
   RequestWakeLock,
   ToggleWakeLock,
 } from './use-wake-lock';
 
-export type AppContextType = {
+export type AppContextType = UsePreferencesResult & {
   canExpandCollapse: boolean;
   canFullscreen: boolean;
   canNewWindow: boolean;
@@ -35,12 +36,6 @@ export type AppContextType = {
   resetThemeColor: () => void;
   requestFullscreen: RequestFullscreen;
   requestWakeLock: RequestWakeLock;
-  setShouldAcquireOnLoad: (value: boolean) => void;
-  setShouldAcquireOnVisibilityChange: (value: boolean) => void;
-  setThemeColor: (value: string) => void;
-  shouldAcquireOnLoad: boolean;
-  shouldAcquireOnVisibilityChange: boolean;
-  themeColor: string;
   toggleExpandCollapseUI: ToggleExpandCollapseUI;
   toggleFullscreen: ToggleFullscreen;
   toggleWakeLock: ToggleWakeLock;
@@ -88,11 +83,19 @@ const defaultAppContext = new Proxy<AppContextType>({
   setShouldAcquireOnVisibilityChange: () => {
     console.error('Default setShouldAcquireOnVisibilityChange called, this may indicate a missing AppController provider.');
   },
+  setShouldExpandUI: () => {
+    console.error('Default setShouldExpandUI called, this may indicate a missing AppController provider.');
+  },
+  setShouldOpenPiPOnInactive: () => {
+    console.error('Default setShouldOpenPiPOnInactive called, this may indicate a missing AppController provider.');
+  },
   setThemeColor: () => {
     console.error('Default setThemeColor called, this may indicate a missing AppController provider.');
   },
   shouldAcquireOnLoad: false,
   shouldAcquireOnVisibilityChange: true,
+  shouldExpandUI: false,
+  shouldOpenPiPOnInactive: false,
   themeColor: DEFAULT_THEME_COLOR,
   toggleExpandCollapseUI: () => {
     console.error('Default toggleExpandCollapseUI called, this may indicate a missing AppController provider.');

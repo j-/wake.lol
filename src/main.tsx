@@ -15,11 +15,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppErrorBoundary>
-        <AppController>
-          <PictureInPictureOpenerProvider>
+        <PictureInPictureOpenerProvider>
+          <AppController>
             <App />
-          </PictureInPictureOpenerProvider>
-        </AppController>
+          </AppController>
+        </PictureInPictureOpenerProvider>
       </AppErrorBoundary>
     </ThemeProvider>
   </React.StrictMode>,

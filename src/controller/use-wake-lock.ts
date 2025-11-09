@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getWakeLockSentinel } from './wake-lock-sentinel';
 import { useDocument, useNavigator } from '../context/WindowContext';
+import { getWakeLockSentinel } from './wake-lock-sentinel';
 
 export type RequestWakeLock = () => Promise<WakeLockSentinel | null>;
 export type ReleaseWakeLock = () => Promise<void>;
