@@ -3,9 +3,9 @@ import IconButton, { type IconButtonProps } from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Tooltip, { type TooltipProps } from '@mui/material/Tooltip';
 import type { LucideProps } from 'lucide-react';
-import { useState, type FC } from 'react';
-import { AutoDisableTimerDialog } from './AutoDisableTimerDialog';
+import { type FC } from 'react';
 import { ID_BELOW_THE_FOLD } from './constants';
+import { useAutoDisableTimer } from './context/AutoDisableTimerContext';
 import { usePictureInPictureOpener } from './context/PictureInPictureOpenerContext';
 import { useDocument } from './context/WindowContext';
 import { useAppContext } from './controller';
@@ -14,6 +14,7 @@ import {
   IconEllipsis,
   IconExpandCollapse,
   IconEyeOpenClosed,
+  IconHourglass,
   IconMaximizeMinimize,
   IconPictureInPicture,
 } from './icons';
@@ -22,16 +23,13 @@ import { useNewWindowOpener } from './use-new-window-opener';
 export const Actions: FC = () => {
   const document = useDocument();
 
-  const [showAutoDisableTimerDialog, setShowAutoDisableTimerDialog] = useState(
-    false,
-  );
-
   const {
     canExpandCollapse,
     canFullscreen,
     canNewWindow,
     canPictureInPicture,
     canScroll,
+    canStartTimer,
     isExpanded,
     isFullyVisible,
     isFullscreen,
@@ -48,6 +46,8 @@ export const Actions: FC = () => {
   } = usePictureInPictureOpener();
 
   const { openNewWindow } = useNewWindowOpener();
+
+  const { showDialog } = useAutoDisableTimer();
 
   // const iconSize = isFullyVisible ? 32 : 24;
   const iconSize = 24;
@@ -108,7 +108,8 @@ export const Actions: FC = () => {
           document.getElementById(ID_BELOW_THE_FOLD)
             ?.scrollIntoView({ behavior: 'smooth' });
         }}
-        size="large">
+        size="large"
+      >
         <IconEllipsis size={iconSize} style={iconStyle} />
       </IconButton>
     </Tooltip>
@@ -125,7 +126,8 @@ export const Actions: FC = () => {
       <IconButton
         sx={buttonStyle}
         onClick={() => openPictureInPictureWindow()}
-        size="large">
+        size="large"
+      >
         <IconPictureInPicture size={iconSize} style={iconStyle} />
       </IconButton>
     </Tooltip>
@@ -140,6 +142,23 @@ export const Actions: FC = () => {
     >
       <IconButton sx={buttonStyle} onClick={() => openNewWindow()} size="large">
         <IconAppWindowPlatform size={iconSize} style={iconStyle} />
+      </IconButton>
+    </Tooltip>
+  );
+
+  const showAutoDisableTimer = canStartTimer;
+
+  const buttonAutoDisableTimer = !showAutoDisableTimer ?  null : (
+    <Tooltip
+      title="Automatically disable wake lock"
+      slotProps={tooltipSlotProps}
+    >
+      <IconButton
+        sx={buttonStyle}
+        onClick={showDialog}
+        size="large"
+      >
+        <IconHourglass size={iconSize} style={iconStyle} />
       </IconButton>
     </Tooltip>
   );
@@ -179,32 +198,25 @@ export const Actions: FC = () => {
   );
 
   return (
-    <>
-      <AutoDisableTimerDialog
-        open={showAutoDisableTimerDialog}
-        onClose={() => setShowAutoDisableTimerDialog(false)}
-        onSubmit={() => setShowAutoDisableTimerDialog(false)}
-      />
+    <Stack
+      direction="row"
+      gap={4}
+      height={(theme) => theme.spacing(4)}
+      alignItems="center"
+      data-test-id="Actions"
+    >
+      <Box lineHeight={1}>
+        {buttonWakeLock}
+      </Box>
 
-      <Stack
-        direction="row"
-        gap={4}
-        height={(theme) => theme.spacing(4)}
-        alignItems="center"
-        data-test-id="Actions"
-      >
-        <Box lineHeight={1}>
-          {buttonWakeLock}
-        </Box>
-
-        <Stack direction="row" lineHeight={1} gap={2} ml="auto">
-          {buttonScroll}
-          {buttonPictureInPicture}
-          {buttonNewWindow}
-          {buttonExpandCollapse}
-          {buttonFullscreen}
-        </Stack>
+      <Stack direction="row" lineHeight={1} gap={2} ml="auto">
+        {buttonScroll}
+        {buttonPictureInPicture}
+        {buttonNewWindow}
+        {buttonAutoDisableTimer}
+        {buttonExpandCollapse}
+        {buttonFullscreen}
       </Stack>
-    </>
+    </Stack>
   );
 };

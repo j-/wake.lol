@@ -6,6 +6,7 @@ import {
   type FC,
   type PropsWithChildren,
 } from 'react';
+import { AutoDisableTimerDialog } from '../../AutoDisableTimerDialog';
 import { useAppContext } from '../../controller';
 import {
   AutoDisableTimerContext,
@@ -21,6 +22,7 @@ const initialState = DEFAULT_AUTO_DISABLE_TIMER_STATE;
 /** Must be mounted within `AppController`. */
 export const AutoDisableTimer: FC<PropsWithChildren> = ({ children }) => {
   const [state, setState] = useState<AutoDisableTimerState>(initialState);
+  const [show, setShow] = useState(false);
 
   const { disableTime } = state;
 
@@ -37,14 +39,26 @@ export const AutoDisableTimer: FC<PropsWithChildren> = ({ children }) => {
     setState(initialState);
   }, []);
 
+  const showDialog = useCallback(() => {
+    setShow(true);
+  }, []);
+
+  const hideDialog = useCallback(() => {
+    setShow(false);
+  }, []);
+
   const value = useMemo<AutoDisableTimerContextType>(() => ({
     ...state,
     setAutoDisableTimer,
     clearAutoDisableTimer,
+    showDialog,
+    hideDialog,
   }), [
     state,
     setAutoDisableTimer,
     clearAutoDisableTimer,
+    showDialog,
+    hideDialog,
   ]);
 
   useEffect(() => {
@@ -63,6 +77,14 @@ export const AutoDisableTimer: FC<PropsWithChildren> = ({ children }) => {
   }, [clearAutoDisableTimer, disableTime, isWakeLockEnabled, releaseWakeLock]);
 
   return (
-    <AutoDisableTimerContext value={value}>{children}</AutoDisableTimerContext>
+    <AutoDisableTimerContext value={value}>
+      <AutoDisableTimerDialog
+        open={show}
+        onClose={() => setShow(false)}
+        onSubmit={() => setShow(false)}
+      />
+
+      {children}
+    </AutoDisableTimerContext>
   );
 };

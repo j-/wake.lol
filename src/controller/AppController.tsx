@@ -177,6 +177,7 @@ export const AppController: FC<AppControllerProps> = ({
     canNewWindow: !isNewWindow && !isFullscreen && !isPiPWindow,
     canPictureInPicture,
     canScroll: !isNewWindow && !isFullscreen && !isPiPWindow,
+    canStartTimer: !isNewWindow && !isPiPWindow,
     collapseUI,
     exitFullscreen,
     expandUI,

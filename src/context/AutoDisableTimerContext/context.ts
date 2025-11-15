@@ -26,6 +26,8 @@ export type ClearAutoDisableTimer = () => void;
 export type AutoDisableTimerContextType = AutoDisableTimerState & {
   setAutoDisableTimer: SetAutoDisableTimer;
   clearAutoDisableTimer: ClearAutoDisableTimer;
+  showDialog: VoidFunction;
+  hideDialog: VoidFunction;
 };
 
 export const AutoDisableTimerContext = createContext<
@@ -40,6 +42,16 @@ export const AutoDisableTimerContext = createContext<
   clearAutoDisableTimer: () => {
     throw new Error(
       'clearAutoDisableTimer must be used within a AutoDisableTimerContext',
+    );
+  },
+  showDialog: () => {
+    throw new Error(
+      'showDialog must be used within a AutoDisableTimerContext',
+    );
+  },
+  hideDialog: () => {
+    throw new Error(
+      'hideDialog must be used within a AutoDisableTimerContext',
     );
   },
 });
