@@ -74,7 +74,7 @@ export const Actions: FC = () => {
         }
       slotProps={tooltipSlotProps}
     >
-      <IconButton sx={buttonStyle} onClick={toggleWakeLock}>
+      <IconButton sx={buttonStyle} onClick={toggleWakeLock} size="large">
         <IconEyeOpenClosed
           isWakeLockEnabled={isWakeLockEnabled}
           size={iconSize}
@@ -103,7 +103,7 @@ export const Actions: FC = () => {
           document.getElementById(ID_BELOW_THE_FOLD)
             ?.scrollIntoView({ behavior: 'smooth' });
         }}
-      >
+        size="large">
         <IconEllipsis size={iconSize} style={iconStyle} />
       </IconButton>
     </Tooltip>
@@ -117,7 +117,10 @@ export const Actions: FC = () => {
       title="Open in picture-in-picture window [p]"
       slotProps={tooltipSlotProps}
     >
-      <IconButton sx={buttonStyle} onClick={() => openPictureInPictureWindow()}>
+      <IconButton
+        sx={buttonStyle}
+        onClick={() => openPictureInPictureWindow()}
+        size="large">
         <IconPictureInPicture size={iconSize} style={iconStyle} />
       </IconButton>
     </Tooltip>
@@ -130,7 +133,7 @@ export const Actions: FC = () => {
       title="Open in new window [n]"
       slotProps={tooltipSlotProps}
     >
-      <IconButton sx={buttonStyle} onClick={() => openNewWindow()}>
+      <IconButton sx={buttonStyle} onClick={() => openNewWindow()} size="large">
         <IconAppWindowPlatform size={iconSize} style={iconStyle} />
       </IconButton>
     </Tooltip>
@@ -143,7 +146,7 @@ export const Actions: FC = () => {
       title={isExpanded ? 'Collapse UI [t]' : 'Expand UI [t]'}
       slotProps={tooltipSlotProps}
     >
-      <IconButton sx={buttonStyle} onClick={toggleExpandCollapseUI}>
+      <IconButton sx={buttonStyle} onClick={toggleExpandCollapseUI} size="large">
         <IconExpandCollapse
           isExpanded={isExpanded}
           size={iconSize}
@@ -160,7 +163,7 @@ export const Actions: FC = () => {
       title={isFullscreen ? 'Exit fullscreen [f]' : 'Enter fullscreen [f]'}
       slotProps={tooltipSlotProps}
     >
-      <IconButton sx={buttonStyle} onClick={toggleFullscreen}>
+      <IconButton sx={buttonStyle} onClick={toggleFullscreen} size="large">
         <IconMaximizeMinimize
           isMaximized={isFullscreen}
           size={iconSize}
