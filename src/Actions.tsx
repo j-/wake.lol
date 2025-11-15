@@ -3,9 +3,10 @@ import IconButton, { type IconButtonProps } from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Tooltip, { type TooltipProps } from '@mui/material/Tooltip';
 import type { LucideProps } from 'lucide-react';
-import { type FC } from 'react';
+import { useState, type FC } from 'react';
+import { AutoDisableTimerDialog } from './AutoDisableTimerDialog';
 import { ID_BELOW_THE_FOLD } from './constants';
-import { usePictureInPictureOpener } from './context/PictureInPictureOpenerContext/hooks';
+import { usePictureInPictureOpener } from './context/PictureInPictureOpenerContext';
 import { useDocument } from './context/WindowContext';
 import { useAppContext } from './controller';
 import {
@@ -20,6 +21,10 @@ import { useNewWindowOpener } from './use-new-window-opener';
 
 export const Actions: FC = () => {
   const document = useDocument();
+
+  const [showAutoDisableTimerDialog, setShowAutoDisableTimerDialog] = useState(
+    false,
+  );
 
   const {
     canExpandCollapse,
@@ -174,24 +179,32 @@ export const Actions: FC = () => {
   );
 
   return (
-    <Stack
-      direction="row"
-      gap={4}
-      height={(theme) => theme.spacing(4)}
-      alignItems="center"
-      data-test-id="Actions"
-    >
-      <Box lineHeight={1}>
-        {buttonWakeLock}
-      </Box>
+    <>
+      <AutoDisableTimerDialog
+        open={showAutoDisableTimerDialog}
+        onClose={() => setShowAutoDisableTimerDialog(false)}
+        onSubmit={() => setShowAutoDisableTimerDialog(false)}
+      />
 
-      <Stack direction="row" lineHeight={1} gap={2} ml="auto">
-        {buttonScroll}
-        {buttonPictureInPicture}
-        {buttonNewWindow}
-        {buttonExpandCollapse}
-        {buttonFullscreen}
+      <Stack
+        direction="row"
+        gap={4}
+        height={(theme) => theme.spacing(4)}
+        alignItems="center"
+        data-test-id="Actions"
+      >
+        <Box lineHeight={1}>
+          {buttonWakeLock}
+        </Box>
+
+        <Stack direction="row" lineHeight={1} gap={2} ml="auto">
+          {buttonScroll}
+          {buttonPictureInPicture}
+          {buttonNewWindow}
+          {buttonExpandCollapse}
+          {buttonFullscreen}
+        </Stack>
       </Stack>
-    </Stack>
+    </>
   );
 };

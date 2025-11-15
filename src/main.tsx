@@ -4,7 +4,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { AppErrorBoundary } from './AppErrorBoundary';
-import { PictureInPictureOpenerProvider } from './context/PictureInPictureOpenerContext/provider';
+import { AutoDisableTimer } from './context/AutoDisableTimerContext';
+import { PictureInPictureOpenerProvider } from './context/PictureInPictureOpenerContext';
 import { AppController } from './controller/AppController';
 import './index.css';
 import { theme } from './theme';
@@ -17,7 +18,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <AppErrorBoundary>
         <PictureInPictureOpenerProvider>
           <AppController>
-            <App />
+            <AutoDisableTimer>
+              <App />
+            </AutoDisableTimer>
           </AppController>
         </PictureInPictureOpenerProvider>
       </AppErrorBoundary>
