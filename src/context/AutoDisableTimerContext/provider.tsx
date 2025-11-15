@@ -19,8 +19,15 @@ import {
 
 const initialState = DEFAULT_AUTO_DISABLE_TIMER_STATE;
 
+export type AutoDisableTimerProps = PropsWithChildren & {
+  interval?: number;
+};
+
 /** Must be mounted within `AppController`. */
-export const AutoDisableTimer: FC<PropsWithChildren> = ({ children }) => {
+export const AutoDisableTimer: FC<AutoDisableTimerProps> = ({
+  interval = 500,
+  children,
+}) => {
   const [state, setState] = useState<AutoDisableTimerState>(initialState);
   const [show, setShow] = useState(false);
 
@@ -69,12 +76,18 @@ export const AutoDisableTimer: FC<PropsWithChildren> = ({ children }) => {
 
       releaseWakeLock();
       clearAutoDisableTimer();
-    }, 1_000);
+    }, interval);
 
     return () => {
       clearInterval(clock);
     };
-  }, [clearAutoDisableTimer, disableTime, isWakeLockEnabled, releaseWakeLock]);
+  }, [
+    clearAutoDisableTimer,
+    disableTime,
+    interval,
+    isWakeLockEnabled,
+    releaseWakeLock,
+  ]);
 
   return (
     <AutoDisableTimerContext value={value}>
