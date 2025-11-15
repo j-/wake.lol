@@ -1,9 +1,8 @@
 import Box from '@mui/material/Box';
-import IconButton, { type IconButtonProps } from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
-import Tooltip, { type TooltipProps } from '@mui/material/Tooltip';
 import type { LucideProps } from 'lucide-react';
 import { type FC } from 'react';
+import { ActionButton } from './ActionButton';
 import { ID_BELOW_THE_FOLD } from './constants';
 import { useAutoDisableTimer } from './context/AutoDisableTimerContext';
 import { usePictureInPictureOpener } from './context/PictureInPictureOpenerContext';
@@ -31,9 +30,7 @@ export const Actions: FC = () => {
     canScroll,
     canStartTimer,
     isExpanded,
-    isFullyVisible,
     isFullscreen,
-    isIdle,
     isWakeLockEnabled,
     toggleExpandCollapseUI,
     toggleFullscreen,
@@ -55,146 +52,99 @@ export const Actions: FC = () => {
     transition: 'all 200ms ease-in-out',
   };
 
-  const buttonStyle: IconButtonProps['sx'] = {
-    opacity: isIdle && isFullyVisible || isIdle && isExpanded ? 0.25 : 1,
-    transition: 'opacity 200ms ease-in-out',
-    color: 'inherit',
-    '&:hover': {
-      opacity: 1,
-    },
-  };
-
-  const tooltipSlotProps: TooltipProps['slotProps'] = {
-    popper: {
-      container: document.fullscreenElement ?? document.body,
-    },
-  };
-
   const buttonWakeLock = (
-    <Tooltip
+    <ActionButton
       title={
         isWakeLockEnabled ?
           'Wake lock is enabled, click to disable' :
           'Wake lock is disabled, click to enable'
-        }
-      slotProps={tooltipSlotProps}
+      }
+      onClick={toggleWakeLock}
     >
-      <IconButton sx={buttonStyle} onClick={toggleWakeLock} size="large">
-        <IconEyeOpenClosed
-          isWakeLockEnabled={isWakeLockEnabled}
-          size={iconSize}
-          style={iconStyle}
-        />
-      </IconButton>
-    </Tooltip>
+      <IconEyeOpenClosed
+        isWakeLockEnabled={isWakeLockEnabled}
+        size={iconSize}
+        style={iconStyle}
+      />
+    </ActionButton>
   );
 
   const showButtonScroll = canScroll;
 
   const buttonScroll = !showButtonScroll ? null : (
-    <Tooltip
+    <ActionButton
       title="More info and settings"
-      slotProps={tooltipSlotProps}
+      onClick={() => {
+        document.getElementById(ID_BELOW_THE_FOLD)
+          ?.scrollIntoView({ behavior: 'smooth' });
+      }}
     >
-      <IconButton
-        sx={[
-          buttonStyle,
-          {
-            opacity: isFullyVisible ? buttonStyle.opacity : 0.25,
-            transition: 'opacity 200ms ease-in-out',
-          },
-        ]}
-        onClick={() => {
-          document.getElementById(ID_BELOW_THE_FOLD)
-            ?.scrollIntoView({ behavior: 'smooth' });
-        }}
-        size="large"
-      >
-        <IconEllipsis size={iconSize} style={iconStyle} />
-      </IconButton>
-    </Tooltip>
+      <IconEllipsis size={iconSize} style={iconStyle} />
+    </ActionButton>
   );
 
   const showButtonPictureInPicture =
     canPictureInPicture && !isPictureInPictureWindowOpen;
 
-  const buttonPictureInPicture = !showButtonPictureInPicture ?  null : (
-    <Tooltip
+  const buttonPictureInPicture = !showButtonPictureInPicture ? null : (
+    <ActionButton
       title="Open in picture-in-picture window [p]"
-      slotProps={tooltipSlotProps}
+      onClick={() => openPictureInPictureWindow()}
     >
-      <IconButton
-        sx={buttonStyle}
-        onClick={() => openPictureInPictureWindow()}
-        size="large"
-      >
-        <IconPictureInPicture size={iconSize} style={iconStyle} />
-      </IconButton>
-    </Tooltip>
+      <IconPictureInPicture size={iconSize} style={iconStyle} />
+    </ActionButton>
   );
 
   const showButtonNewWindow = canNewWindow;
 
   const buttonNewWindow = !showButtonNewWindow ? null : (
-    <Tooltip
+    <ActionButton
       title="Open in new window [n]"
-      slotProps={tooltipSlotProps}
+      onClick={() => openNewWindow()}
     >
-      <IconButton sx={buttonStyle} onClick={() => openNewWindow()} size="large">
-        <IconAppWindowPlatform size={iconSize} style={iconStyle} />
-      </IconButton>
-    </Tooltip>
+      <IconAppWindowPlatform size={iconSize} style={iconStyle} />
+    </ActionButton>
   );
 
   const showAutoDisableTimer = canStartTimer;
 
-  const buttonAutoDisableTimer = !showAutoDisableTimer ?  null : (
-    <Tooltip
+  const buttonAutoDisableTimer = !showAutoDisableTimer ? null : (
+    <ActionButton
       title="Automatically disable wake lock"
-      slotProps={tooltipSlotProps}
+      onClick={showDialog}
     >
-      <IconButton
-        sx={buttonStyle}
-        onClick={showDialog}
-        size="large"
-      >
-        <IconHourglass size={iconSize} style={iconStyle} />
-      </IconButton>
-    </Tooltip>
+      <IconHourglass size={iconSize} style={iconStyle} />
+    </ActionButton>
   );
 
   const showButtonExpandCollapse = canExpandCollapse;
 
   const buttonExpandCollapse = !showButtonExpandCollapse ? null : (
-    <Tooltip
+    <ActionButton
       title={isExpanded ? 'Collapse UI [t]' : 'Expand UI [t]'}
-      slotProps={tooltipSlotProps}
+      onClick={toggleExpandCollapseUI}
     >
-      <IconButton sx={buttonStyle} onClick={toggleExpandCollapseUI} size="large">
-        <IconExpandCollapse
-          isExpanded={isExpanded}
-          size={iconSize}
-          style={iconStyle}
-        />
-      </IconButton>
-    </Tooltip>
+      <IconExpandCollapse
+        isExpanded={isExpanded}
+        size={iconSize}
+        style={iconStyle}
+      />
+    </ActionButton>
   );
 
   const showButtonFullscreen = canFullscreen;
 
   const buttonFullscreen = !showButtonFullscreen ? null : (
-    <Tooltip
+    <ActionButton
       title={isFullscreen ? 'Exit fullscreen [f]' : 'Enter fullscreen [f]'}
-      slotProps={tooltipSlotProps}
+      onClick={toggleFullscreen}
     >
-      <IconButton sx={buttonStyle} onClick={toggleFullscreen} size="large">
-        <IconMaximizeMinimize
-          isMaximized={isFullscreen}
-          size={iconSize}
-          style={iconStyle}
-        />
-      </IconButton>
-    </Tooltip>
+      <IconMaximizeMinimize
+        isMaximized={isFullscreen}
+        size={iconSize}
+        style={iconStyle}
+      />
+    </ActionButton>
   );
 
   return (
