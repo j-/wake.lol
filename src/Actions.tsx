@@ -89,7 +89,7 @@ export const Actions: FC = () => {
 
   const buttonAutoDisableTimer = !showAutoDisableTimer ? null : (
     <ActionButton
-      title="Automatically disable wake lock"
+      title="Automatically disable wake lock&hellip;"
       onClick={showDialog}
     >
       <IconHourglass />
