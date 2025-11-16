@@ -13,16 +13,27 @@ import {
 } from './icons';
 
 export const ActionButtonWakeLock: FC = () => {
-  const { isWakeLockEnabled, toggleWakeLock } = useAppContext();
+  const {
+    isWakeLockEnabled,
+    releaseWakeLock,
+    requestWakeLock,
+  } = useAppContext();
 
-  const { disableTime, disableType } = useAutoDisableTimer();
+  const {
+    disableTime,
+    disableType,
+    clearAutoDisableTimer,
+  } = useAutoDisableTimer();
 
   if (disableType === AutoDisableTimerType.CLOCK) {
     const timeString = new Date(disableTime).toLocaleTimeString();
     return (
       <ActionButton
         title={`Keeping screen awake until ${timeString}, click to disable`}
-        onClick={toggleWakeLock}
+        onClick={() => {
+          clearAutoDisableTimer();
+          releaseWakeLock();
+        }}
       >
         <IconClockFading />
       </ActionButton>
@@ -34,7 +45,10 @@ export const ActionButtonWakeLock: FC = () => {
     return (
       <ActionButton
         title={`Keeping screen awake until ${timeString}, click to disable`}
-        onClick={toggleWakeLock}
+        onClick={() => {
+          clearAutoDisableTimer();
+          releaseWakeLock();
+        }}
       >
         <IconTimer />
       </ActionButton>
@@ -45,7 +59,7 @@ export const ActionButtonWakeLock: FC = () => {
     return (
       <ActionButton
         title="Keeping screen awake, click to disable"
-        onClick={toggleWakeLock}
+        onClick={releaseWakeLock}
       >
         <IconEye />
       </ActionButton>
@@ -55,7 +69,7 @@ export const ActionButtonWakeLock: FC = () => {
   return (
     <ActionButton
       title="Click to keep screen awake"
-      onClick={toggleWakeLock}
+      onClick={requestWakeLock}
     >
       <IconEyeClosed />
     </ActionButton>
