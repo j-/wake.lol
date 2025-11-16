@@ -2,15 +2,15 @@ import IconButton, { type IconButtonProps } from '@mui/material/IconButton';
 import Tooltip, { type TooltipProps } from '@mui/material/Tooltip';
 import type { SxProps, Theme } from '@mui/system';
 import { type FC } from 'react';
-import { useDocument } from './context/WindowContext';
 import { useAppContext } from './controller';
+import { useTooltipContainer } from './use-tooltip-container';
 
 export type ActionButtonProps = IconButtonProps & {
   title: TooltipProps['title'];
 };
 
 export const ActionButton: FC<ActionButtonProps> = ({ title, ...props }) => {
-  const document = useDocument();
+  const tooltipContainer = useTooltipContainer();
 
   const {
     isExpanded,
@@ -32,7 +32,7 @@ export const ActionButton: FC<ActionButtonProps> = ({ title, ...props }) => {
 
   const tooltipSlotProps: TooltipProps['slotProps'] = {
     popper: {
-      container: document.fullscreenElement ?? document.body,
+      container: tooltipContainer,
     },
   };
 
