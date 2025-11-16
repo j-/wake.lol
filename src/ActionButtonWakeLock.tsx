@@ -1,4 +1,3 @@
-import type { LucideProps } from 'lucide-react';
 import { type FC } from 'react';
 import { ActionButton } from './ActionButton';
 import {
@@ -9,7 +8,7 @@ import { useAppContext } from './controller';
 import {
   IconClockFading,
   IconEye,
-  IconEyeOpenClosed,
+  IconEyeClosed,
   IconTimer,
 } from './icons';
 
@@ -19,9 +18,6 @@ export const ActionButtonWakeLock: FC = () => {
   const { disableTime, disableType } = useAutoDisableTimer();
 
   const iconSize = 24;
-  const iconStyle: LucideProps['style'] = {
-    transition: 'all 200ms ease-in-out',
-  };
 
   if (disableType === AutoDisableTimerType.CLOCK) {
     const timeString = new Date(disableTime).toLocaleTimeString();
@@ -30,10 +26,7 @@ export const ActionButtonWakeLock: FC = () => {
         title={`Keeping screen awake until ${timeString}, click to disable`}
         onClick={toggleWakeLock}
       >
-        <IconClockFading
-          size={iconSize}
-          style={iconStyle}
-        />
+        <IconClockFading size={iconSize} />
       </ActionButton>
     );
   }
@@ -45,10 +38,7 @@ export const ActionButtonWakeLock: FC = () => {
         title={`Keeping screen awake until ${timeString}, click to disable`}
         onClick={toggleWakeLock}
       >
-        <IconTimer
-          size={iconSize}
-          style={iconStyle}
-        />
+        <IconTimer size={iconSize} />
       </ActionButton>
     );
   }
@@ -59,10 +49,7 @@ export const ActionButtonWakeLock: FC = () => {
         title="Keeping screen awake, click to disable"
         onClick={toggleWakeLock}
       >
-        <IconEye
-          size={iconSize}
-          style={iconStyle}
-        />
+        <IconEye size={iconSize} />
       </ActionButton>
     );
   }
@@ -72,11 +59,7 @@ export const ActionButtonWakeLock: FC = () => {
       title="Click to keep screen awake"
       onClick={toggleWakeLock}
     >
-      <IconEyeOpenClosed
-        isWakeLockEnabled={isWakeLockEnabled}
-        size={iconSize}
-        style={iconStyle}
-      />
+      <IconEyeClosed size={iconSize} />
     </ActionButton>
   );
 };

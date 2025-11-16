@@ -42,17 +42,6 @@ export {
   IconUndo,
 };
 
-export type IconEyeOpenClosedProps = LucideProps & {
-  isWakeLockEnabled: boolean;
-};
-
-export const IconEyeOpenClosed: FC<IconEyeOpenClosedProps> = ({
-  isWakeLockEnabled,
-  ...props
-}) => (
-  isWakeLockEnabled ? <IconEye {...props} /> : <IconEyeClosed {...props} />
-);
-
 export type IconMaximizeMinimizeProps = LucideProps & {
   isMaximized: boolean;
 };

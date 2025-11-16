@@ -25,6 +25,9 @@ export const ActionButton: FC<ActionButtonProps> = ({ title, ...props }) => {
     '&:hover': {
       opacity: 1,
     },
+    '& svg': {
+      transition: 'all 200ms ease-in-out',
+    },
   };
 
   const tooltipSlotProps: TooltipProps['slotProps'] = {
