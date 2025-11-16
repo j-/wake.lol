@@ -30,6 +30,7 @@ export const Actions: FC = () => {
     canScroll,
     canStartTimer,
     collapseUI,
+    exitFullscreen,
     isExpanded,
     isFullscreen,
     toggleExpandCollapseUI,
@@ -90,7 +91,10 @@ export const Actions: FC = () => {
   const buttonAutoDisableTimer = !showAutoDisableTimer ? null : (
     <ActionButton
       title="Automatically disable wake lock&hellip;"
-      onClick={showDialog}
+      onClick={() => {
+        exitFullscreen();
+        showDialog();
+      }}
     >
       <IconHourglass />
     </ActionButton>
