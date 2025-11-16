@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import type { LucideProps } from 'lucide-react';
 import { type FC } from 'react';
+import { flushSync } from 'react-dom';
 import { ActionButton } from './ActionButton';
 import { ID_BELOW_THE_FOLD } from './constants';
 import { useAutoDisableTimer } from './context/AutoDisableTimerContext';
@@ -29,6 +30,7 @@ export const Actions: FC = () => {
     canPictureInPicture,
     canScroll,
     canStartTimer,
+    collapseUI,
     isExpanded,
     isFullscreen,
     isWakeLockEnabled,
@@ -75,6 +77,7 @@ export const Actions: FC = () => {
     <ActionButton
       title="More info and settings"
       onClick={() => {
+        flushSync(() => collapseUI());
         document.getElementById(ID_BELOW_THE_FOLD)
           ?.scrollIntoView({ behavior: 'smooth' });
       }}
