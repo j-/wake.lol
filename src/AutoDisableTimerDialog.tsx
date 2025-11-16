@@ -174,6 +174,11 @@ export const AutoDisableTimerDialog: FC<AutoDisableTimerDialogProps> = ({
               margin="dense"
               variant="outlined"
               onKeyDown={(e) => e.stopPropagation()}
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
+              }}
             />
           </form>
         </TabPanel>
