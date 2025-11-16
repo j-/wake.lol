@@ -17,8 +17,6 @@ export const ActionButtonWakeLock: FC = () => {
 
   const { disableTime, disableType } = useAutoDisableTimer();
 
-  const iconSize = 24;
-
   if (disableType === AutoDisableTimerType.CLOCK) {
     const timeString = new Date(disableTime).toLocaleTimeString();
     return (
@@ -26,7 +24,7 @@ export const ActionButtonWakeLock: FC = () => {
         title={`Keeping screen awake until ${timeString}, click to disable`}
         onClick={toggleWakeLock}
       >
-        <IconClockFading size={iconSize} />
+        <IconClockFading />
       </ActionButton>
     );
   }
@@ -38,7 +36,7 @@ export const ActionButtonWakeLock: FC = () => {
         title={`Keeping screen awake until ${timeString}, click to disable`}
         onClick={toggleWakeLock}
       >
-        <IconTimer size={iconSize} />
+        <IconTimer />
       </ActionButton>
     );
   }
@@ -49,7 +47,7 @@ export const ActionButtonWakeLock: FC = () => {
         title="Keeping screen awake, click to disable"
         onClick={toggleWakeLock}
       >
-        <IconEye size={iconSize} />
+        <IconEye />
       </ActionButton>
     );
   }
@@ -59,7 +57,7 @@ export const ActionButtonWakeLock: FC = () => {
       title="Click to keep screen awake"
       onClick={toggleWakeLock}
     >
-      <IconEyeClosed size={iconSize} />
+      <IconEyeClosed />
     </ActionButton>
   );
 };

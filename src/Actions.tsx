@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import type { LucideProps } from 'lucide-react';
 import { type FC } from 'react';
 import { flushSync } from 'react-dom';
 import { ActionButton } from './ActionButton';
@@ -46,12 +45,6 @@ export const Actions: FC = () => {
 
   const { showDialog } = useAutoDisableTimer();
 
-  // const iconSize = isFullyVisible ? 32 : 24;
-  const iconSize = 24;
-  const iconStyle: LucideProps['style'] = {
-    transition: 'all 200ms ease-in-out',
-  };
-
   const buttonWakeLock = <ActionButtonWakeLock />;
 
   const showButtonScroll = canScroll;
@@ -65,7 +58,7 @@ export const Actions: FC = () => {
           ?.scrollIntoView({ behavior: 'smooth' });
       }}
     >
-      <IconEllipsis size={iconSize} style={iconStyle} />
+      <IconEllipsis />
     </ActionButton>
   );
 
@@ -77,7 +70,7 @@ export const Actions: FC = () => {
       title="Open in picture-in-picture window [p]"
       onClick={() => openPictureInPictureWindow()}
     >
-      <IconPictureInPicture size={iconSize} style={iconStyle} />
+      <IconPictureInPicture />
     </ActionButton>
   );
 
@@ -88,7 +81,7 @@ export const Actions: FC = () => {
       title="Open in new window [n]"
       onClick={() => openNewWindow()}
     >
-      <IconAppWindowPlatform size={iconSize} style={iconStyle} />
+      <IconAppWindowPlatform />
     </ActionButton>
   );
 
@@ -99,7 +92,7 @@ export const Actions: FC = () => {
       title="Automatically disable wake lock"
       onClick={showDialog}
     >
-      <IconHourglass size={iconSize} style={iconStyle} />
+      <IconHourglass />
     </ActionButton>
   );
 
@@ -110,11 +103,7 @@ export const Actions: FC = () => {
       title={isExpanded ? 'Collapse UI [t]' : 'Expand UI [t]'}
       onClick={toggleExpandCollapseUI}
     >
-      <IconExpandCollapse
-        isExpanded={isExpanded}
-        size={iconSize}
-        style={iconStyle}
-      />
+      <IconExpandCollapse isExpanded={isExpanded} />
     </ActionButton>
   );
 
@@ -125,11 +114,7 @@ export const Actions: FC = () => {
       title={isFullscreen ? 'Exit fullscreen [f]' : 'Enter fullscreen [f]'}
       onClick={toggleFullscreen}
     >
-      <IconMaximizeMinimize
-        isMaximized={isFullscreen}
-        size={iconSize}
-        style={iconStyle}
-      />
+      <IconMaximizeMinimize isMaximized={isFullscreen} />
     </ActionButton>
   );
 
