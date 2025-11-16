@@ -1,6 +1,7 @@
 import {
   AppWindow as IconAppWindow,
   AppWindowMac as IconAppWindowMac,
+  ClockFading as IconClockFading,
   Ellipsis as IconEllipsis,
   Eye as IconEye,
   EyeClosed as IconEyeClosed,
@@ -14,6 +15,7 @@ import {
   PictureInPicture as IconPictureInPicture,
   Pipette as IconPipette,
   SquarePlus as IconSquarePlus,
+  Timer as IconTimer,
   Undo as IconUndo,
   type LucideProps,
 } from 'lucide-react';
@@ -23,6 +25,7 @@ import { Platform, detectPlatform } from './detect-platform';
 export {
   IconAppWindow,
   IconAppWindowMac,
+  IconClockFading,
   IconEllipsis,
   IconEye,
   IconEyeClosed,
@@ -35,6 +38,7 @@ export {
   IconPalette,
   IconPictureInPicture,
   IconPipette,
+  IconTimer,
   IconUndo,
 };
 

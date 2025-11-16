@@ -4,6 +4,7 @@ import type { LucideProps } from 'lucide-react';
 import { type FC } from 'react';
 import { flushSync } from 'react-dom';
 import { ActionButton } from './ActionButton';
+import { ActionButtonWakeLock } from './ActionButtonWakeLock';
 import { ID_BELOW_THE_FOLD } from './constants';
 import { useAutoDisableTimer } from './context/AutoDisableTimerContext';
 import { usePictureInPictureOpener } from './context/PictureInPictureOpenerContext';
@@ -13,7 +14,6 @@ import {
   IconAppWindowPlatform,
   IconEllipsis,
   IconExpandCollapse,
-  IconEyeOpenClosed,
   IconHourglass,
   IconMaximizeMinimize,
   IconPictureInPicture,
@@ -33,10 +33,8 @@ export const Actions: FC = () => {
     collapseUI,
     isExpanded,
     isFullscreen,
-    isWakeLockEnabled,
     toggleExpandCollapseUI,
     toggleFullscreen,
-    toggleWakeLock,
   } = useAppContext();
 
   const {
@@ -54,22 +52,7 @@ export const Actions: FC = () => {
     transition: 'all 200ms ease-in-out',
   };
 
-  const buttonWakeLock = (
-    <ActionButton
-      title={
-        isWakeLockEnabled ?
-          'Wake lock is enabled, click to disable' :
-          'Wake lock is disabled, click to enable'
-      }
-      onClick={toggleWakeLock}
-    >
-      <IconEyeOpenClosed
-        isWakeLockEnabled={isWakeLockEnabled}
-        size={iconSize}
-        style={iconStyle}
-      />
-    </ActionButton>
-  );
+  const buttonWakeLock = <ActionButtonWakeLock />;
 
   const showButtonScroll = canScroll;
 
