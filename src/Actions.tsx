@@ -159,7 +159,12 @@ export const Actions: FC = () => {
         {buttonWakeLock}
       </Box>
 
-      <Stack direction="row" lineHeight={1} gap={2} ml="auto">
+      <Stack
+        direction="row"
+        lineHeight={1}
+        gap={{ xs: 0, sm: 1, md: 2 }}
+        ml="auto"
+      >
         {buttonScroll}
         {buttonPictureInPicture}
         {buttonNewWindow}
