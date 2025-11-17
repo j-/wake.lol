@@ -1,11 +1,6 @@
-import {
-  type RefObject,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { type RefObject, useCallback, useMemo } from 'react';
 import { useDocument } from '../context/WindowContext';
+import { useFullScreenElement } from '../use-full-screen-element';
 
 export type RequestFullscreen = () => Promise<void>;
 export type ExitFullscreen = () => Promise<void>;
@@ -26,7 +21,8 @@ export type UseFullscreenResult = {
 
 export const useFullscreen: UseFullscreen = ({ fullscreenRef }) => {
   const document = useDocument();
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const fullscreenElement = useFullScreenElement();
+  const isFullscreen = fullscreenElement === fullscreenRef.current;
 
   const requestFullscreen = useCallback<RequestFullscreen>(async () => {
     if (!fullscreenRef.current) {
@@ -35,18 +31,14 @@ export const useFullscreen: UseFullscreen = ({ fullscreenRef }) => {
     }
     if (fullscreenRef.current.requestFullscreen) {
       await fullscreenRef.current.requestFullscreen();
-    } else {
-      console.warn('Fullscreen request failed: no compatible method found.');
     }
   }, [fullscreenRef]);
 
   const exitFullscreen = useCallback<ExitFullscreen>(async () => {
-    if (document.exitFullscreen) {
+    if (fullscreenElement && typeof document.exitFullscreen === 'function') {
       await document.exitFullscreen();
-    } else {
-      console.warn('Exit fullscreen request failed: no compatible method found.');
     }
-  }, [document]);
+  }, [document, fullscreenElement]);
 
   const toggleFullscreen = useCallback<ToggleFullscreen>(() => {
     if (isFullscreen) {
@@ -67,16 +59,6 @@ export const useFullscreen: UseFullscreen = ({ fullscreenRef }) => {
     requestFullscreen,
     toggleFullscreen,
   ]);
-
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(document.fullscreenElement === fullscreenRef.current);
-    };
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-    };
-  }, [document, fullscreenRef]);
 
   return result;
 };
