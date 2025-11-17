@@ -5,6 +5,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import NativeSelect from '@mui/material/NativeSelect';
 import Stack from '@mui/material/Stack';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -26,6 +29,7 @@ export type AutoDisableTimerDialogProps = Omit<DialogProps, 'onSubmit'> & {
 };
 
 const nameTime = 'time';
+const nameQuick = 'quick';
 const nameHours = 'hours';
 const nameMinutes = 'minutes';
 
@@ -48,6 +52,7 @@ export const AutoDisableTimerDialog: FC<AutoDisableTimerDialogProps> = ({
 }) => {
   const id = useId();
   const formId = `AutoDisableTimerDialog-${id}`;
+  const quickId = `${formId}-quick`;
   const [timerType, setTimerType] = useState(AutoDisableTimerType.CLOCK);
 
   const { isWakeLockEnabled, requestWakeLock } = useAppContext();
@@ -59,6 +64,23 @@ export const AutoDisableTimerDialog: FC<AutoDisableTimerDialogProps> = ({
     e.preventDefault();
 
     const data = new FormData(e.currentTarget);
+
+    const quick = data.get(nameQuick) as string;
+
+    if (quick) {
+      const timerTime = Date.now() + Number(quick);
+
+      setAutoDisableTimer(
+        AutoDisableTimerType.COUNTDOWN,
+        timerTime,
+      );
+
+      if (!isWakeLockEnabled) await requestWakeLock();
+
+      onSubmit?.(e);
+      return;
+    }
+
     const time = data.get(nameTime) as string;
 
     if (!time) {
@@ -105,6 +127,23 @@ export const AutoDisableTimerDialog: FC<AutoDisableTimerDialogProps> = ({
     e.preventDefault();
 
     const data = new FormData(e.currentTarget);
+
+    const quick = data.get(nameQuick) as string;
+
+    if (quick) {
+      const timerTime = Date.now() + Number(quick);
+
+      setAutoDisableTimer(
+        AutoDisableTimerType.COUNTDOWN,
+        timerTime,
+      );
+
+      if (!isWakeLockEnabled) await requestWakeLock();
+
+      onSubmit?.(e);
+      return;
+    }
+
     const hoursString = data.get(nameHours) as string;
     const minutesString = data.get(nameMinutes) as string;
 
@@ -125,7 +164,6 @@ export const AutoDisableTimerDialog: FC<AutoDisableTimerDialogProps> = ({
 
     const deltaMilliseconds = seconds * 1_000;
     const timerTime = Date.now() + deltaMilliseconds;
-
 
     setAutoDisableTimer(
       AutoDisableTimerType.COUNTDOWN,
@@ -166,7 +204,6 @@ export const AutoDisableTimerDialog: FC<AutoDisableTimerDialogProps> = ({
           <form id={formId} onSubmit={handleSubmitClock}>
             <TextField
               autoFocus
-              required
               label="Time"
               type="time"
               name={nameTime}
@@ -235,6 +272,33 @@ export const AutoDisableTimerDialog: FC<AutoDisableTimerDialogProps> = ({
       </DialogContent>
 
       <DialogActions sx={{ m: 2 }}>
+        <FormControl sx={{ mr: 'auto', minWidth: 120 }} size="small">
+          <InputLabel variant="standard" htmlFor={quickId}>
+            Quick select
+          </InputLabel>
+
+          <NativeSelect
+            defaultValue=""
+            onChange={(e) => {
+              e.currentTarget.form?.requestSubmit();
+            }}
+            inputProps={{
+              id: quickId,
+              form: formId,
+              name: nameQuick,
+            }}
+          >
+            <option value=""></option>
+            <option value={1 * 10 * 60_000}>10 minutes</option>
+            <option value={1 * 30 * 60_000}>30 minutes</option>
+            <option value={1 * 60 * 60_000}>1 hour</option>
+            <option value={2 * 60 * 60_000}>2 hours</option>
+            <option value={4 * 60 * 60_000}>4 hours</option>
+            <option value={8 * 60 * 60_000}>8 hours</option>
+            <option value={12 * 60 * 60_000}>12 hours</option>
+          </NativeSelect>
+        </FormControl>
+
         <Button onClick={(e) => onClose?.(e, 'backdropClick')}>
           Cancel
         </Button>
