@@ -58,5 +58,13 @@ export const theme = createTheme({
         },
       },
     },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          color: 'white',
+          backgroundColor: 'black',
+        },
+      },
+    },
   },
 });
