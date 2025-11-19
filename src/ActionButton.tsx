@@ -20,10 +20,11 @@ export const ActionButton: FC<ActionButtonProps> = ({ title, ...props }) => {
 
   const buttonStyle: IconButtonProps['sx'] = {
     opacity: isIdle && isFullyVisible || isIdle && isExpanded ? 0.25 : 1,
-    transition: 'opacity 200ms ease-in-out',
+    transition: 'opacity 200ms ease-in-out, background-color 100ms ease-out',
     color: 'inherit',
     '&:hover': {
       opacity: 1,
+      backgroundColor: '#0002',
     },
     '& svg': {
       transition: 'all 200ms ease-in-out',
