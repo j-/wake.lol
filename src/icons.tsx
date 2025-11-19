@@ -1,6 +1,12 @@
 import {
   AppWindow as IconAppWindow,
   AppWindowMac as IconAppWindowMac,
+  BatteryWarning as IconBattery0,
+  Battery as IconBattery1,
+  BatteryLow as IconBattery2,
+  BatteryMedium as IconBattery3,
+  BatteryFull as IconBattery4,
+  BatteryCharging as IconBatteryCharging,
   ClockFading as IconClockFading,
   Ellipsis as IconEllipsis,
   Eye as IconEye,
@@ -25,6 +31,12 @@ import { Platform, detectPlatform } from './detect-platform';
 export {
   IconAppWindow,
   IconAppWindowMac,
+  IconBattery0,
+  IconBattery1,
+  IconBattery2,
+  IconBattery3,
+  IconBattery4,
+  IconBatteryCharging,
   IconClockFading,
   IconEllipsis,
   IconEye,
@@ -80,4 +92,22 @@ export const IconAppWindowPlatform: FC<IconAppWindowPlatformProps> = ({
     default:
       return <IconSquarePlus {...props} />;
   }
+};
+
+export type IconBatteryProps = LucideProps & {
+  charging: BatteryManager['charging'];
+  level: BatteryManager['level'];
+};
+
+export const IconBattery: FC<IconBatteryProps> = ({
+  charging,
+  level,
+  ...props
+}) => {
+  if (charging) return <IconBatteryCharging {...props} />;
+  if (level < 0.2) return <IconBattery0 {...props} />;
+  if (level < 0.4) return <IconBattery1 {...props} />;
+  if (level < 0.6) return <IconBattery2 {...props} />;
+  if (level < 0.8) return <IconBattery3 {...props} />;
+  return <IconBattery4 {...props} />;
 };

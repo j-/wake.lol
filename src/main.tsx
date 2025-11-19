@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { AppErrorBoundary } from './AppErrorBoundary';
 import { AutoDisableTimer } from './context/AutoDisableTimerContext';
+import { BatteryProvider } from './context/BatteryManagerContext';
 import { PictureInPictureOpenerProvider } from './context/PictureInPictureOpenerContext';
 import { AppController } from './controller/AppController';
 import './index.css';
@@ -19,7 +20,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <PictureInPictureOpenerProvider>
           <AppController>
             <AutoDisableTimer>
-              <App />
+              <BatteryProvider>
+                <App />
+              </BatteryProvider>
             </AutoDisableTimer>
           </AppController>
         </PictureInPictureOpenerProvider>

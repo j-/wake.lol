@@ -6,11 +6,13 @@ import { ActionButton } from './ActionButton';
 import { ActionButtonWakeLock } from './ActionButtonWakeLock';
 import { ID_BELOW_THE_FOLD } from './constants';
 import { useAutoDisableTimer } from './context/AutoDisableTimerContext';
+import { useBattery } from './context/BatteryManagerContext';
 import { usePictureInPictureOpener } from './context/PictureInPictureOpenerContext';
 import { useDocument } from './context/WindowContext';
 import { useAppContext } from './controller';
 import {
   IconAppWindowPlatform,
+  IconBattery,
   IconEllipsis,
   IconExpandCollapse,
   IconHourglass,
@@ -45,6 +47,8 @@ export const Actions: FC = () => {
   const { openNewWindow } = useNewWindowOpener();
 
   const { showDialog } = useAutoDisableTimer();
+
+  const battery = useBattery();
 
   const buttonWakeLock = <ActionButtonWakeLock />;
 
@@ -122,6 +126,14 @@ export const Actions: FC = () => {
     </ActionButton>
   );
 
+  const buttonBattery = !battery || battery.charging && battery.level ? null : (
+    <ActionButton
+      title={`Battery ${battery.charging ? 'charging' : 'discharging'} (${Math.ceil(battery.level * 100)}%)`}
+    >
+      <IconBattery charging={battery.charging} level={battery.level} />
+    </ActionButton>
+  );
+
   return (
     <Stack
       direction="row"
@@ -141,6 +153,7 @@ export const Actions: FC = () => {
         ml="auto"
       >
         {buttonScroll}
+        {buttonBattery}
         {buttonPictureInPicture}
         {buttonNewWindow}
         {buttonAutoDisableTimer}

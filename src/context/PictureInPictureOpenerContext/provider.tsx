@@ -8,10 +8,11 @@ import { AppErrorBoundary } from '../../AppErrorBoundary';
 import { AppController } from '../../controller/AppController';
 import { theme } from '../../theme';
 import { WakeActionsContainerInset0 } from '../../WakeActionsContainerInset0';
+import { BatteryProvider } from '../BatteryManagerContext';
 import { useWindow, WindowProvider } from '../WindowContext';
 import {
-  type OpenPictureInPictureWindow,
   PictureInPictureOpenerContext,
+  type OpenPictureInPictureWindow,
   type PictureInPictureOpenerContextType,
 } from './context';
 
@@ -47,7 +48,9 @@ export const PictureInPictureOpenerProvider: FC<PropsWithChildren> = ({
           <AppErrorBoundary>
             <WindowProvider window={pipWin.window}>
               <AppController isPiPWindow>
-                <WakeActionsContainerInset0 />
+                <BatteryProvider>
+                  <WakeActionsContainerInset0 />
+                </BatteryProvider>
               </AppController>
             </WindowProvider>
           </AppErrorBoundary>
