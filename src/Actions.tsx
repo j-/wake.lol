@@ -127,7 +127,7 @@ export const Actions: FC = () => {
     </ActionButton>
   );
 
-  const buttonBattery = !battery || battery.charging && battery.level ? null : (
+  const buttonBattery = !battery || (battery.charging && battery.level >= 1) ? null : (
     <ActionButton
       title={`Battery ${battery.charging ? 'charging' : 'discharging'} (${Math.ceil(battery.level * 100)}%)`}
       onClick={() => opener?.focus()}
