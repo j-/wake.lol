@@ -137,7 +137,7 @@ export const Actions: FC = () => {
   return (
     <Stack
       direction="row"
-      gap={4}
+      gap={2}
       height={(theme) => theme.spacing(4)}
       alignItems="center"
       data-test-id="Actions"
