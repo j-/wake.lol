@@ -1,22 +1,28 @@
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
-import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider } from '@mui/material/styles';
 import { useCallback, useMemo, useState, type FC, type PropsWithChildren } from 'react';
 import { createRoot } from 'react-dom/client';
-import { AppErrorBoundary } from '../../AppErrorBoundary';
-import { AppController } from '../../controller/AppController';
-import { theme } from '../../theme';
-import { WakeActionsContainerInset0 } from '../../WakeActionsContainerInset0';
-import { BatteryProvider } from '../BatteryManagerContext';
-import { useWindow, WindowProvider } from '../WindowContext';
+import { useWindow } from '../WindowContext';
 import {
   PictureInPictureOpenerContext,
   type OpenPictureInPictureWindow,
   type PictureInPictureOpenerContextType,
 } from './context';
 
-export const PictureInPictureOpenerProvider: FC<PropsWithChildren> = ({
+export type PiPComponentProps = {
+  window: Window;
+};
+
+export type PiPComponent = FC<PiPComponentProps>;
+
+export type PictureInPictureOpenerProviderProps = PropsWithChildren<{
+  PiPComponent: PiPComponent;
+}>;
+
+export const PictureInPictureOpenerProvider: FC<
+  PictureInPictureOpenerProviderProps
+> = ({
+  PiPComponent,
   children,
 }) => {
   const window = useWindow();
@@ -43,18 +49,7 @@ export const PictureInPictureOpenerProvider: FC<PropsWithChildren> = ({
 
     createRoot(root).render(
       <CacheProvider value={pipCache}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <AppErrorBoundary>
-            <WindowProvider window={pipWin.window}>
-              <AppController isPiPWindow>
-                <BatteryProvider>
-                  <WakeActionsContainerInset0 />
-                </BatteryProvider>
-              </AppController>
-            </WindowProvider>
-          </AppErrorBoundary>
-        </ThemeProvider>
+        <PiPComponent window={pipWin as Window} />
       </CacheProvider>,
     );
 
@@ -65,7 +60,7 @@ export const PictureInPictureOpenerProvider: FC<PropsWithChildren> = ({
     setPipWin(pipWin);
 
     return pipWin;
-  }, [window.documentPictureInPicture]);
+  }, [PiPComponent, window.documentPictureInPicture]);
 
   const value = useMemo<PictureInPictureOpenerContextType>(() => ({
     isPictureInPictureWindowOpen: pipWin !== null,

@@ -7,9 +7,11 @@ import { AppErrorBoundary } from './AppErrorBoundary';
 import { AutoDisableTimer } from './context/AutoDisableTimerContext';
 import { BatteryProvider } from './context/BatteryManagerContext';
 import { PictureInPictureOpenerProvider } from './context/PictureInPictureOpenerContext';
+import { WindowProvider } from './context/WindowContext';
 import { AppController } from './controller/AppController';
 import './index.css';
 import { theme } from './theme';
+import { WakeActionsContainerInset0 } from './WakeActionsContainerInset0';
 
 // eslint-disable-next-line no-restricted-globals
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -17,7 +19,20 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppErrorBoundary>
-        <PictureInPictureOpenerProvider>
+        <PictureInPictureOpenerProvider PiPComponent={({ window }) => (
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <AppErrorBoundary>
+              <WindowProvider window={window}>
+                <AppController isPiPWindow>
+                  <BatteryProvider>
+                    <WakeActionsContainerInset0 />
+                  </BatteryProvider>
+                </AppController>
+              </WindowProvider>
+            </AppErrorBoundary>
+          </ThemeProvider>
+        )}>
           <AppController>
             <AutoDisableTimer>
               <BatteryProvider>
