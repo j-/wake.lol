@@ -8,7 +8,7 @@ import { ID_BELOW_THE_FOLD } from './constants';
 import { useAutoDisableTimer } from './context/AutoDisableTimerContext';
 import { useBattery } from './context/BatteryManagerContext';
 import { usePictureInPictureOpener } from './context/PictureInPictureOpenerContext';
-import { useDocument } from './context/WindowContext';
+import { useDocument, useOpener } from './context/WindowContext';
 import { useAppContext } from './controller';
 import {
   IconAppWindowPlatform,
@@ -23,6 +23,7 @@ import { useNewWindowOpener } from './use-new-window-opener';
 
 export const Actions: FC = () => {
   const document = useDocument();
+  const opener = useOpener();
 
   const {
     canExpandCollapse,
@@ -129,6 +130,7 @@ export const Actions: FC = () => {
   const buttonBattery = !battery || battery.charging && battery.level ? null : (
     <ActionButton
       title={`Battery ${battery.charging ? 'charging' : 'discharging'} (${Math.ceil(battery.level * 100)}%)`}
+      onClick={() => opener?.focus()}
     >
       <IconBattery charging={battery.charging} level={battery.level} />
     </ActionButton>

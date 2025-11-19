@@ -13,6 +13,10 @@ export const useNavigator = (): Navigator => {
   return useWindow().navigator;
 };
 
+export const useOpener = (): Window | null => {
+  return useWindow().opener ?? null as Window | null;
+};
+
 export const useBody = (): HTMLBodyElement => {
   return useDocument().body as HTMLBodyElement;
 };
