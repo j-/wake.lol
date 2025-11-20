@@ -1,4 +1,3 @@
-import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { type FC } from 'react';
 import { flushSync } from 'react-dom';
@@ -13,6 +12,7 @@ import { useAppContext } from './controller';
 import {
   IconAppWindowPlatform,
   IconBattery,
+  IconColorSwatch,
   IconEllipsis,
   IconExpandCollapse,
   IconHourglass,
@@ -52,6 +52,27 @@ export const Actions: FC = () => {
   const battery = useBattery();
 
   const buttonWakeLock = <ActionButtonWakeLock />;
+
+  const showButtonBlack = true;
+
+  const buttonBlack = !showButtonBlack ? null : (
+    <ActionButton
+      title="Make screen black"
+      onClick={() => {
+        const div = document.createElement('div');
+        div.style.backgroundColor = 'black';
+        document.body.appendChild(div);
+        div.requestFullscreen();
+        document.addEventListener('fullscreenchange', () => {
+          if (document.fullscreenElement !== div) {
+            document.body.removeChild(div);
+          }
+        }, { once: true });
+      }}
+    >
+      <IconColorSwatch fill="#0006" />
+    </ActionButton>
+  );
 
   const showButtonScroll = canScroll;
 
@@ -144,9 +165,14 @@ export const Actions: FC = () => {
       alignItems="center"
       data-test-id="Actions"
     >
-      <Box lineHeight={1}>
+      <Stack
+        direction="row"
+        lineHeight={1}
+        gap={{ xs: 0, sm: 1, md: 2 }}
+      >
         {buttonWakeLock}
-      </Box>
+        {buttonBlack}
+      </Stack>
 
       <Stack
         direction="row"
