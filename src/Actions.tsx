@@ -53,7 +53,10 @@ export const Actions: FC = () => {
 
   const buttonWakeLock = <ActionButtonWakeLock />;
 
-  const showButtonBlack = true;
+  const showButtonBlack = (
+    !isFullscreen &&
+    typeof document.body.requestFullscreen === 'function'
+  );
 
   const buttonBlack = !showButtonBlack ? null : (
     <ActionButton
@@ -63,11 +66,12 @@ export const Actions: FC = () => {
         div.style.backgroundColor = 'black';
         document.body.appendChild(div);
         div.requestFullscreen();
-        document.addEventListener('fullscreenchange', () => {
-          if (document.fullscreenElement !== div) {
-            document.body.removeChild(div);
-          }
-        }, { once: true });
+        const handleChange = () => {
+          if (document.fullscreenElement === div) return;
+          document.body.removeChild(div);
+          document.removeEventListener('fullscreenchange', handleChange);
+        };
+        document.addEventListener('fullscreenchange', handleChange);
       }}
     >
       <IconColorSwatch fill="#0006" />
