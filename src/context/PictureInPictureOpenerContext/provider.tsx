@@ -66,7 +66,7 @@ export const PictureInPictureOpenerProvider: FC<
   }, [PiPComponent, window.documentPictureInPicture]);
 
   const value = useMemo<PictureInPictureOpenerContextType>(() => ({
-    isPictureInPictureWindowOpen: pipWin !== null,
+    isPictureInPictureWindowOpen: pipWin != null,
     openPictureInPictureWindow,
   }), [
     openPictureInPictureWindow,
