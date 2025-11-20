@@ -42,18 +42,21 @@ export const PictureInPictureOpenerProvider: FC<
       container: pipWin.document.head,
     });
 
-    const root = pipWin.document.createElement('div');
-    root.id = 'root';
+    const parent = pipWin.document.createElement('div');
+    parent.id = 'root';
 
-    pipWin.document.body.appendChild(root);
+    pipWin.document.body.appendChild(parent);
 
-    createRoot(root).render(
+    const root = createRoot(parent);
+
+    root.render(
       <CacheProvider value={pipCache}>
         <PiPComponent window={pipWin as Window} />
       </CacheProvider>,
     );
 
     pipWin.addEventListener('pagehide', () => {
+      root.unmount();
       setPipWin(null);
     }, { once: true });
 
