@@ -9,7 +9,13 @@ export const BatteryProvider: FC<PropsWithChildren> = ({ children }) => {
   const [value, setValue] = useState<BatteryManagerContextType | null>(null);
 
   useEffect(() => {
-    navigator.getBattery().then(setManager);
+    (async () => {
+      try {
+        setManager(await navigator.getBattery());
+      } catch {
+        // Swallow errors. Leaves battery manager state null.
+      }
+    })();
   }, [navigator]);
 
   useEffect(() => {
