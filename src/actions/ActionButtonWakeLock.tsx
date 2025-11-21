@@ -1,16 +1,16 @@
 import { type FC } from 'react';
-import { ActionButton } from './ActionButton';
 import {
   AutoDisableTimerType,
   useAutoDisableTimer,
-} from './context/AutoDisableTimerContext';
-import { useAppContext } from './controller';
+} from '../context/AutoDisableTimerContext';
+import { useAppContext } from '../controller';
 import {
   IconClockFading,
   IconEye,
   IconEyeClosed,
   IconTimer,
-} from './icons';
+} from '../icons';
+import { ActionButton } from './ActionButton';
 
 export const ActionButtonWakeLock: FC = () => {
   const {

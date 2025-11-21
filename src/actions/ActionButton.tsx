@@ -2,8 +2,8 @@ import IconButton, { type IconButtonProps } from '@mui/material/IconButton';
 import Tooltip, { type TooltipProps } from '@mui/material/Tooltip';
 import type { SxProps, Theme } from '@mui/system';
 import { type FC } from 'react';
-import { useAppContext } from './controller';
-import { useTooltipContainer } from './use-tooltip-container';
+import { useAppContext } from '../controller';
+import { useTooltipContainer } from '../use-tooltip-container';
 
 export type ActionButtonProps = IconButtonProps & {
   title: TooltipProps['title'];

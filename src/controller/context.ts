@@ -44,7 +44,7 @@ export type AppContextType = UsePreferencesResult & {
 
 let didAccessDefaultAppContext = false;
 
-const defaultAppContext = new Proxy<AppContextType>({
+export const defaultAppContext = new Proxy<AppContextType>({
   canExpandCollapse: false,
   canFullscreen: false,
   canNewWindow: false,
