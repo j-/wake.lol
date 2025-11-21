@@ -71,7 +71,7 @@ export const Preferences = () => {
         }}
       />
 
-      <FormGroup sx={{ display: 'inline-flex' }}>
+      <FormGroup sx={{ display: 'inline-flex', gap: { xs: 1, sm: 2} }}>
         <FormControlLabel
           label="Re-enable wake lock automatically"
           control={
