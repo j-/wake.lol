@@ -86,33 +86,36 @@ export const Actions: FC = () => {
   return (
     <Stack
       direction="row"
-      gap={2}
-      height={(theme) => theme.spacing(4)}
-      alignItems="center"
+      gap={4}
+      alignItems="start"
       data-test-id="Actions"
+      m={-1}
     >
       <Stack
         direction="row"
         lineHeight={1}
-        gap={{ xs: 0, sm: 1, md: 2 }}
+        gap={{ xs: 0, sm: 1 }}
+        alignContent="start"
       >
         {buttonWakeLock}
         {buttonBlackScreen}
       </Stack>
 
       <Stack
-        direction="row"
+        direction="row-reverse"
         lineHeight={1}
-        gap={{ xs: 0, sm: 1, md: 2 }}
+        gap={{ xs: 0, sm: 1 }}
         ml="auto"
+        flexWrap="wrap"
+        justifyContent="end"
       >
-        {buttonScroll}
-        {buttonBattery}
-        {buttonShowPiP}
-        {buttonNewWindow}
-        {buttonAutoDisableTimer}
-        {buttonExpandCollapse}
         {buttonFullscreen}
+        {buttonExpandCollapse}
+        {buttonAutoDisableTimer}
+        {buttonNewWindow}
+        {buttonShowPiP}
+        {buttonBattery}
+        {buttonScroll}
       </Stack>
     </Stack>
   );
