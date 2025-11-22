@@ -1,6 +1,7 @@
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem, { type MenuItemProps } from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 import { type FC } from 'react';
 import { useAppContext } from '../controller';
 import { IconExpandCollapse } from '../icons';
@@ -11,14 +12,19 @@ export const useActionExpandCollapse = () => {
 
   return {
     icon: <IconExpandCollapse isExpanded={isExpanded} />,
-    title: isExpanded ? 'Collapse UI [t]' : 'Expand UI [t]',
+    title: isExpanded ? 'Collapse UI' : 'Expand UI',
+    hotkey: 't',
     onClick: toggleExpandCollapseUI,
   };
 };
 
 export const ActionButtonExpandCollapse: FC = () => {
-  const { icon, title, onClick } = useActionExpandCollapse();
-  return <ActionButton title={title} onClick={onClick}>{icon}</ActionButton>;
+  const { icon, title, onClick, hotkey } = useActionExpandCollapse();
+  return (
+    <ActionButton title={`${title} [${hotkey}`} onClick={onClick}>
+      {icon}
+    </ActionButton>
+  );
 };
 
 export const ActionMenuItemExpandCollapse: FC<
@@ -26,7 +32,7 @@ export const ActionMenuItemExpandCollapse: FC<
 > = ({
   onClick: onClickProp,
 }) => {
-  const { icon, title, onClick } = useActionExpandCollapse();
+  const { icon, title, onClick, hotkey } = useActionExpandCollapse();
 
   return (
     <MenuItem onClick={(e) => {
@@ -35,6 +41,9 @@ export const ActionMenuItemExpandCollapse: FC<
     }}>
       <ListItemIcon>{icon}</ListItemIcon>
       <ListItemText>{title}</ListItemText>
+      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+        {hotkey}
+      </Typography>
     </MenuItem>
   );
 };
