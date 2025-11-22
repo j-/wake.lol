@@ -8,6 +8,7 @@ import { ActionButtonBlackScreen } from './actions/action-black-screen';
 import { ActionButtonWakeLock } from './actions/ActionButtonWakeLock';
 import { useDocument } from './context/WindowContext';
 import { useAppContext } from './controller';
+import { canRequestFullscreen } from './fullscreen';
 
 export const Actions: FC = () => {
   const document = useDocument();
@@ -18,7 +19,7 @@ export const Actions: FC = () => {
 
   const showButtonBlackScreen = (
     !isFullscreen &&
-    typeof document.body.requestFullscreen === 'function'
+    canRequestFullscreen(document.body)
   );
 
   const buttonBlackScreen = showButtonBlackScreen ? (

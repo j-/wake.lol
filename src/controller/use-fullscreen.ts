@@ -1,5 +1,8 @@
 import { type RefObject, useCallback, useMemo } from 'react';
-import { useDocument } from '../context/WindowContext';
+import {
+  requestFullscreen as requestFullscreenUtil,
+  exitFullscreen as exitFullscreenUtil,
+} from '../fullscreen';
 import { useFullScreenElement } from '../use-full-screen-element';
 
 export type RequestFullscreen = () => Promise<void>;
@@ -20,7 +23,6 @@ export type UseFullscreenResult = {
 };
 
 export const useFullscreen: UseFullscreen = ({ fullscreenRef }) => {
-  const document = useDocument();
   const fullscreenElement = useFullScreenElement();
   const isFullscreen = fullscreenElement === fullscreenRef.current;
 
@@ -29,16 +31,14 @@ export const useFullscreen: UseFullscreen = ({ fullscreenRef }) => {
       console.warn('Fullscreen request failed: fullscreenRef is not set.');
       return;
     }
-    if (fullscreenRef.current.requestFullscreen) {
-      await fullscreenRef.current.requestFullscreen();
-    }
+    return requestFullscreenUtil(fullscreenRef.current);
   }, [fullscreenRef]);
 
   const exitFullscreen = useCallback<ExitFullscreen>(async () => {
-    if (fullscreenElement && typeof document.exitFullscreen === 'function') {
-      await document.exitFullscreen();
+    if (fullscreenElement) {
+      return exitFullscreenUtil();
     }
-  }, [document, fullscreenElement]);
+  }, [fullscreenElement]);
 
   const toggleFullscreen = useCallback<ToggleFullscreen>(() => {
     if (isFullscreen) {
