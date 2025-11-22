@@ -11,6 +11,7 @@ import { ActionMenuItemShowPiP } from './actions/action-show-pip';
 import { useBattery } from './context/BatteryManagerContext';
 import { usePictureInPictureOpener } from './context/PictureInPictureOpenerContext';
 import { useAppContext } from './controller';
+import { useTooltipContainer } from './use-tooltip-container';
 
 export type ActionMenuProps<T extends HTMLElement> = {
   open: boolean;
@@ -23,6 +24,8 @@ export const ActionMenu = <T extends HTMLElement>({
   anchorRef,
   onClose,
 }: ActionMenuProps<T>) => {
+  const tooltipContainer = useTooltipContainer();
+
   const {
     canExpandCollapse,
     canFullscreen,
@@ -97,6 +100,7 @@ export const ActionMenu = <T extends HTMLElement>({
           sx: { width: 360, maxWidth: '100%' },
         },
       }}
+      container={tooltipContainer}
     >
       {itemFullscreen}
       {itemExpandCollapse}
