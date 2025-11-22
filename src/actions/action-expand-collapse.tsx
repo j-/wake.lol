@@ -21,7 +21,7 @@ export const useActionExpandCollapse = () => {
 export const ActionButtonExpandCollapse: FC = () => {
   const { icon, title, onClick, hotkey } = useActionExpandCollapse();
   return (
-    <ActionButton title={`${title} [${hotkey}`} onClick={onClick}>
+    <ActionButton title={`${title} [${hotkey}]`} onClick={onClick}>
       {icon}
     </ActionButton>
   );

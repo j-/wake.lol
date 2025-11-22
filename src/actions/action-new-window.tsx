@@ -21,7 +21,7 @@ export const useActionNewWindow = () => {
 export const ActionButtonNewWindow: FC = () => {
   const { icon, title, onClick, hotkey } = useActionNewWindow();
   return (
-    <ActionButton title={`${title} [${hotkey}`} onClick={onClick}>
+    <ActionButton title={`${title} [${hotkey}]`} onClick={onClick}>
       {icon}
     </ActionButton>
   );

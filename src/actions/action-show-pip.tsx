@@ -21,7 +21,7 @@ export const useActionShowPiP = () => {
 export const ActionButtonShowPiP: FC = () => {
   const { icon, title, onClick, hotkey } = useActionShowPiP();
   return (
-    <ActionButton title={`${title} [${hotkey}`} onClick={onClick}>
+    <ActionButton title={`${title} [${hotkey}]`} onClick={onClick}>
       {icon}
     </ActionButton>
   );

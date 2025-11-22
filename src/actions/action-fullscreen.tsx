@@ -21,7 +21,7 @@ export const useActionFullscreen = () => {
 export const ActionButtonFullscreen: FC = () => {
   const { icon, title, onClick, hotkey } = useActionFullscreen();
   return (
-    <ActionButton title={`${title} [${hotkey}`} onClick={onClick}>
+    <ActionButton title={`${title} [${hotkey}]`} onClick={onClick}>
       {icon}
     </ActionButton>
   );
