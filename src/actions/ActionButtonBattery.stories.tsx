@@ -1,3 +1,3 @@
-import { ActionButtonBattery } from './ActionButtonBattery';
+import { ActionButtonBattery } from './action-battery';
 
 export const Unknown = () => <ActionButtonBattery />;

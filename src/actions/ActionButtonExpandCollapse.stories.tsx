@@ -1,5 +1,5 @@
 import { MockAppController } from '../controller/MockAppController';
-import { ActionButtonExpandCollapse } from './ActionButtonExpandCollapse';
+import { ActionButtonExpandCollapse } from './action-expand-collapse';
 
 const toggleExpandCollapseUI = async () => {
   console.log('Fullscreen expand/collapse UI action called');

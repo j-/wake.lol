@@ -1,3 +1,3 @@
-import { ActionButtonBlackScreen } from './ActionButtonBlackScreen';
+import { ActionButtonBlackScreen } from './action-black-screen';
 
 export const Default = () => <ActionButtonBlackScreen />;

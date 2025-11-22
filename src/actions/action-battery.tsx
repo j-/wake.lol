@@ -1,3 +1,6 @@
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem, { type MenuItemProps } from '@mui/material/MenuItem';
 import { useMemo, type FC } from 'react';
 import { useBattery } from '../context/BatteryManagerContext';
 import { useOpener } from '../context/WindowContext';
@@ -27,7 +30,7 @@ const formatBattery = ({
   return `Battery ${chargingLabel} (${levelLabel})`;
 };
 
-export const ActionButtonBattery: FC = () => {
+export const useActionButtonBattery = () => {
   const opener = useOpener();
 
   const {
@@ -42,12 +45,32 @@ export const ActionButtonBattery: FC = () => {
     });
   }, [charging, level]);
 
+  return {
+    icon:  <IconBattery charging={charging ?? false} level={level ?? 1} />,
+    title,
+    onClick: () => opener?.focus(),
+  };
+};
+
+export const ActionButtonBattery: FC = () => {
+  const { icon, title, onClick } = useActionButtonBattery();
+  return <ActionButton title={title} onClick={onClick}>{icon}</ActionButton>;
+};
+
+export const ActionMenuItemBattery: FC<
+  MenuItemProps
+> = ({
+  onClick: onClickProp,
+}) => {
+  const { icon, title, onClick } = useActionButtonBattery();
+
   return (
-    <ActionButton
-      title={title ?? ''}
-      onClick={() => opener?.focus()}
-    >
-      <IconBattery charging={charging ?? false} level={level ?? 1} />
-    </ActionButton>
+    <MenuItem onClick={(e) => {
+      onClick();
+      onClickProp?.(e);
+    }}>
+      <ListItemIcon>{icon}</ListItemIcon>
+      <ListItemText>{title}</ListItemText>
+    </MenuItem>
   );
 };
