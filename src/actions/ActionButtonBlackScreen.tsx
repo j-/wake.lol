@@ -1,28 +1,15 @@
-import { useCallback, type FC } from 'react';
-import { useDocument } from '../context/WindowContext';
+import { type FC } from 'react';
+import { useBlackScreen } from '../context/BlackScreenContext';
 import { IconColorSwatch } from '../icons';
 import { ActionButton } from './ActionButton';
 
 export const ActionButtonBlackScreen: FC = () => {
-  const document = useDocument();
-
-  const handleClick = useCallback(() => {
-    const div = document.createElement('div');
-    div.style.backgroundColor = 'black';
-    document.body.appendChild(div);
-    div.requestFullscreen();
-    const handleChange = () => {
-      if (document.fullscreenElement === div) return;
-      document.body.removeChild(div);
-      document.removeEventListener('fullscreenchange', handleChange);
-    };
-    document.addEventListener('fullscreenchange', handleChange);
-  }, [document]);
+  const { showBlackScreen } = useBlackScreen();
 
   return (
     <ActionButton
       title="Make screen black"
-      onClick={handleClick}
+      onClick={showBlackScreen}
     >
       <IconColorSwatch fill="#0006" />
     </ActionButton>

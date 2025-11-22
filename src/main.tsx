@@ -6,6 +6,7 @@ import App from './App';
 import { AppErrorBoundary } from './AppErrorBoundary';
 import { AutoDisableTimer } from './context/AutoDisableTimerContext';
 import { BatteryProvider } from './context/BatteryManagerContext';
+import { BlackScreenProvider } from './context/BlackScreenContext';
 import { PictureInPictureOpenerProvider } from './context/PictureInPictureOpenerContext';
 import { WindowProvider } from './context/WindowContext';
 import { AppController } from './controller/AppController';
@@ -26,7 +27,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               <WindowProvider window={window}>
                 <AppController isPiPWindow>
                   <BatteryProvider>
-                    <WakeActionsContainerInset0 />
+                    <BlackScreenProvider>
+                      <WakeActionsContainerInset0 />
+                    </BlackScreenProvider>
                   </BatteryProvider>
                 </AppController>
               </WindowProvider>
@@ -36,7 +39,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <AppController>
             <AutoDisableTimer>
               <BatteryProvider>
-                <App />
+                <BlackScreenProvider>
+                  <App />
+                </BlackScreenProvider>
               </BatteryProvider>
             </AutoDisableTimer>
           </AppController>
