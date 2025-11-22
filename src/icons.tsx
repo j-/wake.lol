@@ -27,7 +27,7 @@ import {
   type LucideProps,
 } from 'lucide-react';
 import type { FC } from 'react';
-import { Platform, detectPlatform } from './detect-platform';
+import { Platform, usePlatform } from './context/PlatformContext';
 
 export {
   IconAppWindow,
@@ -83,9 +83,12 @@ export type IconAppWindowPlatformProps = LucideProps & {
 };
 
 export const IconAppWindowPlatform: FC<IconAppWindowPlatformProps> = ({
-  platform = detectPlatform(),
+  platform: platformOverride,
   ...props
 }) => {
+  const detectedPlatform = usePlatform();
+  const platform = platformOverride ?? detectedPlatform;
+
   switch (platform) {
     case Platform.WIN:
       return <IconAppWindow {...props} />;
