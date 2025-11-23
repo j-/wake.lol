@@ -1,4 +1,5 @@
 import mdx from '@mdx-js/rollup';
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -51,5 +52,12 @@ export default defineConfig({
         prefer_related_applications: true,
       },
     }),
+    sentryVitePlugin({
+      org: "j-hj",
+      project: "wake-lol",
+    }),
   ],
+  build: {
+    sourcemap: true,
+  },
 });
