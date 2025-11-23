@@ -101,6 +101,7 @@ export const ActionMenu = <T extends HTMLElement>({
         },
       }}
       container={tooltipContainer}
+      transitionDuration={0}
     >
       {itemFullscreen}
       {itemExpandCollapse}

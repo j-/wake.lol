@@ -11,7 +11,9 @@ export const ActionButtonMenu: FC = () => {
     <>
       <ActionMenu
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+        }}
         anchorRef={ref}
       />
 
