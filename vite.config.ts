@@ -3,10 +3,16 @@ import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 // import { viteSingleFile } from 'vite-plugin-singlefile';
+import 'dotenv/config';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: './',
+  define: {
+    'process.env': {
+      SENTRY_DSN: process.env.SENTRY_DSN,
+    },
+  },
   plugins: [
     mdx(),
     react(),

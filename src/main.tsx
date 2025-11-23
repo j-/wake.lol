@@ -1,5 +1,6 @@
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
+import * as Sentry from "@sentry/react";
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
@@ -14,6 +15,13 @@ import { AppController } from './controller/AppController';
 import './index.css';
 import { theme } from './theme';
 import { WakeActionsContainerInset0 } from './WakeActionsContainerInset0';
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  // Setting this option to true will send default PII data to Sentry.
+  // For example, automatic IP address collection on events.
+  sendDefaultPii: true,
+});
 
 // eslint-disable-next-line no-restricted-globals
 ReactDOM.createRoot(document.getElementById('root')!).render(
