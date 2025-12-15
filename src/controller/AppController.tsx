@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, type FC, type PropsWithChildren } from 'react';
 import { usePictureInPictureOpener } from '../context/PictureInPictureOpenerContext/hooks';
 import { useDocument, useWindow } from '../context/WindowContext';
-import { useFullScreenEnabled } from '../use-full-screen-enabled';
+import { useFullscreenEnabled } from '../fullscreen/use-fullscreen-enabled';
 import { useNewWindowOpener } from '../use-new-window-opener';
 import { AppContext, type AppContextType } from './context';
 import {
@@ -44,7 +44,7 @@ export const AppController: FC<AppControllerProps> = ({
   } = useFullscreen({ fullscreenRef });
 
   const canExpandCollapse = !isFullscreen;
-  const canFullscreen = useFullScreenEnabled();
+  const canFullscreen = useFullscreenEnabled();
 
   const {
     shouldAcquireOnLoad,

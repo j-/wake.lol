@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useDocument } from './context/WindowContext';
+import { useDocument } from '../context/WindowContext';
 
-export const useFullScreenElement = () => {
+export const useFullscreenElement = () => {
   const document = useDocument();
 
   const [fullscreenElement, setFullscreenElement] = useState(() => {

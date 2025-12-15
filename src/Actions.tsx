@@ -8,15 +8,15 @@ import { ActionButtonBlackScreen } from './actions/action-black-screen';
 import { ActionButtonWakeLock } from './actions/ActionButtonWakeLock';
 import { useDocument } from './context/WindowContext';
 import { useAppContext } from './controller';
-import { canRequestFullscreen } from './fullscreen';
-import { useFullScreenEnabled } from './use-full-screen-enabled';
+import { canRequestFullscreen } from './fullscreen/can-request-fullscreen';
+import { useFullscreenEnabled } from './fullscreen/use-fullscreen-enabled';
 
 export const Actions: FC = () => {
   const document = useDocument();
   const theme = useTheme();
   const isSmallOrUp = useMediaQuery(theme.breakpoints.up('sm'));
   const { isFullscreen } = useAppContext();
-  const isFullscreenEnabled = useFullScreenEnabled();
+  const isFullscreenEnabled = useFullscreenEnabled();
   const buttonWakeLock = <ActionButtonWakeLock />;
 
   const showButtonBlackScreen = (

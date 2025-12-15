@@ -1,9 +1,9 @@
 import { useBody } from './context/WindowContext';
-import { useFullScreenElement } from './use-full-screen-element';
+import { useFullscreenElement } from './fullscreen/use-fullscreen-element';
 
 export const useTooltipContainer = () => {
   const body = useBody();
-  const fullscreenElement = useFullScreenElement();
+  const fullscreenElement = useFullscreenElement();
 
   return fullscreenElement ?? body;
 };

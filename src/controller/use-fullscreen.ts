@@ -1,9 +1,7 @@
 import { type RefObject, useCallback, useMemo } from 'react';
-import {
-  requestFullscreen as requestFullscreenUtil,
-  exitFullscreen as exitFullscreenUtil,
-} from '../fullscreen';
-import { useFullScreenElement } from '../use-full-screen-element';
+import { exitFullscreen as exitFullscreenUtil } from '../fullscreen/exit-fullscreen';
+import { requestFullscreen as requestFullscreenUtil } from '../fullscreen/request-fullscreen';
+import { useFullscreenElement } from '../fullscreen/use-fullscreen-element';
 
 export type RequestFullscreen = () => Promise<void>;
 export type ExitFullscreen = () => Promise<void>;
@@ -23,7 +21,7 @@ export type UseFullscreenResult = {
 };
 
 export const useFullscreen: UseFullscreen = ({ fullscreenRef }) => {
-  const fullscreenElement = useFullScreenElement();
+  const fullscreenElement = useFullscreenElement();
   const isFullscreen = fullscreenElement === fullscreenRef.current;
 
   const requestFullscreen = useCallback<RequestFullscreen>(async () => {
