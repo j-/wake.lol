@@ -11,6 +11,7 @@ import { ActionMenuItemShowPiP } from './actions/action-show-pip';
 import { useBattery } from './context/BatteryManagerContext';
 import { usePictureInPictureOpener } from './context/PictureInPictureOpenerContext';
 import { useAppContext } from './controller';
+import { useShowButtonBlackScreen } from './use-show-button-black-screen';
 import { useTooltipContainer } from './use-tooltip-container';
 
 export type ActionMenuProps<T extends HTMLElement> = {
@@ -76,7 +77,10 @@ export const ActionMenu = <T extends HTMLElement>({
     <ActionMenuItemFullscreen onClick={onClose} />
   ) : null;
 
-  const itemBlackScreen = <ActionMenuItemBlackScreen onClick={onClose} />;
+  const showButtonBlackScreen = useShowButtonBlackScreen();
+  const itemBlackScreen = showButtonBlackScreen ? (
+    <ActionMenuItemBlackScreen onClick={onClose} />
+  ) : null;
 
   const itemBattery = battery && (battery.level < 1 || !battery.charging) ? (
     <ActionMenuItemBattery onClick={onClose} />
