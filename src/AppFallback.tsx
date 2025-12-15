@@ -3,14 +3,13 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import type { FC } from 'react';
-import type { FallbackProps } from 'react-error-boundary';
+import { type FallbackRender } from '@sentry/react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 import { storage } from './controller/use-preferences';
 
-export const AppFallback: FC<FallbackProps> = ({
+export const AppFallback: FallbackRender = ({
   error,
-  resetErrorBoundary,
+  resetError,
 }) => {
   const { updateServiceWorker } = useRegisterSW();
 
@@ -25,7 +24,7 @@ export const AppFallback: FC<FallbackProps> = ({
       <Stack direction="row" spacing={2} py={4}>
         <Button
           variant="contained"
-          onClick={resetErrorBoundary}
+          onClick={resetError}
         >
           Try again
         </Button>
@@ -73,7 +72,7 @@ export const AppFallback: FC<FallbackProps> = ({
           overflowX: 'auto',
           p: 2,
         }}>
-          {error.stack}
+          {error instanceof Error ? error.stack : String(error)}
         </Paper>
       </details>
     </Stack>

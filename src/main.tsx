@@ -1,8 +1,8 @@
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
-import * as Sentry from "@sentry/react";
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import * as Sentry from '@sentry/react';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import { AppErrorBoundary } from './AppErrorBoundary';
 import { AutoDisableTimer } from './context/AutoDisableTimerContext';
@@ -24,8 +24,19 @@ Sentry.init({
 });
 
 // eslint-disable-next-line no-restricted-globals
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+const root = createRoot(document.getElementById('root')!, {
+  // Callback called when an error is thrown and not caught by an ErrorBoundary.
+  onUncaughtError: Sentry.reactErrorHandler((error, errorInfo) => {
+    console.warn('Uncaught error', error, errorInfo.componentStack);
+  }),
+  // Callback called when React catches an error in an ErrorBoundary.
+  onCaughtError: Sentry.reactErrorHandler(),
+  // Callback called when React automatically recovers from errors.
+  onRecoverableError: Sentry.reactErrorHandler(),
+});
+
+root.render(
+  <StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppErrorBoundary>
@@ -61,5 +72,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </PictureInPictureOpenerProvider>
       </AppErrorBoundary>
     </ThemeProvider>
-  </React.StrictMode>,
+  </StrictMode>,
 );

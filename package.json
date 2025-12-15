@@ -27,7 +27,6 @@
     "lucide-react": "^0.539.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-error-boundary": "^6.0.0",
     "react-idle-timer": "^5.7.2",
     "use-local-storage-state": "^19.5.0",
     "vite": "^7.2.2",
