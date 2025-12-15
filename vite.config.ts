@@ -58,10 +58,7 @@ export default defineConfig(({ mode }) => {
       // Only include the Sentry Vite plugin for production builds
       // (avoids touching Sentry during local dev).
       ...(isProd && process.env.SENTRY_DSN ? [
-        sentryVitePlugin({
-          org: 'j-hj',
-          project: 'wake-lol',
-        }),
+        sentryVitePlugin(),
       ] : []),
     ],
     build: {
