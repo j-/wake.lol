@@ -7,57 +7,65 @@ import { VitePWA } from 'vite-plugin-pwa';
 import 'dotenv/config';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  base: './',
-  define: {
-    'process.env': {
-      SENTRY_DSN: process.env.SENTRY_DSN,
+export default defineConfig(({ mode }) => {
+  const isProd = mode === 'production';
+
+  return {
+    base: './',
+    define: {
+      'process.env': {
+        SENTRY_DSN: process.env.SENTRY_DSN,
+      },
     },
-  },
-  plugins: [
-    mdx(),
-    react(),
-    // viteSingleFile({
-    //   inlinePattern: [
-    //     '!favicon.svg',
-    //     '!favicon.ico',
-    //   ],
-    // }),
-    VitePWA({
-      injectRegister: 'inline',
-      registerType: 'autoUpdate',
-      workbox: {
-        clientsClaim: true,
-        skipWaiting: true,
-      },
-      manifest: {
-        name: 'wake.lol',
-        short_name: 'wake.lol',
-        icons: [
-          {
-            src: '/favicon.svg',
-            sizes: 'any',
-          },
-        ],
-        theme_color: '#000000',
-        background_color: '#000000',
-        display: 'standalone',
-        display_override: ['window-controls-overlay'],
-        related_applications: [
-          {
-            platform: 'webapp',
-            url: 'https://wake.lol/manifest.webmanifest',
-          },
-        ],
-        prefer_related_applications: true,
-      },
-    }),
-    sentryVitePlugin({
-      org: "j-hj",
-      project: "wake-lol",
-    }),
-  ],
-  build: {
-    sourcemap: true,
-  },
+    plugins: [
+      mdx(),
+      react(),
+      // viteSingleFile({
+      //   inlinePattern: [
+      //     '!favicon.svg',
+      //     '!favicon.ico',
+      //   ],
+      // }),
+      VitePWA({
+        injectRegister: 'inline',
+        registerType: 'autoUpdate',
+        workbox: {
+          clientsClaim: true,
+          skipWaiting: true,
+        },
+        manifest: {
+          name: 'wake.lol',
+          short_name: 'wake.lol',
+          icons: [
+            {
+              src: '/favicon.svg',
+              sizes: 'any',
+            },
+          ],
+          theme_color: '#000000',
+          background_color: '#000000',
+          display: 'standalone',
+          display_override: ['window-controls-overlay'],
+          related_applications: [
+            {
+              platform: 'webapp',
+              url: 'https://wake.lol/manifest.webmanifest',
+            },
+          ],
+          prefer_related_applications: true,
+        },
+      }),
+      // Only include the Sentry Vite plugin for production builds
+      // (avoids touching Sentry during local dev).
+      ...(isProd && process.env.SENTRY_DSN ? [
+        sentryVitePlugin({
+          org: 'j-hj',
+          project: 'wake-lol',
+        }),
+      ] : []),
+    ],
+    build: {
+      sourcemap: true,
+    },
+  };
 });

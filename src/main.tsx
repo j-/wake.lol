@@ -17,6 +17,8 @@ import { theme } from './theme';
 import { WakeActionsContainerInset0 } from './WakeActionsContainerInset0';
 
 Sentry.init({
+  enabled: import.meta.env.PROD,
+  environment: import.meta.env.MODE,
   dsn: process.env.SENTRY_DSN,
   // Setting this option to true will send default PII data to Sentry.
   // For example, automatic IP address collection on events.
