@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/react';
+import { useMemo } from 'react';
 import { useDocument } from './context/WindowContext';
 
 interface FeaturePolicy {
@@ -31,9 +33,21 @@ export const useFeaturePolicyAllowsFeature = (feature: string) => {
     document.policy
   );
 
-  if (!featurePolicy || typeof featurePolicy.allowsFeature !== 'function') {
-    return null;
-  }
+  return useMemo(() => {
+    if (!featurePolicy || typeof featurePolicy.allowsFeature !== 'function') {
+      return null;
+    }
 
-  return featurePolicy.allowsFeature(feature);
+    try {
+      return featurePolicy.allowsFeature(feature);
+    } catch (error) {
+      Sentry.captureException(error, {
+        tags: {
+          feature,
+        },
+      });
+
+      return null;
+    }
+  }, [featurePolicy, feature]);
 };
