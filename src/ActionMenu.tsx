@@ -9,9 +9,9 @@ import { ActionMenuItemNewWindow } from './actions/action-new-window';
 import { ActionMenuItemScroll } from './actions/action-scroll';
 import { ActionMenuItemShowPiP } from './actions/action-show-pip';
 import { useBattery } from './context/BatteryManagerContext';
-import { usePictureInPictureOpener } from './context/PictureInPictureOpenerContext';
 import { useAppContext } from './controller';
 import { useShowButtonBlackScreen } from './use-show-button-black-screen';
+import { useShowButtonShowPiP } from './use-show-button-show-pip';
 import { useTooltipContainer } from './use-tooltip-container';
 
 export type ActionMenuProps<T extends HTMLElement> = {
@@ -31,12 +31,9 @@ export const ActionMenu = <T extends HTMLElement>({
     canExpandCollapse,
     canFullscreen,
     canNewWindow,
-    canPictureInPicture,
     canScroll,
     canStartTimer,
   } = useAppContext();
-
-  const { isPictureInPictureWindowOpen } = usePictureInPictureOpener();
 
   const battery = useBattery();
 
@@ -46,9 +43,7 @@ export const ActionMenu = <T extends HTMLElement>({
     <ActionMenuItemScroll onClick={onClose} />
   ) : null;
 
-  const showButtonShowPiP =
-    canPictureInPicture && !isPictureInPictureWindowOpen;
-
+  const showButtonShowPiP = useShowButtonShowPiP();
   const itemShowPiP = showButtonShowPiP ? (
     <ActionMenuItemShowPiP onClick={onClose} />
   ) : null;

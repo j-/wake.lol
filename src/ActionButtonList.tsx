@@ -7,20 +7,17 @@ import { ActionButtonNewWindow } from './actions/action-new-window';
 import { ActionButtonScroll } from './actions/action-scroll';
 import { ActionButtonShowPiP } from './actions/action-show-pip';
 import { useBattery } from './context/BatteryManagerContext';
-import { usePictureInPictureOpener } from './context/PictureInPictureOpenerContext';
 import { useAppContext } from './controller';
+import { useShowButtonShowPiP } from './use-show-button-show-pip';
 
 export const ActionButtonList: FC = () => {
   const {
     canExpandCollapse,
     canFullscreen,
     canNewWindow,
-    canPictureInPicture,
     canScroll,
     canStartTimer,
   } = useAppContext();
-
-  const { isPictureInPictureWindowOpen } = usePictureInPictureOpener();
 
   const battery = useBattery();
 
@@ -30,8 +27,7 @@ export const ActionButtonList: FC = () => {
     <ActionButtonScroll />
   ) : null;
 
-  const showButtonShowPiP =
-    canPictureInPicture && !isPictureInPictureWindowOpen;
+  const showButtonShowPiP = useShowButtonShowPiP();
 
   const buttonShowPiP = showButtonShowPiP ? (
     <ActionButtonShowPiP />
