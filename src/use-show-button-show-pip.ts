@@ -1,10 +1,13 @@
 import { usePictureInPictureOpener } from './context/PictureInPictureOpenerContext';
+import { useDocument } from './context/WindowContext';
 import { useAppContext } from './controller';
 import { useFeaturePolicyAllowsFeature } from './use-feature-policy-allows-feature';
 import { useIsTopLevelBrowsingContext } from './use-is-top-level-browsing-context';
 import { useMatchesDisplayMode } from './use-matches-display-mode';
 
 export const useShowButtonShowPiP = () => {
+  const document = useDocument();
+  const isPiPEnabled = document.pictureInPictureEnabled;
   const { canPictureInPicture } = useAppContext();
   const isDisplayModePiP = useMatchesDisplayMode('picture-in-picture');
   const isPiPPolicyAllowed =
@@ -13,6 +16,8 @@ export const useShowButtonShowPiP = () => {
   const isTopLevel = useIsTopLevelBrowsingContext();
 
   return (
+    // Picture in picture is enabled in the document.
+    isPiPEnabled &&
     // Picture in picture is supported.
     canPictureInPicture &&
     // No picture in picture window already shown.
