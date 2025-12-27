@@ -44,10 +44,17 @@ Features
 
 * Uses [screen wake lock API][wake-lock] if available
 * Falls back to using invisible video if wake lock is unavailable
-* CI/CD via GitHub Actions and fly.io
+* CI/CD via GitHub Actions and [fly.io][fly]
 * Offline support via service workers
 * Open in new window to remove browser chrome
 * Themes
+
+Links
+-----
+
+- <https://wake.lol/>
+- <https://wake-lol.fly.dev/>
+- <https://github.com/j-/wake.lol>
 
 [site]: https://wake.lol/
 [docker]: https://www.docker.com/

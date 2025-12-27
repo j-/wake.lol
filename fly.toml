@@ -1,6 +1,6 @@
 # fly.toml file generated for broken-brook-9416 on 2022-12-14T17:06:54+11:00
 
-app = "broken-brook-9416"
+app = "wake-lol"
 
 kill_signal = "SIGINT"
 kill_timeout = 5
