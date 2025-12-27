@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { type FC } from 'react';
 import { AppLayout } from './AppLayout';
 import { AppMetadata } from './AppMetadata';
-import { APP_NAME, BASE_URL } from './constants';
+import { APP_NAME, BASE_URL, SKEOH_URL } from './constants';
 import Content from './content.mdx';
 import { useAppContext } from './controller';
 import { mdxComponents } from './mdx-components';
@@ -37,11 +37,29 @@ const App: FC = () => {
   }
 
   const header = (
-    <Typography component="h1" variant="h4">
-      <Link href={BASE_URL} color="inherit" sx={{ textDecoration: 'none' }}>
-        {APP_NAME}
+    <Box display="flex" justifyContent="space-between" alignItems="center">
+      <Typography component="h1" variant="h4">
+        <Link href={BASE_URL} color="inherit" sx={{ textDecoration: 'none' }}>
+          {APP_NAME}
+        </Link>
+      </Typography>
+
+      <Link
+        href={SKEOH_URL}
+        color="inherit"
+        underline="none"
+        target="_blank"
+        sx={{
+          opacity: 0.5,
+          transition: 'opacity 200ms',
+          '&:hover, &:focus': {
+            opacity: 1,
+          },
+        }}
+      >
+        skeoh.com
       </Link>
-    </Typography>
+    </Box>
   );
 
   return (

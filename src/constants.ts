@@ -1,5 +1,6 @@
 export const APP_NAME = 'wake.lol';
 export const BASE_URL = 'https://wake.lol/';
+export const SKEOH_URL = 'https://skeoh.com/?utm_source=wake.lol';
 export const FEATURES = 'width=300,height=200';
 export const THEME_COUNT = 2;
 export const THEME_INDEX_DATASET_KEY = 'themeIndex';
