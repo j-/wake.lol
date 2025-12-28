@@ -215,7 +215,7 @@ export const getWakeLockVideoSentinel = async (document: Document): Promise<
   video.play();
 
   const sentinel = new class extends EventTarget {
-    public readonly type = 'screen';
+    public readonly type = 'video' as WakeLockType;
 
     public async release() {
       if (released) return;
