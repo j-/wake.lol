@@ -14,23 +14,18 @@ const manifest: Partial<ManifestOptions> = {
     {
       src: '/favicon.svg',
       sizes: 'any',
+      type: 'image/svg+xml',
     },
     {
-      src: '/maskable.svg',
-      sizes: 'any',
-      purpose: 'monochrome maskable',
+      src: '/maskable-512.png',
+      sizes: '512x512',
+      type: 'image/png',
+      purpose: 'maskable',
     },
   ],
   theme_color: '#000000',
   background_color: '#000000',
   display: 'standalone',
-  related_applications: [
-    {
-      platform: 'webapp',
-      url: 'https://wake.lol/manifest.webmanifest',
-    },
-  ],
-  prefer_related_applications: true,
 };
 
 // https://vitejs.dev/config/
