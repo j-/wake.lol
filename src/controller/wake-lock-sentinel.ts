@@ -6,10 +6,8 @@ export const getWakeLockSentinel = async (
   document: Document,
 ) => {
   try {
-    return 'wakeLock' in navigator ?
-      await getWakeLockScreenSentinel(navigator) :
-      await getWakeLockVideoSentinel(document);
+    return await getWakeLockScreenSentinel(navigator, document);
   } catch {
-    return getWakeLockVideoSentinel(document);
+    return await getWakeLockVideoSentinel(navigator, document);
   }
 };

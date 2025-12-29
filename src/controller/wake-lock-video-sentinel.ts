@@ -1,3 +1,5 @@
+import { PreconditionFailedError, RequiresUserActivationError } from '../errors';
+
 /** @see https://github.com/richtr/NoSleep.js/blob/master/src/media.js */
 const VIDEO_WEBM = `data:video/webm;base64,GkXfowEAAAAAAAAfQoaBAUL3gQFC8oEEQvOBC
 EKChHdlYm1Ch4EEQoWBAhhTgGcBAAAAAAAVkhFNm3RALE27i1OrhBVJqWZTrIHfTbuMU6uEFlSua1Osg
@@ -160,9 +162,21 @@ FgQAABZ0AAAWwAAAFzAAABegAAAX7AAAGFwAAAGJ1ZHRhAAAAWm1ldGEAAAAAAAAAIWhkbHIAAAAAAAA
 AAG1kaXJhcHBsAAAAAAAAAAAAAAAALWlsc3QAAAAlqXRvbwAAAB1kYXRhAAAAAQAAAABMYXZmNTUuMzM
 uMTAw`;
 
-export const getWakeLockVideoSentinel = async (document: Document): Promise<
+/**
+ * Requires sticky activation (`UserActivation.hasBeenActive`).
+ */
+export const getWakeLockVideoSentinel = async (
+  navigator: Navigator,
+  document: Document,
+): Promise<
   WakeLockSentinel
 > => {
+  if (!navigator.userActivation.hasBeenActive) {
+    throw new PreconditionFailedError(
+      'Requires sticky activation to play video',
+    );
+  }
+
   const video = document.createElement('video');
   video.setAttribute('title', 'no sleep');
   video.setAttribute('playsinline', '');
@@ -202,17 +216,16 @@ export const getWakeLockVideoSentinel = async (document: Document): Promise<
     }
   };
 
-  const handleVisibilityChange = () => {
-    if (document.visibilityState !== 'visible') {
-      sentinel.release();
-    }
-  };
-
-  document.addEventListener('visibilitychange', handleVisibilityChange);
-  document.addEventListener('fullscreenchange', handleVisibilityChange);
-
   video.addEventListener('loadedmetadata', handleLoadedmetadata);
-  video.play();
+
+  try {
+    await video.play();
+  } catch (err) {
+    if (err instanceof Error && err.name === 'NotAllowedError') {
+      throw new RequiresUserActivationError(err.message);
+    }
+    throw err;
+  }
 
   const sentinel = new class extends EventTarget {
     public readonly type = 'video' as WakeLockType;
@@ -221,8 +234,6 @@ export const getWakeLockVideoSentinel = async (document: Document): Promise<
       if (released) return;
       video.pause();
       unsubscribe();
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      document.removeEventListener('fullscreenchange', handleVisibilityChange);
       released = true;
       this.dispatchEvent(new Event('release'));
       return undefined;
