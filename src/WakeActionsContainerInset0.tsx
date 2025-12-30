@@ -2,28 +2,12 @@ import Box from '@mui/material/Box';
 import { type FC } from 'react';
 import { Actions } from './Actions';
 import { BatteryOverlay } from './BatteryOverlay';
-import { useDocument } from './context/WindowContext';
 import { useAppContext } from './controller';
-import {
-  booleanSerializer,
-  storage,
-  STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD,
-} from './controller/use-preferences';
 import { HideCursorOnIdle } from './HideCursorOnIdle';
 import { useSchemeColors } from './use-scheme-colors';
 
-const INTEND_TO_LOCK = (() => {
-  try {
-    const item = storage.getItem(STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD);
-    return item ? booleanSerializer.parse(item) : false;
-  } catch {
-    return false;
-  }
-})();
-
 export const WakeActionsContainerInset0: FC = () => {
-  const document = useDocument();
-  const { fullscreenRef, isWakeLockEnabled } = useAppContext();
+  const { fullscreenRef, isWakeLockEnabledOptimistic: isWakeLockEnabled } = useAppContext();
   const { color, bgColor } = useSchemeColors();
 
   return (
@@ -37,7 +21,7 @@ export const WakeActionsContainerInset0: FC = () => {
 
       // Optimistically render enabled style if page is still loading but we
       // expect the lock to be acquired automatically.
-      isWakeLockEnabled || (INTEND_TO_LOCK && document.readyState === 'interactive') ? {
+      isWakeLockEnabled ? {
         color,
         backgroundColor: bgColor,
       } : null,

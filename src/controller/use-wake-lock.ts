@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDocument, useNavigator } from '../context/WindowContext';
-import { getWakeLockSentinel } from './wake-lock-sentinel';
+import { useCallback, useEffect, useMemo } from 'react';
+import { useDocument } from '../context/WindowContext';
+import { useWakeLockMachine } from './use-wake-lock-machine';
 
 export type RequestWakeLock = () => Promise<WakeLockSentinel | null>;
 export type ReleaseWakeLock = () => Promise<void>;
@@ -10,73 +10,86 @@ export type UseWakeLock = () => UseWakeLockResult;
 
 export type UseWakeLockResult = {
   sentinel: WakeLockSentinel | null;
-  didReleaseAutomatically: boolean;
+  isLockedActual: boolean;
+  isLockedOptimistic: boolean;
   requestWakeLock: RequestWakeLock;
   releaseWakeLock: ReleaseWakeLock;
   toggleWakeLock: ToggleWakeLock;
 };
 
 export const useWakeLock: UseWakeLock = () => {
-  const navigator = useNavigator();
   const document = useDocument();
-  const [sentinel, setSentinel] = useState<WakeLockSentinel | null>(null);
-  const [didReleaseAutomatically, setDidReleaseAutomatically] = useState(false);
+  const [state, send] = useWakeLockMachine();
 
   const releaseWakeLock = useCallback<ReleaseWakeLock>(async () => {
-    if (sentinel) {
-      await sentinel.release();
-      setSentinel(null);
-      setDidReleaseAutomatically(false);
-    }
-  }, [sentinel]);
+    send({ type: 'USER_RELEASE_REQUESTED' });
+  }, [send]);
 
   const requestWakeLock = useCallback<RequestWakeLock>(async () => {
-    if (sentinel && !sentinel.released) {
-      await releaseWakeLock();
-    }
-    const newSentinel = await getWakeLockSentinel(navigator, document);
-    setSentinel(newSentinel);
-    setDidReleaseAutomatically(false);
-    return newSentinel;
-  }, [document, navigator, releaseWakeLock, sentinel]);
+    send({ type: 'USER_LOCK_REQUESTED' });
+    return null;
+  }, [send]);
 
   const toggleWakeLock = useCallback<ToggleWakeLock>(async () => {
-    if (sentinel && !sentinel.released) {
-      await releaseWakeLock();
-      setDidReleaseAutomatically(false);
-    } else {
-      const newSentinel = await requestWakeLock();
-      setDidReleaseAutomatically(false);
-      return newSentinel;
-    }
-  }, [releaseWakeLock, requestWakeLock, sentinel]);
+    send({ type: 'USER_TOGGLE_REQUESTED' });
+    return null;
+  }, [send]);
+
+  const sentinel = state.context.sentinel;
+  const isLockedActual = state.hasTag('lockedActual');
+  const isLockedOptimistic = state.hasTag('lockedOptimistic');
+
+  if (sentinel && !sentinel.released && !isLockedActual) {
+    console.warn(
+      'Wake Lock is held but state machine is not in a lockedActual state. ' +
+      'This may indicate a bug in the state machine implementation.',
+    );
+  }
 
   const result = useMemo<UseWakeLockResult>(() => ({
     sentinel,
-    didReleaseAutomatically,
+    isLockedActual,
+    isLockedOptimistic,
     requestWakeLock,
     releaseWakeLock,
     toggleWakeLock,
   }), [
     sentinel,
-    didReleaseAutomatically,
+    isLockedActual,
+    isLockedOptimistic,
     requestWakeLock,
     releaseWakeLock,
     toggleWakeLock,
   ]);
 
   useEffect(() => {
-    if (!sentinel || didReleaseAutomatically) return;
+    const handleVisibilityChange = async () => {
+      send({
+        type: document.visibilityState === 'hidden'
+          ? 'VISIBILITY_CHANGE_HIDDEN'
+          : 'VISIBILITY_CHANGE_VISIBLE',
+      });
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [document, send]);
+
+  useEffect(() => {
+    if (!sentinel) return;
+
     const handleSentinelRelease = async () => {
       if (sentinel.released) {
-        setDidReleaseAutomatically(true);
+        send({ type: 'AUTO_RELEASE' });
       }
     };
+
     sentinel.addEventListener('release', handleSentinelRelease);
     return () => {
       sentinel.removeEventListener('release', handleSentinelRelease);
     };
-  }, [sentinel, didReleaseAutomatically]);
+  }, [send, sentinel]);
 
   return result;
 };

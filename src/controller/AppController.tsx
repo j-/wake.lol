@@ -4,19 +4,12 @@ import { useDocument, useWindow } from '../context/WindowContext';
 import { useFullscreenEnabled } from '../fullscreen/use-fullscreen-enabled';
 import { useNewWindowOpener } from '../use-new-window-opener';
 import { AppContext, type AppContextType } from './context';
-import {
-  useAutoAcquireWakeLockOnLoad,
-} from './use-auto-acquire-wake-lock-on-load';
-import {
-  useAutoAcquireWakeLockOnVisibilityChange,
-} from './use-auto-acquire-wake-lock-on-visibility-change';
 import { useAutoOpenPiPWindowOnInactive } from './use-auto-open-pip-window-on-inactive';
 import { useContainerVisibility } from './use-container-visibility';
 import { useExpandCollapseUI } from './use-expand-collapse-ui';
 import { useFullscreen } from './use-fullscreen';
 import { useIsIdle } from './use-is-idle';
 import { useIsNewWindow } from './use-is-new-window';
-import { useIsWakeLockEnabled } from './use-is-wake-lock-enabled';
 import { usePreferences } from './use-preferences';
 import { useWakeLock } from './use-wake-lock';
 
@@ -75,14 +68,12 @@ export const AppController: FC<AppControllerProps> = ({
   });
 
   const {
-    sentinel,
-    didReleaseAutomatically,
+    isLockedActual: isWakeLockEnabledActual,
+    isLockedOptimistic: isWakeLockEnabledOptimistic,
     requestWakeLock,
     releaseWakeLock,
     toggleWakeLock,
   } = useWakeLock();
-
-  const isWakeLockEnabled = useIsWakeLockEnabled({ sentinel });
 
   const canPictureInPicture = (
     !!window.documentPictureInPicture &&
@@ -93,17 +84,6 @@ export const AppController: FC<AppControllerProps> = ({
 
   const { openPictureInPictureWindow } = usePictureInPictureOpener();
   const { openNewWindow } = useNewWindowOpener();
-
-  useAutoAcquireWakeLockOnLoad({
-    shouldAcquireOnLoad,
-    requestWakeLock,
-  });
-
-  useAutoAcquireWakeLockOnVisibilityChange({
-    shouldAcquireOnVisibilityChange,
-    didReleaseAutomatically,
-    requestWakeLock,
-  });
 
   useAutoOpenPiPWindowOnInactive({
     shouldAutoOpenPiPWindowOnInactive:
@@ -190,7 +170,8 @@ export const AppController: FC<AppControllerProps> = ({
     isFullyVisible,
     isIdle,
     isNewWindow,
-    isWakeLockEnabled,
+    isWakeLockEnabledActual,
+    isWakeLockEnabledOptimistic,
     releaseWakeLock,
     requestFullscreen,
     requestWakeLock,
@@ -224,7 +205,8 @@ export const AppController: FC<AppControllerProps> = ({
     isIdle,
     isNewWindow,
     isPiPWindow,
-    isWakeLockEnabled,
+    isWakeLockEnabledActual,
+    isWakeLockEnabledOptimistic,
     releaseWakeLock,
     requestFullscreen,
     requestWakeLock,

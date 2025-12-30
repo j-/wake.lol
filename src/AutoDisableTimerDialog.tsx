@@ -55,7 +55,7 @@ export const AutoDisableTimerDialog: FC<AutoDisableTimerDialogProps> = ({
   const quickId = `${formId}-quick`;
   const [timerType, setTimerType] = useState(AutoDisableTimerType.CLOCK);
 
-  const { isWakeLockEnabled, requestWakeLock } = useAppContext();
+  const { isWakeLockEnabledOptimistic: isWakeLockEnabled, requestWakeLock } = useAppContext();
   const { setAutoDisableTimer } = useAutoDisableTimer();
 
   const handleSubmitClock = useCallback<

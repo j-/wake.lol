@@ -14,7 +14,7 @@ import { ActionButton } from './ActionButton';
 
 export const ActionButtonWakeLock: FC = () => {
   const {
-    isWakeLockEnabled,
+    isWakeLockEnabledOptimistic: isWakeLockEnabled,
     releaseWakeLock,
     requestWakeLock,
   } = useAppContext();

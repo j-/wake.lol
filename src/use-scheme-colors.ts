@@ -4,7 +4,10 @@ import { useAppContext } from './controller';
 import { usePreferences } from './controller/use-preferences';
 
 export const useSchemeColors = () => {
-  const { isWakeLockEnabled } = useAppContext();
+  const {
+    isWakeLockEnabledActual,
+    isWakeLockEnabledOptimistic,
+  } = useAppContext();
   const { themeColor: bgColorEnabled } = usePreferences();
   const theme = useTheme<CssVarsTheme>();
   const { colorScheme } = useColorScheme();
@@ -12,24 +15,39 @@ export const useSchemeColors = () => {
   const scheme = (colorScheme ?? theme.palette.mode) as 'light' | 'dark';
   const bgColorDisabled = theme.colorSchemes?.[scheme]?.palette.muted.main ?? theme.palette.muted.main;
 
-  const bgColor = isWakeLockEnabled ? bgColorEnabled : bgColorDisabled;
-  const color = (() => {
+  const bgColorActual = isWakeLockEnabledActual ? bgColorEnabled : bgColorDisabled;
+  const colorActual = (() => {
     try {
-      return theme.palette.getContrastText(bgColor);
+      return theme.palette.getContrastText(bgColorActual);
+    } catch {
+      return theme.palette.text.primary;
+    }
+  })();
+
+  const bgColorOptimistic = isWakeLockEnabledOptimistic ? bgColorEnabled : bgColorDisabled;
+  const colorOptimistic = (() => {
+    try {
+      return theme.palette.getContrastText(bgColorOptimistic);
     } catch {
       return theme.palette.text.primary;
     }
   })();
 
   return useMemo(() => ({
-    bgColor,
+    bgColorActual,
+    bgColorOptimistic,
+    bgColor: bgColorOptimistic,
     bgColorEnabled,
     bgColorDisabled,
-    color,
+    colorActual,
+    colorOptimistic,
+    color: colorOptimistic,
   }), [
-    bgColor,
+    bgColorActual,
+    bgColorOptimistic,
     bgColorEnabled,
     bgColorDisabled,
-    color,
+    colorActual,
+    colorOptimistic,
   ]);
 };

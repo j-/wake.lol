@@ -33,7 +33,7 @@ export const AutoDisableTimer: FC<AutoDisableTimerProps> = ({
 
   const { disableTime } = state;
 
-  const { isWakeLockEnabled, releaseWakeLock } = useAppContext();
+  const { isWakeLockEnabledOptimistic: isWakeLockEnabled, releaseWakeLock } = useAppContext();
 
   const setAutoDisableTimer = useCallback<SetAutoDisableTimer>((
     disableType,
