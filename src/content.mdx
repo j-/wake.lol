@@ -1,8 +1,10 @@
 import { ID_BELOW_THE_FOLD } from './constants';
 import {
   IconAppWindowPlatform,
+  IconColorSwatch,
   IconEye,
   IconEyeClosed,
+  IconHourglass,
   IconMaximize,
   IconMaximize2,
   IconMinimize,
@@ -25,6 +27,11 @@ The screen will stay awake as long as the tab is open and the device is not
 locked. The wake lock will be released if the tab is closed or minimized and the
 screen will turn off as usual.
 
+Click <IconColorSwatch fill="#0006" width={12} height={12} /> to turn your
+screen black (only on certain devices/browsers). This can help reduce power use
+or screen burn-in. Note that this does not automatically enable the wake lock so
+you can turn off the screen with or without keeping the device awake.
+
 Click <IconPictureInPicture size={12} /> (shown only if supported in your
 browser) to open the app in a picture-in-picture window. This will open a small
 floating popup that stays on top of other windows. Note that this popup will
@@ -33,6 +40,10 @@ automatically close if you close the main window.
 Click <IconAppWindowPlatform size={12} /> to open the app in a separate window.
 On a desktop device this new window will have minimal browser UI for a more
 compact version of the app.
+
+Click <IconHourglass size={12} /> to show options for automatically disabling
+the wake lock at a given time (e.g. stop at midnight) or after a certain
+duration (e.g. keep awake for 1 hour).
 
 Clicking <IconMaximize2 size={12} /> and <IconMinimize2 size={12} /> will toggle
 the content of this window and only show the app controls.
