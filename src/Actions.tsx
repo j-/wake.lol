@@ -22,7 +22,7 @@ export const Actions: FC = () => {
     <Stack
       direction="row"
       gap={{
-        xs: 1,
+        xs: 0,
         sm: 2,
         md: 4,
       }}
