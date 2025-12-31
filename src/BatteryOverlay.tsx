@@ -9,10 +9,13 @@ import { useAppContext } from './controller';
 import { useSchemeColors } from './use-scheme-colors';
 
 export const BatteryOverlay: FC = () => {
-  const { showBattery } = useAppContext();
+  const { showBattery, isFullyVisible } = useAppContext();
   const { bgColor } = useSchemeColors();
   const theme = useTheme();
   const isExtraSmall = useMediaQuery(theme.breakpoints.only('xs'));
+
+  const fadeIn = showBattery && isFullyVisible;
+  const backdropOpen = fadeIn && isExtraSmall;
 
   return (
     <Box
@@ -23,7 +26,7 @@ export const BatteryOverlay: FC = () => {
         placeItems: 'center',
       }}
     >
-      <Fade in={showBattery} timeout={200} mountOnEnter unmountOnExit>
+      <Fade in={fadeIn} timeout={200} mountOnEnter unmountOnExit>
         <Box
           sx={(theme) => ({
             zIndex: theme.zIndex.drawer + 2,
@@ -34,7 +37,7 @@ export const BatteryOverlay: FC = () => {
       </Fade>
 
       <Backdrop
-        open={showBattery && isExtraSmall}
+        open={backdropOpen}
         sx={(theme) => ({
           bgcolor: bgColor,
           zIndex: theme.zIndex.drawer + 1,
