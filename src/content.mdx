@@ -33,6 +33,11 @@ screen black (only on certain devices/browsers). This can help reduce power use
 or screen burn-in. Note that this does not automatically enable the wake lock so
 you can turn off the screen with or without keeping the device awake.
 
+The <IconBattery1 size={12} /> icon will show if you are running on battery
+power and the device is not fully charged. Clicking this button will toggle a
+battery status overlay which can help you monitor your battery level
+(especially from a distance) while keeping the screen awake.
+
 Click <IconPictureInPicture size={12} /> (shown only if supported in your
 browser) to open the app in a picture-in-picture window. This will open a small
 floating popup that stays on top of other windows. Note that this popup will
@@ -52,10 +57,6 @@ the content of this window and only show the app controls.
 Clicking <IconMaximize size={12} /> and <IconMinimize size={12} /> will toggle
 fullscreen mode for this window. This feature may not be available on all
 devices.
-
-The <IconBattery1 size={12} /> icon will show if you are running on battery
-power and the device is not fully charged. It does not have any function other
-than indicating the current power state.
 
 Why is this useful?
 -------------------

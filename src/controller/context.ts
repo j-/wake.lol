@@ -1,4 +1,10 @@
-import { createContext, useContext, type RefObject } from 'react';
+import {
+  createContext,
+  useContext,
+  type Dispatch,
+  type RefObject,
+  type SetStateAction,
+} from 'react';
 import { DEFAULT_THEME_COLOR } from '../constants';
 import type {
   CollapseUI,
@@ -37,6 +43,8 @@ export type AppContextType = UsePreferencesResult & {
   resetThemeColor: () => void;
   requestFullscreen: RequestFullscreen;
   requestWakeLock: RequestWakeLock;
+  setShowBattery: Dispatch<SetStateAction<boolean>>;
+  showBattery: boolean;
   toggleExpandCollapseUI: ToggleExpandCollapseUI;
   toggleFullscreen: ToggleFullscreen;
   toggleWakeLock: ToggleWakeLock;
@@ -98,6 +106,10 @@ export const defaultAppContext = new Proxy<AppContextType>({
   shouldAcquireOnVisibilityChange: true,
   shouldExpandUI: false,
   shouldOpenPiPOnInactive: false,
+  setShowBattery: () => {
+    console.error('Default setShowBattery called, this may indicate a missing AppController provider.');
+  },
+  showBattery: false,
   themeColor: DEFAULT_THEME_COLOR,
   toggleExpandCollapseUI: () => {
     console.error('Default toggleExpandCollapseUI called, this may indicate a missing AppController provider.');

@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import { type ResponsiveStyleValue } from '@mui/system';
 import { type FC } from 'react';
 import { Actions } from './Actions';
+import { BatteryOverlay } from './BatteryOverlay';
 import { useDocument } from './context/WindowContext';
 import { useAppContext } from './controller';
 import {
@@ -37,6 +38,7 @@ export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
       {
         backgroundColor: 'muted.main',
         transition: 'background-color 200ms ease-in-out',
+        position: 'relative',
       },
 
       // Optimistically render enabled style if page is still loading but we
@@ -52,9 +54,12 @@ export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
         height: actionsHeight,
         py: 2,
         px: 3,
+        zIndex: 2,
       }}>
         <Actions />
       </Box>
+
+      <BatteryOverlay />
 
       <HideCursorOnIdle />
     </Box>

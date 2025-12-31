@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import { type FC } from 'react';
 import { Actions } from './Actions';
+import { BatteryOverlay } from './BatteryOverlay';
 import { useDocument } from './context/WindowContext';
 import { useAppContext } from './controller';
 import {
@@ -45,10 +46,13 @@ export const WakeActionsContainerInset0: FC = () => {
         padding: {
           xs: 1,
           sm: 2,
+          zIndex: 2,
         },
       }}>
         <Actions />
       </Box>
+
+      <BatteryOverlay />
 
       <HideCursorOnIdle />
     </Box>

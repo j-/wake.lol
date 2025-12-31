@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, type FC, type PropsWithChildren } from 'react';
+import { useEffect, useMemo, useRef, useState, type FC, type PropsWithChildren } from 'react';
 import { usePictureInPictureOpener } from '../context/PictureInPictureOpenerContext/hooks';
 import { useDocument, useWindow } from '../context/WindowContext';
 import { useFullscreenEnabled } from '../fullscreen/use-fullscreen-enabled';
@@ -35,6 +35,8 @@ export const AppController: FC<AppControllerProps> = ({
   const window = useWindow();
   const document = useDocument();
   const isNewWindow = useIsNewWindow();
+
+  const [showBattery, setShowBattery] = useState(false);
 
   const {
     isFullscreen,
@@ -202,6 +204,8 @@ export const AppController: FC<AppControllerProps> = ({
     shouldAcquireOnVisibilityChange,
     shouldExpandUI,
     shouldOpenPiPOnInactive,
+    setShowBattery,
+    showBattery,
     themeColor,
     toggleExpandCollapseUI,
     toggleFullscreen,
@@ -234,6 +238,8 @@ export const AppController: FC<AppControllerProps> = ({
     shouldAcquireOnVisibilityChange,
     shouldExpandUI,
     shouldOpenPiPOnInactive,
+    setShowBattery,
+    showBattery,
     themeColor,
     toggleExpandCollapseUI,
     toggleFullscreen,
