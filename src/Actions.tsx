@@ -21,7 +21,11 @@ export const Actions: FC = () => {
   return (
     <Stack
       direction="row"
-      gap={4}
+      gap={{
+        xs: 1,
+        sm: 2,
+        md: 4,
+      }}
       alignItems="start"
       data-test-id="Actions"
       m={-1}
