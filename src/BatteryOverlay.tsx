@@ -1,3 +1,4 @@
+import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import { useTheme } from '@mui/material/styles';
@@ -5,13 +6,13 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { type FC } from 'react';
 import { ActionButtonBattery } from './actions/action-battery';
 import { useAppContext } from './controller';
+import { useSchemeColors } from './use-scheme-colors';
 
 export const BatteryOverlay: FC = () => {
   const { showBattery } = useAppContext();
+  const { bgColor } = useSchemeColors();
   const theme = useTheme();
-  const isSmallOrUp = useMediaQuery(theme.breakpoints.up('sm'));
-
-  const show = showBattery && isSmallOrUp;
+  const isExtraSmall = useMediaQuery(theme.breakpoints.only('xs'));
 
   return (
     <Box
@@ -20,12 +21,25 @@ export const BatteryOverlay: FC = () => {
         inset: 0,
         display: 'grid',
         placeItems: 'center',
-        zIndex: 1,
       }}
     >
-      <Fade in={show} timeout={200} mountOnEnter unmountOnExit>
-        <ActionButtonBattery size='20vmin' />
+      <Fade in={showBattery} timeout={200} mountOnEnter unmountOnExit>
+        <Box
+          sx={(theme) => ({
+            zIndex: theme.zIndex.drawer + 2,
+          })}
+        >
+          <ActionButtonBattery size='max(20vmin, 2rem)' />
+        </Box>
       </Fade>
+
+      <Backdrop
+        open={showBattery && isExtraSmall}
+        sx={(theme) => ({
+          bgcolor: bgColor,
+          zIndex: theme.zIndex.drawer + 1,
+        })}
+      />
     </Box>
   );
 };
