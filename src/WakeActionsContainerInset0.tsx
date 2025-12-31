@@ -7,9 +7,9 @@ import {
   booleanSerializer,
   storage,
   STORAGE_KEY_SHOULD_ACQUIRE_ON_LOAD,
-  usePreferences,
 } from './controller/use-preferences';
 import { HideCursorOnIdle } from './HideCursorOnIdle';
+import { useSchemeColors } from './use-scheme-colors';
 
 const INTEND_TO_LOCK = (() => {
   try {
@@ -23,7 +23,7 @@ const INTEND_TO_LOCK = (() => {
 export const WakeActionsContainerInset0: FC = () => {
   const document = useDocument();
   const { fullscreenRef, isWakeLockEnabled } = useAppContext();
-  const { themeColor: bgColor } = usePreferences();
+  const { color, bgColor } = useSchemeColors();
 
   return (
     <Box data-test-id="WakeActionsContainerInset0" ref={fullscreenRef} sx={[
@@ -36,10 +36,10 @@ export const WakeActionsContainerInset0: FC = () => {
 
       // Optimistically render enabled style if page is still loading but we
       // expect the lock to be acquired automatically.
-      isWakeLockEnabled || (INTEND_TO_LOCK && document.readyState === 'interactive') ? (theme) => ({
-        color: theme.palette.getContrastText(bgColor),
+      isWakeLockEnabled || (INTEND_TO_LOCK && document.readyState === 'interactive') ? {
+        color,
         backgroundColor: bgColor,
-      }) : null,
+      } : null,
     ]}>
       <Box sx={{
         padding: {
