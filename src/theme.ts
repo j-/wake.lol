@@ -10,6 +10,10 @@ declare module '@mui/material/styles' {
     muted?: PaletteOptions['primary'];
   }
 
+  interface CssThemeVariables {
+    enabled: true;
+  }
+
   interface TypographyVariants {
     fontFamilyMonospace: React.CSSProperties['fontFamily'];
   }
