@@ -16,7 +16,7 @@ export const ActionButtonWakeLock: FC = () => {
   const {
     isWakeLockEnabledOptimistic: isWakeLockEnabled,
     releaseWakeLock,
-    requestWakeLock,
+    toggleWakeLock,
   } = useAppContext();
 
   const {
@@ -55,23 +55,16 @@ export const ActionButtonWakeLock: FC = () => {
     );
   }
 
-  if (isWakeLockEnabled) {
-    return (
-      <ActionButton
-        title="Keeping screen awake, click to disable"
-        onClick={releaseWakeLock}
-      >
-        <IconEye />
-      </ActionButton>
-    );
-  }
-
   return (
     <ActionButton
-      title="Click to keep screen awake"
-      onClick={requestWakeLock}
+      title={
+        isWakeLockEnabled ?
+          "Keeping screen awake, click to disable" :
+          "Click to keep screen awake"
+      }
+      onClick={toggleWakeLock}
     >
-      <IconEyeClosed />
+      {isWakeLockEnabled ? <IconEye /> : <IconEyeClosed />}
     </ActionButton>
   );
 };
