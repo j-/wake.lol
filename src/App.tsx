@@ -11,10 +11,15 @@ import { useAppContext } from './controller';
 import { mdxComponents } from './mdx-components';
 import { PreferencesAccordion } from './PreferencesAccordion';
 import { PWAControls } from './PWAControls';
+import { UserActivationDialog } from './UserActivationDialog';
 import { WakeActionsContainer } from './WakeActionsContainer';
 
 const App: FC = () => {
   const { isExpanded } = useAppContext();
+
+  const userActivationDialog = (
+    <UserActivationDialog />
+  );
 
   const actionsContainer = (
     <WakeActionsContainer
@@ -31,6 +36,7 @@ const App: FC = () => {
         display: 'grid',
       }}>
         <AppMetadata />
+        {userActivationDialog}
         {actionsContainer}
       </Box>
     );
@@ -68,6 +74,7 @@ const App: FC = () => {
       slotActions={actionsContainer}
     >
       <AppMetadata />
+      {userActivationDialog}
       <Stack maxWidth="70ch" my={4} mx="auto" gap={4}>
         <Box>
           <Content components={mdxComponents} />

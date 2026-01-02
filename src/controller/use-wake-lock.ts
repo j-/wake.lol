@@ -12,6 +12,9 @@ export type UseWakeLockResult = {
   sentinel: WakeLockSentinel | null;
   isLockedActual: boolean;
   isLockedOptimistic: boolean;
+  requiresUserActivation: boolean;
+  cancel: VoidFunction;
+  userActivation: VoidFunction;
   requestWakeLock: RequestWakeLock;
   releaseWakeLock: ReleaseWakeLock;
   toggleWakeLock: ToggleWakeLock;
@@ -35,9 +38,18 @@ export const useWakeLock: UseWakeLock = () => {
     return null;
   }, [send]);
 
+  const cancel = useCallback(async () => {
+    send({ type: 'CANCEL' });
+  }, [send]);
+
+  const userActivation = useCallback(async () => {
+    send({ type: 'USER_ACTIVATION' });
+  }, [send]);
+
   const sentinel = state.context.sentinel;
   const isLockedActual = state.hasTag('lockedActual');
   const isLockedOptimistic = state.hasTag('lockedOptimistic');
+  const requiresUserActivation = state.matches('RequiresUserActivation');
 
   if (sentinel && !sentinel.released && !isLockedActual) {
     console.warn(
@@ -50,6 +62,9 @@ export const useWakeLock: UseWakeLock = () => {
     sentinel,
     isLockedActual,
     isLockedOptimistic,
+    requiresUserActivation,
+    cancel,
+    userActivation,
     requestWakeLock,
     releaseWakeLock,
     toggleWakeLock,
@@ -57,6 +72,9 @@ export const useWakeLock: UseWakeLock = () => {
     sentinel,
     isLockedActual,
     isLockedOptimistic,
+    requiresUserActivation,
+    cancel,
+    userActivation,
     requestWakeLock,
     releaseWakeLock,
     toggleWakeLock,

@@ -30,10 +30,12 @@ export type AppContextType = UsePreferencesResult & {
   canPictureInPicture: boolean;
   canScroll: boolean;
   canStartTimer: boolean;
+  cancelUserActivation: () => void;
   collapseUI: CollapseUI;
   exitFullscreen: ExitFullscreen;
   expandUI: ExpandUI;
   fullscreenRef?: RefObject<HTMLElement | null>;
+  invokeUserActivation: () => void;
   isExpanded: boolean;
   isFullscreen: boolean;
   isFullyVisible: boolean;
@@ -44,6 +46,7 @@ export type AppContextType = UsePreferencesResult & {
   resetThemeColor: () => void;
   requestFullscreen: RequestFullscreen;
   requestWakeLock: RequestWakeLock;
+  requiresUserActivation: boolean;
   setShowBattery: Dispatch<SetStateAction<boolean>>;
   showBattery: boolean;
   toggleExpandCollapseUI: ToggleExpandCollapseUI;
@@ -60,6 +63,9 @@ export const defaultAppContext = new Proxy<AppContextType>({
   canPictureInPicture: false,
   canScroll: false,
   canStartTimer: false,
+  cancelUserActivation: () => {
+    console.error('Default cancelUserActivation called, this may indicate a missing AppController provider.');
+  },
   collapseUI: () => {
     console.error('Default collapseUI called, this may indicate a missing AppController provider.');
   },
@@ -70,6 +76,9 @@ export const defaultAppContext = new Proxy<AppContextType>({
     console.error('Default expandUI called, this may indicate a missing AppController provider.');
   },
   fullscreenRef: undefined,
+  invokeUserActivation: () => {
+    console.error('Default invokeUserActivation called, this may indicate a missing AppController provider.');
+  },
   isExpanded: false,
   isFullyVisible: false,
   isFullscreen: false,
@@ -86,6 +95,7 @@ export const defaultAppContext = new Proxy<AppContextType>({
     console.error('Default requestWakeLock called, this may indicate a missing AppController provider.');
     return null;
   },
+  requiresUserActivation: false,
   resetThemeColor: () => {
     console.error('Default resetThemeColor called, this may indicate a missing AppController provider.');
   },
