@@ -28,7 +28,9 @@ export const machine = createMachine({
       | { type: 'raiseLockRejectedOther' }
       | { type: 'raiseLockRejectedRequiresUserActivation' }
       | { type: 'raiseLockResolved' }
-      | { type: 'raiseUserReleaseResolved' };
+      | { type: 'raiseUserReleaseResolved' }
+      | { type: 'trackLocked' }
+      | { type: 'trackReleased' };
 
     guards:
       | { type: 'isRequiresUserActivationError' }
@@ -69,7 +71,7 @@ export const machine = createMachine({
       invoke: {
         src: 'requestWakeLock',
         onDone: {
-          actions: 'raiseLockResolved',
+          actions: ['raiseLockResolved', 'trackLocked'],
         },
         onError: [
           {
@@ -184,7 +186,7 @@ export const machine = createMachine({
         src: 'releaseWakeLock',
         input: ({ context }) => ({ sentinel: context.sentinel }),
         onDone: {
-          actions: 'raiseUserReleaseResolved',
+          actions: ['raiseUserReleaseResolved', 'trackReleased'],
         },
         onError: {
           // Even if release fails, treat it as released and clear local state.

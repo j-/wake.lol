@@ -86,6 +86,18 @@ export const useWakeLockMachine = () => {
         }),
 
         clearSentinel: assign({ sentinel: null }),
+
+        trackLocked: ({ event }) => {
+          umami?.track('locked', {
+            type: hasOutput<WakeLockSentinel>(event) ?
+              event.output.type :
+              'unknown',
+          });
+        },
+
+        trackReleased: () => {
+          umami?.track('released');
+        },
       },
     });
   }, [navigator, document]);
