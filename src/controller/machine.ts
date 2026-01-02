@@ -19,6 +19,22 @@ export const machine = createMachine({
       | { type: 'USER_TOGGLE_REQUESTED' }
       | { type: 'VISIBILITY_CHANGE_HIDDEN' }
       | { type: 'VISIBILITY_CHANGE_VISIBLE' };
+
+    actions:
+      | { type: 'assignPendingToggleFalse' }
+      | { type: 'assignPendingToggleTrue' }
+      | { type: 'assignSentinel' }
+      | { type: 'clearSentinel' }
+      | { type: 'raiseLockRejectedOther' }
+      | { type: 'raiseLockRejectedRequiresUserActivation' }
+      | { type: 'raiseLockResolved' }
+      | { type: 'raiseUserReleaseResolved' };
+
+    guards:
+      | { type: 'isRequiresUserActivationError' }
+      | { type: 'pendingToggle' }
+      | { type: 'shouldAcquireOnLoad' }
+      | { type: 'shouldAcquireOnVisibilityChange' };
   },
 
   context: {
