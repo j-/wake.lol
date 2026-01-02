@@ -109,19 +109,18 @@ export const useWakeLockMachine = () => {
         switch (event.type) {
           case '@xstate.event':
             if (!event.event.type.startsWith('xstate.')) {
-              console.log('[WakeLockMachine] Event:', event.event);
+              console.log('[fsm] Event:', event.event);
             }
             break;
           case '@xstate.snapshot':
             if (event.snapshot.output) {
-              console.log('[WakeLockMachine] Output:', event.snapshot.output);
+              console.log('[fsm] Output:', event.snapshot.output);
             }
             break;
           case '@xstate.microstep': {
             const to = (event.snapshot as AnyMachineSnapshot).value;
             const fromEvent = event.event.type;
-
-            console.log('[WakeLockMachine] Step:', fromEvent, '→', to);
+            console.log('[fsm] Step:', fromEvent, '→', to);
             break;
           }
         }
