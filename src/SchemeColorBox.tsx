@@ -16,7 +16,10 @@ export const SchemeColorBox = forwardRef<HTMLElement, BoxProps>(({
       sx={[
         {
           backgroundColor: 'muted.main',
-          transition: (theme) => theme.transitions.create(['background-color', 'color']),
+          transition: (theme) => [
+            theme.transitions.create('background-color'),
+            theme.transitions.create('color', { duration: theme.transitions.duration.shortest }),
+          ].join(', '),
           position: 'relative',
         },
 
