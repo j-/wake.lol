@@ -2,6 +2,7 @@ import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import { useCallback, useMemo, useState, type FC, type PropsWithChildren } from 'react';
 import { createRoot } from 'react-dom/client';
+import { track } from '../../track';
 import { useWindow } from '../WindowContext';
 import {
   PictureInPictureOpenerContext,
@@ -58,6 +59,7 @@ export const PictureInPictureOpenerProvider: FC<
     pipWin.addEventListener('pagehide', () => {
       root.unmount();
       setPipWin(null);
+      track('released');
     }, { once: true });
 
     setPipWin(pipWin);
