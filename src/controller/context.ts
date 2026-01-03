@@ -42,6 +42,7 @@ export type AppContextType = UsePreferencesResult & {
   isIdle: boolean;
   isWakeLockEnabledActual: boolean;
   isWakeLockEnabledOptimistic: boolean;
+  isWakeLockInactive: boolean;
   releaseWakeLock: ReleaseWakeLock;
   resetThemeColor: () => void;
   requestFullscreen: RequestFullscreen;
@@ -85,6 +86,7 @@ export const defaultAppContext = new Proxy<AppContextType>({
   isIdle: false,
   isWakeLockEnabledActual: false,
   isWakeLockEnabledOptimistic: false,
+  isWakeLockInactive: false,
   releaseWakeLock: async () => {
     console.error('Default releaseWakeLock called, this may indicate a missing AppController provider.');
   },

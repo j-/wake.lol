@@ -1,7 +1,7 @@
 import { useCallback, useEffect, type FC } from 'react';
 import { useNavigator } from './context/WindowContext';
 
-export const AppBadge: FC<{ isActive: boolean }> = ({ isActive }) => {
+export const AppBadge: FC<{ isInactive: boolean }> = ({ isInactive }) => {
   const navigator = useNavigator();
 
   const showBadge = useCallback(async () => {
@@ -17,12 +17,12 @@ export const AppBadge: FC<{ isActive: boolean }> = ({ isActive }) => {
   }, [navigator]);
 
   useEffect(() => {
-    if (isActive) {
+    if (isInactive) {
       void hideBadge();
     } else {
       void showBadge();
     }
-  }, [isActive, showBadge, hideBadge]);
+  }, [isInactive, showBadge, hideBadge]);
 
   return null;
 };

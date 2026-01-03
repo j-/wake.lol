@@ -6,7 +6,10 @@ import { useAppContext } from './controller';
 import { useSchemeColors } from './use-scheme-colors';
 
 export const AppMetadata: FC = () => {
-  const { isWakeLockEnabledActual: isWakeLockEnabled } = useAppContext();
+  const {
+    isWakeLockEnabledActual: isWakeLockEnabled,
+    isWakeLockInactive,
+  } = useAppContext();
   const {
     colorActual,
     bgColorActual,
@@ -21,7 +24,7 @@ export const AppMetadata: FC = () => {
       <title>{title}</title>
       <meta name="theme-color" content={bgColorOptimistic} />
       <AppIcon isActive={isWakeLockEnabled} color={colorActual} bgColor={bgColorActual} />
-      <AppBadge isActive={isWakeLockEnabled} />
+      <AppBadge isInactive={isWakeLockInactive} />
     </>
   );
 };

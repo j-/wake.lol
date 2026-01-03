@@ -11,6 +11,7 @@ export type UseWakeLock = () => UseWakeLockResult;
 
 export type UseWakeLockResult = {
   sentinel: WakeLockSentinel | null;
+  isInactive: boolean;
   isLockedActual: boolean;
   isLockedOptimistic: boolean;
   requiresUserActivation: boolean;
@@ -56,6 +57,7 @@ export const useWakeLock: UseWakeLock = () => {
     (state.matches('Uninitialized') && shouldAcquireOnLoad)
   );
   const requiresUserActivation = state.matches('RequiresUserActivation');
+  const isInactive = state.matches('Inactive');
 
   if (sentinel && !sentinel.released && !isLockedActual) {
     console.warn(
@@ -66,6 +68,7 @@ export const useWakeLock: UseWakeLock = () => {
 
   const result = useMemo<UseWakeLockResult>(() => ({
     sentinel,
+    isInactive,
     isLockedActual,
     isLockedOptimistic,
     requiresUserActivation,
@@ -76,6 +79,7 @@ export const useWakeLock: UseWakeLock = () => {
     toggleWakeLock,
   }), [
     sentinel,
+    isInactive,
     isLockedActual,
     isLockedOptimistic,
     requiresUserActivation,

@@ -68,6 +68,7 @@ export const AppController: FC<AppControllerProps> = ({
   });
 
   const {
+    isInactive: isWakeLockInactive,
     isLockedActual: isWakeLockEnabledActual,
     isLockedOptimistic: isWakeLockEnabledOptimistic,
     cancel: cancelUserActivation,
@@ -177,6 +178,7 @@ export const AppController: FC<AppControllerProps> = ({
     isNewWindow,
     isWakeLockEnabledActual,
     isWakeLockEnabledOptimistic,
+    isWakeLockInactive,
     releaseWakeLock,
     requestFullscreen,
     requestWakeLock,
@@ -215,6 +217,7 @@ export const AppController: FC<AppControllerProps> = ({
     isPiPWindow,
     isWakeLockEnabledActual,
     isWakeLockEnabledOptimistic,
+    isWakeLockInactive,
     releaseWakeLock,
     requestFullscreen,
     requestWakeLock,
