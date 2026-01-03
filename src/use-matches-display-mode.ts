@@ -1,4 +1,4 @@
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { useMediaQuery } from './use-media-query';
 
 export type DisplayMode =
   'browser' |

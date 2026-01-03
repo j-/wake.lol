@@ -1,11 +1,11 @@
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { type FC } from 'react';
 import { ActionButtonList } from './ActionButtonList';
 import { ActionButtonMenu } from './ActionButtonMenu';
 import { ActionButtonBlackScreen } from './actions/action-black-screen';
 import { ActionButtonWakeLock } from './actions/ActionButtonWakeLock';
+import { useMediaQuery } from './use-media-query';
 import { useShowButtonBlackScreen } from './use-show-button-black-screen';
 
 export const Actions: FC = () => {

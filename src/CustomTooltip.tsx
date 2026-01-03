@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material/styles';
 import Tooltip, { type TooltipProps } from '@mui/material/Tooltip';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { cloneElement, type ReactElement, type FC } from 'react';
+import { cloneElement, type FC, type ReactElement } from 'react';
+import { useMediaQuery } from './use-media-query';
 import { useTooltipContainer } from './use-tooltip-container';
 
 export type CustomTooltipProps = TooltipProps & {

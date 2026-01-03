@@ -1,10 +1,10 @@
 import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { useRef, useState, type FC } from 'react';
 import { ActionMenu } from './ActionMenu';
 import { ActionMenuDialog } from './ActionMenuDialog';
 import { ActionButton } from './actions/ActionButton';
 import { IconMenu } from './icons';
+import { useMediaQuery } from './use-media-query';
 
 export const ActionButtonMenu: FC = () => {
   const ref = useRef<HTMLButtonElement>(null);

@@ -60,6 +60,8 @@ module.exports = {
 
     // Disallow importing the whole `@mui/material` barrel. Prefer
     // importing concrete component entry points like `@mui/material/Box`.
+    // Also disallow importing `useMediaQuery` from MUI, to ensure the
+    // custom version in this repo is used instead.
     'no-restricted-imports': [
       'error',
       {
@@ -68,6 +70,11 @@ module.exports = {
             name: '@mui/material',
             message:
               "Import specific components from '@mui/material/Component' (e.g. '@mui/material/Box') instead of '@mui/material'.",
+          },
+          {
+            name: '@mui/material/useMediaQuery',
+            message:
+              "Import 'use-media-query' from this repo instead to automatically bind to the correct window.",
           },
         ],
         patterns: [],
