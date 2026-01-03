@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useDocument } from '../context/WindowContext';
+import { usePreferences } from './use-preferences';
 import { useWakeLockMachine } from './use-wake-lock-machine';
 
 export type RequestWakeLock = () => Promise<WakeLockSentinel | null>;
@@ -23,6 +24,7 @@ export type UseWakeLockResult = {
 export const useWakeLock: UseWakeLock = () => {
   const document = useDocument();
   const [state, send] = useWakeLockMachine();
+  const { shouldAcquireOnLoad } = usePreferences();
 
   const releaseWakeLock = useCallback<ReleaseWakeLock>(async () => {
     send({ type: 'USER_RELEASE_REQUESTED' });
@@ -48,7 +50,11 @@ export const useWakeLock: UseWakeLock = () => {
 
   const sentinel = state.context.sentinel;
   const isLockedActual = state.hasTag('lockedActual');
-  const isLockedOptimistic = state.hasTag('lockedOptimistic');
+  const isLockedOptimistic = (
+    isLockedActual ||
+    state.hasTag('lockedOptimistic') ||
+    (state.matches('Uninitialized') && shouldAcquireOnLoad)
+  );
   const requiresUserActivation = state.matches('RequiresUserActivation');
 
   if (sentinel && !sentinel.released && !isLockedActual) {
