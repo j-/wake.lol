@@ -16,7 +16,7 @@ export const WakeActionsContainerInset0: FC = () => {
         position: 'absolute',
         inset: 0,
       }}
-      data-testId="WakeActionsContainerInset0"
+      data-testid="WakeActionsContainerInset0"
     >
       <Box sx={{
         padding: {

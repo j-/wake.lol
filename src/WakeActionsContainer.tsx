@@ -19,7 +19,7 @@ export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
   return (
     <SchemeColorBox
       ref={fullscreenRef}
-      data-testId="WakeActionsContainer"
+      data-testid="WakeActionsContainer"
     >
       <Box sx={{
         position: 'sticky',

@@ -26,7 +26,7 @@ export const BatteryOverlay: FC = () => {
         placeItems: 'center',
         pointerEvents: 'none',
       }}
-      data-testId="BatteryOverlay"
+      data-testid="BatteryOverlay"
     >
       <Backdrop
         open={backdropOpen}
@@ -34,7 +34,7 @@ export const BatteryOverlay: FC = () => {
           bgcolor: bgColor,
           zIndex: theme.zIndex.drawer + 1,
         })}
-        data-testId="BatteryOverlay-backdrop"
+        data-testid="BatteryOverlay-backdrop"
       />
 
       <Fade in={fadeIn} timeout={200} mountOnEnter unmountOnExit>

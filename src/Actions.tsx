@@ -28,7 +28,7 @@ export const Actions: FC = () => {
       }}
       alignItems="start"
       m={-1}
-      data-testId="Actions"
+      data-testid="Actions"
     >
       <Stack
         direction="row"
