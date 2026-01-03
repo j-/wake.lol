@@ -40,7 +40,11 @@ export const ActionMenuItemFullscreen: FC<
       onClickProp?.(e);
     }}>
       <ListItemIcon>{icon}</ListItemIcon>
-      <ListItemText>{title}</ListItemText>
+      <ListItemText>
+        <Typography variant="inherit" noWrap>
+          {title}
+        </Typography>
+      </ListItemText>
       <Typography variant="body2" sx={{ color: 'text.secondary' }}>
         {hotkey}
       </Typography>

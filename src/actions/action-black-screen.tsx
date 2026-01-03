@@ -1,6 +1,7 @@
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem, { type MenuItemProps } from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 import { type FC } from 'react';
 import { useBlackScreen } from '../context/BlackScreenContext';
 import { IconColorSwatch } from '../icons';
@@ -34,7 +35,11 @@ export const ActionMenuItemBlackScreen: FC<
       onClickProp?.(e);
     }}>
       <ListItemIcon>{icon}</ListItemIcon>
-      <ListItemText>{title}</ListItemText>
+      <ListItemText>
+        <Typography variant="inherit" noWrap>
+          {title}
+        </Typography>
+      </ListItemText>
     </MenuItem>
   );
 };

@@ -1,6 +1,7 @@
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem, { type MenuItemProps } from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 import { useCallback, type FC } from 'react';
 import { flushSync } from 'react-dom';
 import { ID_BELOW_THE_FOLD } from '../constants';
@@ -44,7 +45,11 @@ export const ActionMenuItemScroll: FC<
       onClickProp?.(e);
     }}>
       <ListItemIcon>{icon}</ListItemIcon>
-      <ListItemText>{title}</ListItemText>
+      <ListItemText>
+        <Typography variant="inherit" noWrap>
+          {title}
+        </Typography>
+      </ListItemText>
     </MenuItem>
   );
 };

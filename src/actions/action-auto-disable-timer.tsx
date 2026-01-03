@@ -1,6 +1,7 @@
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem, { type MenuItemProps } from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 import { type FC } from 'react';
 import { useAutoDisableTimer } from '../context/AutoDisableTimerContext';
 import { useAppContext } from '../controller';
@@ -39,7 +40,11 @@ export const ActionMenuItemAutoDisableTimer: FC<
       onClickProp?.(e);
     }}>
       <ListItemIcon>{icon}</ListItemIcon>
-      <ListItemText>{title}</ListItemText>
+      <ListItemText>
+        <Typography variant="inherit" noWrap>
+          {title}
+        </Typography>
+      </ListItemText>
     </MenuItem>
   );
 };

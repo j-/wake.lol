@@ -1,6 +1,7 @@
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem, { type MenuItemProps } from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 import { useMemo, type FC } from 'react';
 import { useBattery } from '../context/BatteryManagerContext';
 import { useOpener } from '../context/WindowContext';
@@ -83,7 +84,11 @@ export const ActionMenuItemBattery: FC<
       onClickProp?.(e);
     }}>
       <ListItemIcon>{icon}</ListItemIcon>
-      <ListItemText>{title}</ListItemText>
+      <ListItemText>
+        <Typography variant="inherit" noWrap>
+          {title}
+        </Typography>
+      </ListItemText>
     </MenuItem>
   );
 };
