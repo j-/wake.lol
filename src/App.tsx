@@ -7,20 +7,10 @@ import { AppMetadata } from './AppMetadata';
 import { useAppContext } from './controller';
 import { UserActivationDialog } from './UserActivationDialog';
 import { WakeActionsContainer } from './WakeActionsContainer';
+import { WakeActionsContainerInset0 } from './WakeActionsContainerInset0';
 
 const App: FC = () => {
   const { isExpanded } = useAppContext();
-
-  const userActivationDialog = (
-    <UserActivationDialog />
-  );
-
-  const actionsContainer = (
-    <WakeActionsContainer
-      key="actions-container"
-      actionsHeight="var(--peek-height)"
-    />
-  );
 
   if (isExpanded) {
     return (
@@ -30,8 +20,8 @@ const App: FC = () => {
         display: 'grid',
       }}>
         <AppMetadata />
-        {userActivationDialog}
-        {actionsContainer}
+        <WakeActionsContainerInset0 />
+        <UserActivationDialog />
       </Box>
     );
   }
@@ -39,11 +29,11 @@ const App: FC = () => {
   return (
     <AppLayout
       slotHeader={<AppHeader />}
-      slotActions={actionsContainer}
+      slotActions={<WakeActionsContainer actionsHeight="var(--peek-height)" />}
     >
       <AppMetadata />
       <AppContent />
-      {userActivationDialog}
+      <UserActivationDialog />
     </AppLayout>
   );
 };
