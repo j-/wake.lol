@@ -8,6 +8,7 @@ import {
 } from 'react';
 import { AutoDisableTimerDialog } from '../../AutoDisableTimerDialog';
 import { useAppContext } from '../../controller';
+import { useNavigator } from '../WindowContext';
 import {
   AutoDisableTimerContext,
   DEFAULT_AUTO_DISABLE_TIMER_STATE,
@@ -28,6 +29,8 @@ export const AutoDisableTimer: FC<AutoDisableTimerProps> = ({
   interval = 500,
   children,
 }) => {
+  const navigator = useNavigator();
+
   const [state, setState] = useState<AutoDisableTimerState>(initialState);
   const [show, setShow] = useState(false);
 
@@ -76,6 +79,7 @@ export const AutoDisableTimer: FC<AutoDisableTimerProps> = ({
 
       releaseWakeLock();
       clearAutoDisableTimer();
+      navigator.vibrate?.([1000]);
     }, interval);
 
     return () => {
@@ -86,6 +90,7 @@ export const AutoDisableTimer: FC<AutoDisableTimerProps> = ({
     disableTime,
     interval,
     isWakeLockEnabled,
+    navigator,
     releaseWakeLock,
   ]);
 
