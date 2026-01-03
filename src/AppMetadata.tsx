@@ -1,4 +1,5 @@
 import { type FC } from 'react';
+import { AppBadge } from './AppBadge';
 import { AppIcon } from './AppIcon';
 import { APP_NAME } from './constants';
 import { useAppContext } from './controller';
@@ -20,6 +21,7 @@ export const AppMetadata: FC = () => {
       <title>{title}</title>
       <meta name="theme-color" content={bgColorOptimistic} />
       <AppIcon isActive={isWakeLockEnabled} color={colorActual} bgColor={bgColorActual} />
+      <AppBadge isActive={isWakeLockEnabled} />
     </>
   );
 };
