@@ -23,10 +23,7 @@ export const ActionMenuDialog: FC<ActionMenuDialogProps> = ({
       onClose={onClose}
       transitionDuration={0}
     >
-      <DialogContent sx={{
-        p: 0,
-        maxWidth: '100%',
-      }}>
+      <DialogContent sx={{ p: 0 }}>
         <MenuList disablePadding dense>
           <MenuItem onClick={onClose}>
             <ListItemText>Close</ListItemText>
