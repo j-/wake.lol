@@ -133,7 +133,7 @@ export const machine = createMachine({
           {
             guard: 'shouldAcquireOnVisibilityChange',
             target: 'Inactive',
-            actions: 'clearSentinel',
+            actions: ['clearSentinel', 'trackReleased'],
           },
           {
             target: 'Idle',

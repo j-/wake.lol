@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { assign, fromPromise, raise, type AnyMachineSnapshot } from 'xstate';
 import { useDocument, useNavigator } from '../context/WindowContext';
 import { PreconditionFailedError, RequiresUserActivationError } from '../errors';
+import { track } from '../track';
 import { machine } from './machine';
 import { usePreferences } from './use-preferences';
 import { getWakeLockSentinel } from './wake-lock-sentinel';
@@ -88,7 +89,7 @@ export const useWakeLockMachine = () => {
         clearSentinel: assign({ sentinel: null }),
 
         trackLocked: ({ event }) => {
-          umami?.track('locked', {
+          track('locked', {
             type: hasOutput<WakeLockSentinel>(event) ?
               event.output.type :
               'unknown',
@@ -96,7 +97,7 @@ export const useWakeLockMachine = () => {
         },
 
         trackReleased: () => {
-          umami?.track('released');
+          track('released');
         },
       },
     });
