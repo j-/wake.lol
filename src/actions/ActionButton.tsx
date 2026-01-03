@@ -1,17 +1,15 @@
 import IconButton, { type IconButtonProps } from '@mui/material/IconButton';
-import Tooltip, { type TooltipProps } from '@mui/material/Tooltip';
+import { type TooltipProps } from '@mui/material/Tooltip';
 import type { SxProps, Theme } from '@mui/system';
 import { type FC } from 'react';
 import { useAppContext } from '../controller';
-import { useTooltipContainer } from '../use-tooltip-container';
+import { CustomTooltip } from '../CustomTooltip';
 
 export type ActionButtonProps = IconButtonProps & {
   title: TooltipProps['title'];
 };
 
 export const ActionButton: FC<ActionButtonProps> = ({ title, ...props }) => {
-  const tooltipContainer = useTooltipContainer();
-
   const {
     isExpanded,
     isFullyVisible,
@@ -31,12 +29,6 @@ export const ActionButton: FC<ActionButtonProps> = ({ title, ...props }) => {
     },
   };
 
-  const tooltipSlotProps: TooltipProps['slotProps'] = {
-    popper: {
-      container: tooltipContainer,
-    },
-  };
-
   const consumerSx = props.sx;
   const mergedSx: SxProps<Theme> =
     consumerSx ?
@@ -44,11 +36,8 @@ export const ActionButton: FC<ActionButtonProps> = ({ title, ...props }) => {
       (buttonStyle as SxProps<Theme>);
 
   return (
-    <Tooltip
-      title={title}
-      slotProps={tooltipSlotProps}
-    >
+    <CustomTooltip title={title}>
       <IconButton sx={mergedSx} size="large" {...props} />
-    </Tooltip>
+    </CustomTooltip>
   );
 };
