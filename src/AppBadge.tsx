@@ -18,9 +18,9 @@ export const AppBadge: FC<{ isInactive: boolean }> = ({ isInactive }) => {
 
   useEffect(() => {
     if (isInactive) {
-      void hideBadge();
-    } else {
       void showBadge();
+    } else {
+      void hideBadge();
     }
   }, [isInactive, showBadge, hideBadge]);
 
