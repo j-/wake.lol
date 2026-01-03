@@ -5,7 +5,7 @@ import { Actions } from './Actions';
 import { BatteryOverlay } from './BatteryOverlay';
 import { useAppContext } from './controller';
 import { HideCursorOnIdle } from './HideCursorOnIdle';
-import { useSchemeColors } from './use-scheme-colors';
+import { SchemeColorBox } from './SchemeColorBox';
 
 type WakeActionsContainerProps = {
   actionsHeight: ResponsiveStyleValue<number | string>;
@@ -14,22 +14,10 @@ type WakeActionsContainerProps = {
 export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
   actionsHeight,
 }) => {
-  const { fullscreenRef, isWakeLockEnabledOptimistic: isWakeLockEnabled } = useAppContext();
-  const { color, bgColor } = useSchemeColors();
+  const { fullscreenRef } = useAppContext();
 
   return (
-    <Box ref={fullscreenRef} sx={[
-      {
-        backgroundColor: 'muted.main',
-        transition: (theme) => theme.transitions.create(['background-color', 'color']),
-        position: 'relative',
-      },
-
-      isWakeLockEnabled ? {
-        color,
-        backgroundColor: bgColor,
-      } : null,
-    ]}>
+    <SchemeColorBox ref={fullscreenRef}>
       <Box sx={{
         position: 'sticky',
         top: 0,
@@ -44,6 +32,6 @@ export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
       <BatteryOverlay />
 
       <HideCursorOnIdle />
-    </Box>
+    </SchemeColorBox>
   );
 };
