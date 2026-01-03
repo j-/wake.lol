@@ -13,7 +13,7 @@ export const WakeActionsContainerInset0: FC = () => {
     <SchemeColorBox
       ref={fullscreenRef}
       sx={{ inset: 0 }}
-      data-test-id="WakeActionsContainerInset0"
+      data-testId="WakeActionsContainerInset0"
     >
       <Box sx={{
         padding: {

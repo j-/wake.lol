@@ -31,14 +31,15 @@ export const BatteryOverlay: FC = () => {
         placeItems: 'center',
         pointerEvents: 'none',
       }}
+      data-testId="BatteryOverlay"
     >
       <Backdrop
-        data-testid='battery-overlay-backdrop'
         open={backdropOpen}
         sx={(theme) => ({
           bgcolor: bgColor,
           zIndex: theme.zIndex.drawer + 1,
         })}
+        data-testId="BatteryOverlay-backdrop"
       />
 
       <Fade in={fadeIn} timeout={200} mountOnEnter unmountOnExit>

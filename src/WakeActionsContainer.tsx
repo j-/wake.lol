@@ -17,7 +17,10 @@ export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
   const { fullscreenRef } = useAppContext();
 
   return (
-    <SchemeColorBox ref={fullscreenRef}>
+    <SchemeColorBox
+      ref={fullscreenRef}
+      data-testId="WakeActionsContainer"
+    >
       <Box sx={{
         position: 'sticky',
         top: 0,

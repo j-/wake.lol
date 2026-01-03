@@ -9,7 +9,7 @@ export const AppHeader: FC = () => (
     display="flex"
     justifyContent="space-between"
     alignItems="center"
-    data-testid="AppHeader"
+    data-testId="AppHeader"
   >
     <Typography component="h1" variant="h4">
       <Link href={BASE_URL} color="inherit" sx={{ textDecoration: 'none' }}>
