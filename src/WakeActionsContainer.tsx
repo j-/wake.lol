@@ -21,7 +21,7 @@ export const WakeActionsContainer: FC<WakeActionsContainerProps> = ({
     <Box ref={fullscreenRef} sx={[
       {
         backgroundColor: 'muted.main',
-        transition: 'background-color 200ms ease-in-out',
+        transition: (theme) => theme.transitions.create(['background-color', 'color']),
         position: 'relative',
       },
 

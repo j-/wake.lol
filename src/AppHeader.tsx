@@ -24,7 +24,7 @@ export const AppHeader: FC = () => (
       target="_blank"
       sx={{
         opacity: 0.5,
-        transition: 'opacity 200ms',
+        transition: (theme) => theme.transitions.create(['opacity']),
         '&:hover, &:focus': {
           opacity: 1,
         },

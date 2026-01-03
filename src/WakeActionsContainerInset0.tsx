@@ -14,7 +14,7 @@ export const WakeActionsContainerInset0: FC = () => {
     <Box data-test-id="WakeActionsContainerInset0" ref={fullscreenRef} sx={[
       {
         backgroundColor: 'muted.main',
-        transition: 'background-color 200ms ease-in-out',
+        transition: (theme) => theme.transitions.create(['background-color', 'color']),
         position: 'absolute',
         inset: 0,
       },
