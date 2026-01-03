@@ -4,24 +4,28 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Typography from '@mui/material/Typography';
-import { type FC } from 'react';
-import { ActionMenuItems } from './ActionMenuItems';
+import { type PropsWithChildren, type FC } from 'react';
+import { useTooltipContainer } from './use-tooltip-container';
 
-export type ActionMenuDialogProps = {
+export type ActionMenuDialogProps = PropsWithChildren<{
   open: boolean;
   onClose: () => void;
-};
+}>;
 
 export const ActionMenuDialog: FC<ActionMenuDialogProps> = ({
   open,
   onClose,
+  children,
 }) => {
+  const tooltipContainer = useTooltipContainer();
+
   return (
     <Dialog
       fullScreen
       open={open}
       onClose={onClose}
       transitionDuration={0}
+      container={tooltipContainer}
     >
       <DialogContent sx={{ p: 0 }}>
         <MenuList disablePadding dense>
@@ -31,7 +35,7 @@ export const ActionMenuDialog: FC<ActionMenuDialogProps> = ({
               Esc
             </Typography>
           </MenuItem>
-          <ActionMenuItems onClose={onClose} />
+          {children}
         </MenuList>
       </DialogContent>
     </Dialog>

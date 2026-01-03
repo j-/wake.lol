@@ -1,9 +1,10 @@
 import { useTheme } from '@mui/material/styles';
-import { useRef, useState, type FC } from 'react';
+import { useCallback, useRef, useState, type FC } from 'react';
 import { ActionMenu } from './ActionMenu';
 import { ActionMenuDialog } from './ActionMenuDialog';
 import { ActionButton } from './actions/ActionButton';
 import { IconMenu } from './icons';
+import { useActionMenuItems } from './use-action-menu-items';
 import { useMediaQuery } from './use-media-query';
 
 export const ActionButtonMenu: FC = () => {
@@ -12,21 +13,33 @@ export const ActionButtonMenu: FC = () => {
   const isExtraSmall = useMediaQuery(theme.breakpoints.only('xs'));
   const [open, setOpen] = useState(false);
 
+  const onClick = useCallback(() => {
+    setOpen(true);
+  }, []);
+
+  const onClose = useCallback(() => {
+    setOpen(false);
+  }, []);
+
+  const items = useActionMenuItems({ onClose });
+
+  if (!items.length) {
+    return null;
+  }
+
   return (
     <>
       {
         isExtraSmall ?
           <ActionMenuDialog
             open={open}
-            onClose={() => {
-              setOpen(false);
-            }}
+            onClose={onClose}
+            children={items}
           /> :
           <ActionMenu
             open={open}
-            onClose={() => {
-              setOpen(false);
-            }}
+            onClose={onClose}
+            children={items}
             anchorRef={ref}
           />
       }
@@ -34,9 +47,7 @@ export const ActionButtonMenu: FC = () => {
       <ActionButton
         ref={ref}
         title="Actions&hellip;"
-        onClick={() => {
-          setOpen(true);
-        }}
+        onClick={onClick}
       >
         <IconMenu />
       </ActionButton>

@@ -24,52 +24,50 @@ export const ActionButtonList: FC = () => {
   const showButtonScroll = canScroll;
 
   const buttonScroll = showButtonScroll ? (
-    <ActionButtonScroll />
+    <ActionButtonScroll key="ActionButtonScroll" />
   ) : null;
 
   const showButtonShowPiP = useShowButtonShowPiP();
 
   const buttonShowPiP = showButtonShowPiP ? (
-    <ActionButtonShowPiP />
+    <ActionButtonShowPiP key="ActionButtonShowPiP" />
   ) : null;
 
   const showButtonNewWindow = canNewWindow;
 
   const buttonNewWindow = showButtonNewWindow ? (
-    <ActionButtonNewWindow />
+    <ActionButtonNewWindow key="ActionButtonNewWindow" />
   ) : null;
 
   const showAutoDisableTimer = canStartTimer;
 
   const buttonAutoDisableTimer = showAutoDisableTimer ? (
-    <ActionButtonAutoDisableTimer />
+    <ActionButtonAutoDisableTimer key="ActionButtonAutoDisableTimer" />
   ) : null;
 
   const showButtonExpandCollapse = canExpandCollapse;
 
   const buttonExpandCollapse = showButtonExpandCollapse ? (
-    <ActionButtonExpandCollapse />
+    <ActionButtonExpandCollapse key="ActionButtonExpandCollapse" />
   ) : null;
 
   const showButtonFullscreen = canFullscreen;
 
   const buttonFullscreen = showButtonFullscreen ? (
-    <ActionButtonFullscreen />
+    <ActionButtonFullscreen key="ActionButtonFullscreen" />
   ) : null;
 
   const buttonBattery = battery && (battery.level < 1 || !battery.charging) ? (
-    <ActionButtonBattery />
+    <ActionButtonBattery key="ActionButtonBattery" />
   ) : null;
 
-  return (
-    <>
-      {buttonFullscreen}
-      {buttonExpandCollapse}
-      {buttonAutoDisableTimer}
-      {buttonNewWindow}
-      {buttonShowPiP}
-      {buttonBattery}
-      {buttonScroll}
-    </>
-  );
+  return [
+    buttonFullscreen,
+    buttonExpandCollapse,
+    buttonAutoDisableTimer,
+    buttonNewWindow,
+    buttonShowPiP,
+    buttonBattery,
+    buttonScroll,
+  ].filter(Boolean);
 };

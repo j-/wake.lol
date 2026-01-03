@@ -1,4 +1,3 @@
-import { type FC } from 'react';
 import { ActionMenuItemAutoDisableTimer } from './actions/action-auto-disable-timer';
 import { ActionMenuItemBattery } from './actions/action-battery';
 import { ActionMenuItemBlackScreen } from './actions/action-black-screen';
@@ -12,13 +11,13 @@ import { useAppContext } from './controller';
 import { useShowButtonBlackScreen } from './use-show-button-black-screen';
 import { useShowButtonShowPiP } from './use-show-button-show-pip';
 
-export type ActionMenuItemsProps = {
+export type UseActionMenuItemsParams = {
   onClose: () => void;
 };
 
-export const ActionMenuItems: FC<ActionMenuItemsProps> = ({
+export const useActionMenuItems = ({
   onClose,
-}) => {
+}: UseActionMenuItemsParams) => {
   const {
     canExpandCollapse,
     canFullscreen,
@@ -32,57 +31,55 @@ export const ActionMenuItems: FC<ActionMenuItemsProps> = ({
   const showButtonScroll = canScroll;
 
   const itemScroll = showButtonScroll ? (
-    <ActionMenuItemScroll onClick={onClose} />
+    <ActionMenuItemScroll key="ActionMenuItemScroll" onClick={onClose} />
   ) : null;
 
   const showButtonShowPiP = useShowButtonShowPiP();
   const itemShowPiP = showButtonShowPiP ? (
-    <ActionMenuItemShowPiP onClick={onClose} />
+    <ActionMenuItemShowPiP key="ActionMenuItemShowPiP" onClick={onClose} />
   ) : null;
 
   const showButtonNewWindow = canNewWindow;
 
   const itemNewWindow = showButtonNewWindow ? (
-    <ActionMenuItemNewWindow onClick={onClose} />
+    <ActionMenuItemNewWindow key="ActionMenuItemNewWindow" onClick={onClose} />
   ) : null;
 
   const showAutoDisableTimer = canStartTimer;
 
   const itemAutoDisableTimer = showAutoDisableTimer ? (
-    <ActionMenuItemAutoDisableTimer onClick={onClose} />
+    <ActionMenuItemAutoDisableTimer key="ActionMenuItemAutoDisableTimer" onClick={onClose} />
   ) : null;
 
   const showButtonExpandCollapse = canExpandCollapse;
 
   const itemExpandCollapse = showButtonExpandCollapse ? (
-    <ActionMenuItemExpandCollapse onClick={onClose} />
+    <ActionMenuItemExpandCollapse key="ActionMenuItemExpandCollapse" onClick={onClose} />
   ) : null;
 
   const showButtonFullscreen = canFullscreen;
 
   const itemFullscreen = showButtonFullscreen ? (
-    <ActionMenuItemFullscreen onClick={onClose} />
+    <ActionMenuItemFullscreen key="ActionMenuItemFullscreen" onClick={onClose} />
   ) : null;
 
   const showButtonBlackScreen = useShowButtonBlackScreen();
   const itemBlackScreen = showButtonBlackScreen ? (
-    <ActionMenuItemBlackScreen onClick={onClose} />
+    <ActionMenuItemBlackScreen key="ActionMenuItemBlackScreen" onClick={onClose} />
   ) : null;
 
   const itemBattery = battery && (battery.level < 1 || !battery.charging) ? (
-    <ActionMenuItemBattery onClick={onClose} />
+    <ActionMenuItemBattery key="ActionMenuItemBattery" onClick={onClose} />
   ) : null;
 
-  return (
-    <>
-      {itemFullscreen}
-      {itemExpandCollapse}
-      {itemAutoDisableTimer}
-      {itemNewWindow}
-      {itemShowPiP}
-      {itemBlackScreen}
-      {itemBattery}
-      {itemScroll}
-    </>
-  );
+  return [
+    itemFullscreen,
+    itemExpandCollapse,
+    itemAutoDisableTimer,
+    itemNewWindow,
+    itemShowPiP,
+    itemBlackScreen,
+    itemBattery,
+    itemScroll,
+  ].filter(Boolean);
 };
