@@ -12,7 +12,7 @@ export const BatteryOverlay: FC = () => {
   const { showBattery, isFullyVisible } = useAppContext();
   const { bgColor } = useSchemeColors();
   const theme = useTheme();
-  const isExtraSmall = useMediaQuery(theme.breakpoints.down('sm'));
+  const isExtraSmall = useMediaQuery(theme.breakpoints.only('xs'));
 
   const fadeIn = showBattery && isFullyVisible;
   const backdropOpen = fadeIn && isExtraSmall;

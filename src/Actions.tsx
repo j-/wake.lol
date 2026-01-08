@@ -10,7 +10,7 @@ import { useShowButtonBlackScreen } from './use-show-button-black-screen';
 
 export const Actions: FC = () => {
   const theme = useTheme();
-  const isSmallOrUp = useMediaQuery(theme.breakpoints.up('sm'));
+  const isMediumOrUp = useMediaQuery(theme.breakpoints.up('md'));
   const buttonWakeLock = <ActionButtonWakeLock />;
 
   const showButtonBlackScreen = useShowButtonBlackScreen();
@@ -48,7 +48,7 @@ export const Actions: FC = () => {
         flexWrap="wrap"
         justifyContent="end"
       >
-        {isSmallOrUp ? <ActionButtonList /> : <ActionButtonMenu />}
+        {isMediumOrUp ? <ActionButtonList /> : <ActionButtonMenu />}
       </Stack>
     </Stack>
   );
