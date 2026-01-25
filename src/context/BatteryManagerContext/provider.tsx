@@ -28,8 +28,12 @@ export const BatteryProvider: FC<PropsWithChildren> = ({ children }) => {
         charging: manager.charging,
       });
     };
-    manager.addEventListener('chargingchange', update, { signal });
-    manager.addEventListener('levelchange', update, { signal });
+    // Not all browsers support listening to battery manager events.
+    // Fixes WAKE-LOL-E.
+    if (typeof manager.addEventListener === 'function') {
+      manager.addEventListener('chargingchange', update, { signal });
+      manager.addEventListener('levelchange', update, { signal });
+    }
     update();
     return () => {
       controller.abort();
