@@ -5,15 +5,19 @@ export const AppBadge: FC<{ isInactive: boolean }> = ({ isInactive }) => {
   const navigator = useNavigator();
 
   const showBadge = useCallback(async () => {
-    if ('setAppBadge' in navigator) {
-      await navigator.setAppBadge();
-    }
+    try {
+      if (typeof navigator.setAppBadge === 'function') {
+        await navigator.setAppBadge();
+      }
+    } catch {}
   }, [navigator]);
 
   const hideBadge = useCallback(async () => {
-    if ('setAppBadge' in navigator) {
-      await navigator.setAppBadge(0);
-    }
+    try {
+      if (typeof navigator.setAppBadge === 'function') {
+        await navigator.setAppBadge(0);
+      }
+    } catch {}
   }, [navigator]);
 
   useEffect(() => {
